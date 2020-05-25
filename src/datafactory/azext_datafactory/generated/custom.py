@@ -20,6 +20,54 @@ def datafactory_factory_list(cmd, client,
     return client.list()
 
 
+def datafactory_factory_create(cmd, client,
+                               resource_group_name,
+                               factory_name,
+                               location=None,
+                               tags=None,
+                               identity=None,
+                               vsts_configuration=None,
+                               github_configuration=None):
+    all_repo_configuration = []
+    if vsts_configuration is not None:
+        all_repo_configuration.append(vsts_configuration)
+    if github_configuration is not None:
+        all_repo_configuration.append(github_configuration)
+    if len(all_repo_configuration) > 1:
+        raise CLIError('at most one of  vsts_configuration, github_configuration is needed for repo_configuration!')
+    repo_configuration = all_repo_configuration[0] if len(all_repo_configuration) == 1 else None
+    return client.create_or_update(resource_group_name=resource_group_name,
+                                   factory_name=factory_name,
+                                   location=location,
+                                   tags=tags,
+                                   identity=identity,
+                                   repo_configuration=repo_configuration)
+
+
+def datafactory_factory_update(cmd, client,
+                               resource_group_name,
+                               factory_name,
+                               location=None,
+                               tags=None,
+                               identity=None,
+                               vsts_configuration=None,
+                               github_configuration=None):
+    all_repo_configuration = []
+    if vsts_configuration is not None:
+        all_repo_configuration.append(vsts_configuration)
+    if github_configuration is not None:
+        all_repo_configuration.append(github_configuration)
+    if len(all_repo_configuration) > 1:
+        raise CLIError('at most one of  vsts_configuration, github_configuration is needed for repo_configuration!')
+    repo_configuration = all_repo_configuration[0] if len(all_repo_configuration) == 1 else None
+    return client.create_or_update(resource_group_name=resource_group_name,
+                                   factory_name=factory_name,
+                                   location=location,
+                                   tags=tags,
+                                   identity=identity,
+                                   repo_configuration=repo_configuration)
+
+
 def datafactory_factory_configure_factory_repo(cmd, client,
                                                location_id,
                                                factory_resource_id=None,

@@ -26,6 +26,26 @@ helps['datafactory factory list'] = """
                az datafactory factory list --resource-group "exampleResourceGroup"
 """
 
+helps['datafactory factory create'] = """
+    type: command
+    short-summary: Creates or updates a factory.
+    examples:
+      - name: Factories_CreateOrUpdate
+        text: |-
+               az datafactory factory create --location "East US" --factory-name "exampleFactoryName" --resource-group \
+"exampleResourceGroup"
+"""
+
+helps['datafactory factory update'] = """
+    type: command
+    short-summary: Creates or updates a factory.
+    examples:
+      - name: Factories_CreateOrUpdate
+        text: |-
+               az datafactory factory update --location "East US" --factory-name "exampleFactoryName" --resource-group \
+"exampleResourceGroup"
+"""
+
 helps['datafactory factory configure-factory-repo'] = """
     type: command
     short-summary: Updates a factory's repo information.

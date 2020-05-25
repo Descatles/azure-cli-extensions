@@ -12,11 +12,15 @@
 
 from knack.arguments import CLIArgumentType
 from azure.cli.core.commands.parameters import (
+    tags_type,
     get_three_state_flag,
     get_enum_type,
-    resource_group_name_type
+    resource_group_name_type,
+    get_location_type
 )
+from azure.cli.core.commands.validators import get_default_location_from_resource_group
 from azext_datafactory.action import (
+    AddIdentity,
     AddVstsConfiguration,
     AddGithubConfiguration,
     AddFolder,
@@ -31,6 +35,38 @@ def load_arguments(self, _):
 
     with self.argument_context('datafactory factory list') as c:
         c.argument('resource_group_name', resource_group_name_type)
+
+    with self.argument_context('datafactory factory create') as c:
+        c.argument('resource_group_name', resource_group_name_type)
+        c.argument('factory_name', help='The factory name.')
+        c.argument('location', arg_type=get_location_type(self.cli_ctx),
+                   validator=get_default_location_from_resource_group)
+        c.argument('tags', tags_type)
+        c.argument('identity', action=AddIdentity, nargs='+', help='Managed service identity of the factory. Expect val'
+                   'ue: KEY1=VALUE1 KEY2=VALUE2 ...')
+        c.argument('vsts_configuration', action=AddVstsConfiguration, nargs='+', help='Factory\'s VSTS repo information'
+                   '. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: project-name, tenant-id, account-'
+                   'name, repository-name, collaboration-branch, root-folder, last-commit-id.', arg_group='RepoConfigur'
+                   'ation')
+        c.argument('github_configuration', action=AddGithubConfiguration, nargs='+', help='Factory\'s GitHub repo infor'
+                   'mation. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: host-name, account-name, re'
+                   'pository-name, collaboration-branch, root-folder, last-commit-id.', arg_group='RepoConfiguration')
+
+    with self.argument_context('datafactory factory update') as c:
+        c.argument('resource_group_name', resource_group_name_type)
+        c.argument('factory_name', help='The factory name.')
+        c.argument('location', arg_type=get_location_type(self.cli_ctx),
+                   validator=get_default_location_from_resource_group)
+        c.argument('tags', tags_type)
+        c.argument('identity', action=AddIdentity, nargs='+', help='Managed service identity of the factory. Expect val'
+                   'ue: KEY1=VALUE1 KEY2=VALUE2 ...')
+        c.argument('vsts_configuration', action=AddVstsConfiguration, nargs='+', help='Factory\'s VSTS repo information'
+                   '. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: project-name, tenant-id, account-'
+                   'name, repository-name, collaboration-branch, root-folder, last-commit-id.', arg_group='RepoConfigur'
+                   'ation')
+        c.argument('github_configuration', action=AddGithubConfiguration, nargs='+', help='Factory\'s GitHub repo infor'
+                   'mation. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: host-name, account-name, re'
+                   'pository-name, collaboration-branch, root-folder, last-commit-id.', arg_group='RepoConfiguration')
 
     with self.argument_context('datafactory factory configure-factory-repo') as c:
         c.argument('location_id', help='The location identifier.')

@@ -21,6 +21,8 @@ def load_command_table(self, _):
     with self.command_group('datafactory factory', datafactory_factory, client_factory=cf_factory,
                             is_experimental=True) as g:
         g.custom_command('list', 'datafactory_factory_list')
+        g.custom_command('create', 'datafactory_factory_create')
+        g.custom_command('update', 'datafactory_factory_update')
         g.custom_command('configure-factory-repo', 'datafactory_factory_configure_factory_repo')
         g.custom_command('get-data-plane-access', 'datafactory_factory_get_data_plane_access')
         g.custom_command('get-git-hub-access-token', 'datafactory_factory_get_git_hub_access_token')

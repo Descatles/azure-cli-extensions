@@ -197,6 +197,19 @@ configure-factory-repo a datafactory factory.
 |**--factory-resource-id**|string|The factory resource id.|factory_resource_id|
 |**--vsts-configuration**|object|Factory's VSTS repo information.|vsts_configuration|
 |**--github-configuration**|object|Factory's GitHub repo information.|github_configuration|
+### datafactory factory create
+
+create a datafactory factory.
+
+|Option|Type|Description|Path (SDK)|Path (swagger)|
+|------|----|-----------|----------|--------------|
+|**--resource-group-name**|string|The resource group name.|resource_group_name|
+|**--factory-name**|string|The factory name.|factory_name|
+|**--location**|string|The resource location.|location|
+|**--tags**|dictionary|The resource tags.|tags|
+|**--identity**|object|Managed service identity of the factory.|identity|
+|**--vsts-configuration**|object|Factory's VSTS repo information.|vsts_configuration|
+|**--github-configuration**|object|Factory's GitHub repo information.|github_configuration|
 ### datafactory factory get-data-plane-access
 
 get-data-plane-access a datafactory factory.
@@ -228,6 +241,19 @@ list a datafactory factory.
 |Option|Type|Description|Path (SDK)|Path (swagger)|
 |------|----|-----------|----------|--------------|
 |**--resource-group-name**|string|The resource group name.|resource_group_name|
+### datafactory factory update
+
+create a datafactory factory.
+
+|Option|Type|Description|Path (SDK)|Path (swagger)|
+|------|----|-----------|----------|--------------|
+|**--resource-group-name**|string|The resource group name.|resource_group_name|
+|**--factory-name**|string|The factory name.|factory_name|
+|**--location**|string|The resource location.|location|
+|**--tags**|dictionary|The resource tags.|tags|
+|**--identity**|object|Managed service identity of the factory.|identity|
+|**--vsts-configuration**|object|Factory's VSTS repo information.|vsts_configuration|
+|**--github-configuration**|object|Factory's GitHub repo information.|github_configuration|
 ### datafactory integration-runtime create
 
 create a datafactory integration-runtime.
