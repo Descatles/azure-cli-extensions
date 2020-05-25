@@ -26,6 +26,7 @@ def load_command_table(self, _):
         g.custom_command('update', 'datafactory_factory_update')
         g.custom_command('delete', 'datafactory_factory_delete')
         g.custom_command('configure-factory-repo', 'datafactory_factory_configure_factory_repo')
+        g.custom_command('configure-factory-repo-for-demo', 'datafactory_factory_configure_factory_repo_for_demo')
         g.custom_command('get-data-plane-access', 'datafactory_factory_get_data_plane_access')
         g.custom_command('get-git-hub-access-token', 'datafactory_factory_get_git_hub_access_token')
 

@@ -89,6 +89,24 @@ def datafactory_factory_configure_factory_repo(cmd, client,
                                          repo_configuration=repo_configuration)
 
 
+def datafactory_factory_configure_factory_repo_for_demo(cmd, client,
+                                                        location_id,
+                                                        factory_resource_id=None,
+                                                        vsts_configuration=None,
+                                                        github_configuration=None):
+    all_repo_configuration = []
+    if vsts_configuration is not None:
+        all_repo_configuration.append(vsts_configuration)
+    if github_configuration is not None:
+        all_repo_configuration.append(github_configuration)
+    if len(all_repo_configuration) > 1:
+        raise CLIError('at most one of  vsts_configuration, github_configuration is needed for repo_configuration!')
+    repo_configuration = all_repo_configuration[0] if len(all_repo_configuration) == 1 else None
+    return client.configure_factory_repo_for_demo(location_id=location_id,
+                                                  factory_resource_id=factory_resource_id,
+                                                  repo_configuration=repo_configuration)
+
+
 def datafactory_factory_get_data_plane_access(cmd, client,
                                               resource_group_name,
                                               factory_name,

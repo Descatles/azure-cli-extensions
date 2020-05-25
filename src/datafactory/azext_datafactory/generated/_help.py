@@ -77,6 +77,18 @@ s-configuration account-name="ADF" collaboration-branch="master" last-commit-id=
 me="repo" root-folder="/" tenant-id="" --location-id "East US"
 """
 
+helps['datafactory factory configure-factory-repo-for-demo'] = """
+    type: command
+    short-summary: Updates a factory's repo information.
+    examples:
+      - name: Factories_ConfigureFactoryRepo
+        text: |-
+               az datafactory factory configure-factory-repo-for-demo --factory-resource-id "/subscriptions/12345678-12\
+34-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryNa\
+me" --vsts-configuration account-name="ADF" collaboration-branch="master" last-commit-id="" project-name="project" repo\
+sitory-name="repo" root-folder="/" tenant-id="" --location-id "East US"
+"""
+
 helps['datafactory factory get-data-plane-access'] = """
     type: command
     short-summary: Get Data Plane access.

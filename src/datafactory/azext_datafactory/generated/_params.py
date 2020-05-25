@@ -80,6 +80,17 @@ def load_arguments(self, _):
                    'mation. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: host-name, account-name, re'
                    'pository-name, collaboration-branch, root-folder, last-commit-id.', arg_group='RepoConfiguration')
 
+    with self.argument_context('datafactory factory configure-factory-repo-for-demo') as c:
+        c.argument('location_id', help='The location identifier.')
+        c.argument('factory_resource_id', help='The factory resource id.')
+        c.argument('vsts_configuration', action=AddVstsConfiguration, nargs='+', help='Factory\'s VSTS repo information'
+                   '. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: project-name, tenant-id, account-'
+                   'name, repository-name, collaboration-branch, root-folder, last-commit-id.', arg_group='RepoConfigur'
+                   'ation')
+        c.argument('github_configuration', action=AddGithubConfiguration, nargs='+', help='Factory\'s GitHub repo infor'
+                   'mation. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: host-name, account-name, re'
+                   'pository-name, collaboration-branch, root-folder, last-commit-id.', arg_group='RepoConfiguration')
+
     with self.argument_context('datafactory factory get-data-plane-access') as c:
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')

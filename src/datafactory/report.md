@@ -197,6 +197,16 @@ configure-factory-repo a datafactory factory.
 |**--factory-resource-id**|string|The factory resource id.|factory_resource_id|
 |**--vsts-configuration**|object|Factory's VSTS repo information.|vsts_configuration|
 |**--github-configuration**|object|Factory's GitHub repo information.|github_configuration|
+### datafactory factory configure-factory-repo-for-demo
+
+configure-factory-repo-for-demo a datafactory factory.
+
+|Option|Type|Description|Path (SDK)|Path (swagger)|
+|------|----|-----------|----------|--------------|
+|**--location-id**|string|The location identifier.|location_id|
+|**--factory-resource-id**|string|The factory resource id.|factory_resource_id|
+|**--vsts-configuration**|object|Factory's VSTS repo information.|vsts_configuration|
+|**--github-configuration**|object|Factory's GitHub repo information.|github_configuration|
 ### datafactory factory create
 
 create a datafactory factory.
