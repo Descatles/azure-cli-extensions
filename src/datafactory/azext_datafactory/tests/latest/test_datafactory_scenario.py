@@ -28,8 +28,11 @@ def setup(test, rg):
 # EXAMPLE: Factories_CreateOrUpdate
 @try_manual
 def step_factories_createorupdate(test, rg):
-    # EXAMPLE NOT FOUND!
-    pass
+    test.cmd('az datafactory factory create '
+             '--location "East US" '
+             '--factory-name "{exampleFactoryName}" '
+             '--resource-group "{rg}"',
+             checks=[])
 
 
 @try_manual

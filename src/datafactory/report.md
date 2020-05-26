@@ -24,6 +24,7 @@ create a datafactory data-flow.
 |**--factory-name**|string|The factory name.|factory_name|
 |**--data-flow-name**|string|The data flow name.|data_flow_name|
 |**--properties**|object|Data flow properties.|properties|
+|**--if-match**|string|ETag of the data flow entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update.|if_match|
 ### datafactory data-flow delete
 
 delete a datafactory data-flow.
@@ -61,6 +62,7 @@ create a datafactory data-flow.
 |**--factory-name**|string|The factory name.|factory_name|
 |**--data-flow-name**|string|The data flow name.|data_flow_name|
 |**--properties**|object|Data flow properties.|properties|
+|**--if-match**|string|ETag of the data flow entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update.|if_match|
 ### datafactory data-flow-debug-session add-data-flow
 
 add-data-flow a datafactory data-flow-debug-session.
@@ -131,6 +133,7 @@ create a datafactory dataset.
 |**--factory-name**|string|The factory name.|factory_name|
 |**--dataset-name**|string|The dataset name.|dataset_name|
 |**--properties**|object|Dataset properties.|properties|
+|**--if-match**|string|ETag of the dataset entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update.|if_match|
 ### datafactory dataset delete
 
 delete a datafactory dataset.
@@ -168,6 +171,7 @@ create a datafactory dataset.
 |**--factory-name**|string|The factory name.|factory_name|
 |**--dataset-name**|string|The dataset name.|dataset_name|
 |**--properties**|object|Dataset properties.|properties|
+|**--if-match**|string|ETag of the dataset entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update.|if_match|
 ### datafactory exposure-control get-feature-value
 
 get-feature-value a datafactory exposure-control.
@@ -195,8 +199,29 @@ configure-factory-repo a datafactory factory.
 |------|----|-----------|----------|--------------|
 |**--location-id**|string|The location identifier.|location_id|
 |**--factory-resource-id**|string|The factory resource id.|factory_resource_id|
-|**--vsts-configuration**|object|Factory's VSTS repo information.|vsts_configuration|
-|**--github-configuration**|object|Factory's GitHub repo information.|github_configuration|
+|**--factory-vsts-configuration**|object|Factory's VSTS repo information.|factory_vsts_configuration|
+|**--factory-git-hub-configuration**|object|Factory's GitHub repo information.|factory_git_hub_configuration|
+### datafactory factory create
+
+create a datafactory factory.
+
+|Option|Type|Description|Path (SDK)|Path (swagger)|
+|------|----|-----------|----------|--------------|
+|**--resource-group-name**|string|The resource group name.|resource_group_name|
+|**--factory-name**|string|The factory name.|factory_name|
+|**--location**|string|The resource location.|location|
+|**--tags**|dictionary|The resource tags.|tags|
+|**--identity**|object|Managed service identity of the factory.|identity|
+|**--factory-vsts-configuration**|object|Factory's VSTS repo information.|factory_vsts_configuration|
+|**--factory-git-hub-configuration**|object|Factory's GitHub repo information.|factory_git_hub_configuration|
+### datafactory factory delete
+
+delete a datafactory factory.
+
+|Option|Type|Description|Path (SDK)|Path (swagger)|
+|------|----|-----------|----------|--------------|
+|**--resource-group-name**|string|The resource group name.|resource_group_name|
+|**--factory-name**|string|The factory name.|factory_name|
 ### datafactory factory get-data-plane-access
 
 get-data-plane-access a datafactory factory.
@@ -228,6 +253,25 @@ list a datafactory factory.
 |Option|Type|Description|Path (SDK)|Path (swagger)|
 |------|----|-----------|----------|--------------|
 |**--resource-group-name**|string|The resource group name.|resource_group_name|
+### datafactory factory show
+
+show a datafactory factory.
+
+|Option|Type|Description|Path (SDK)|Path (swagger)|
+|------|----|-----------|----------|--------------|
+|**--resource-group-name**|string|The resource group name.|resource_group_name|
+|**--factory-name**|string|The factory name.|factory_name|
+|**--if-none-match**|string|ETag of the factory entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned.|if_none_match|
+### datafactory factory update
+
+update a datafactory factory.
+
+|Option|Type|Description|Path (SDK)|Path (swagger)|
+|------|----|-----------|----------|--------------|
+|**--resource-group-name**|string|The resource group name.|resource_group_name|
+|**--factory-name**|string|The factory name.|factory_name|
+|**--tags**|dictionary|The resource tags.|tags|
+|**--identity**|object|Managed service identity of the factory.|identity|
 ### datafactory integration-runtime create
 
 create a datafactory integration-runtime.
@@ -238,6 +282,7 @@ create a datafactory integration-runtime.
 |**--factory-name**|string|The factory name.|factory_name|
 |**--integration-runtime-name**|string|The integration runtime name.|integration_runtime_name|
 |**--properties**|object|Integration runtime properties.|properties|
+|**--if-match**|string|ETag of the integration runtime entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update.|if_match|
 ### datafactory integration-runtime create-linked-integration-runtime
 
 create-linked-integration-runtime a datafactory integration-runtime.
@@ -451,6 +496,7 @@ create a datafactory linked-service.
 |**--factory-name**|string|The factory name.|factory_name|
 |**--linked-service-name**|string|The linked service name.|linked_service_name|
 |**--properties**|object|Properties of linked service.|properties|
+|**--if-match**|string|ETag of the linkedService entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update.|if_match|
 ### datafactory linked-service delete
 
 delete a datafactory linked-service.
@@ -488,6 +534,7 @@ create a datafactory linked-service.
 |**--factory-name**|string|The factory name.|factory_name|
 |**--linked-service-name**|string|The linked service name.|linked_service_name|
 |**--properties**|object|Properties of linked service.|properties|
+|**--if-match**|string|ETag of the linkedService entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update.|if_match|
 ### datafactory pipeline create
 
 create a datafactory pipeline.
@@ -497,6 +544,7 @@ create a datafactory pipeline.
 |**--resource-group-name**|string|The resource group name.|resource_group_name|
 |**--factory-name**|string|The factory name.|factory_name|
 |**--pipeline-name**|string|The pipeline name.|pipeline_name|
+|**--if-match**|string|ETag of the pipeline entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update.|if_match|
 |**--description**|string|The description of the pipeline.|description|
 |**--activities**|array|List of activities in pipeline.|activities|
 |**--parameters**|dictionary|List of parameters for pipeline.|parameters|
@@ -555,6 +603,7 @@ create a datafactory pipeline.
 |**--resource-group-name**|string|The resource group name.|resource_group_name|
 |**--factory-name**|string|The factory name.|factory_name|
 |**--pipeline-name**|string|The pipeline name.|pipeline_name|
+|**--if-match**|string|ETag of the pipeline entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update.|if_match|
 |**--description**|string|The description of the pipeline.|description|
 |**--activities**|array|List of activities in pipeline.|activities|
 |**--parameters**|dictionary|List of parameters for pipeline.|parameters|
@@ -605,6 +654,7 @@ create a datafactory trigger.
 |**--factory-name**|string|The factory name.|factory_name|
 |**--trigger-name**|string|The trigger name.|trigger_name|
 |**--properties**|object|Properties of the trigger.|properties|
+|**--if-match**|string|ETag of the trigger entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update.|if_match|
 ### datafactory trigger delete
 
 delete a datafactory trigger.
@@ -697,6 +747,7 @@ create a datafactory trigger.
 |**--factory-name**|string|The factory name.|factory_name|
 |**--trigger-name**|string|The trigger name.|trigger_name|
 |**--properties**|object|Properties of the trigger.|properties|
+|**--if-match**|string|ETag of the trigger entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update.|if_match|
 ### datafactory trigger-run query-by-factory
 
 query-by-factory a datafactory trigger-run.

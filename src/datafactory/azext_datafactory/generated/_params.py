@@ -12,13 +12,17 @@
 
 from knack.arguments import CLIArgumentType
 from azure.cli.core.commands.parameters import (
+    tags_type,
     get_three_state_flag,
     get_enum_type,
-    resource_group_name_type
+    resource_group_name_type,
+    get_location_type
 )
+from azure.cli.core.commands.validators import get_default_location_from_resource_group
 from azext_datafactory.action import (
-    AddVstsConfiguration,
-    AddGithubConfiguration,
+    AddIdentity,
+    AddFactoryVstsConfiguration,
+    AddFactoryGitHubConfiguration,
     AddFolder,
     AddFilters,
     AddOrderBy,
@@ -32,16 +36,51 @@ def load_arguments(self, _):
     with self.argument_context('datafactory factory list') as c:
         c.argument('resource_group_name', resource_group_name_type)
 
+    with self.argument_context('datafactory factory show') as c:
+        c.argument('resource_group_name', resource_group_name_type)
+        c.argument('factory_name', help='The factory name.')
+        c.argument('if_none_match', help='ETag of the factory entity. Should only be specified for get. If the ETag mat'
+                   'ches the existing entity tag, or if * was provided, then no content will be returned.')
+
+    with self.argument_context('datafactory factory create') as c:
+        c.argument('resource_group_name', resource_group_name_type)
+        c.argument('factory_name', help='The factory name.')
+        c.argument('location', arg_type=get_location_type(self.cli_ctx),
+                   validator=get_default_location_from_resource_group)
+        c.argument('tags', tags_type)
+        c.argument('identity', action=AddIdentity, nargs='+', help='Managed service identity of the factory. Expect val'
+                   'ue: KEY1=VALUE1 KEY2=VALUE2 ...')
+        c.argument('factory_vsts_configuration', action=AddFactoryVstsConfiguration, nargs='+', help='Factory\'s VSTS r'
+                   'epo information. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: project-name, tena'
+                   'nt-id, account-name, repository-name, collaboration-branch, root-folder, last-commit-id.',
+                   arg_group='RepoConfiguration')
+        c.argument('factory_git_hub_configuration', action=AddFactoryGitHubConfiguration, nargs='+', help='Factory\'s G'
+                   'itHub repo information. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: host-name, '
+                   'account-name, repository-name, collaboration-branch, root-folder, last-commit-id.', arg_group='Repo'
+                   'Configuration')
+
+    with self.argument_context('datafactory factory update') as c:
+        c.argument('resource_group_name', resource_group_name_type)
+        c.argument('factory_name', help='The factory name.')
+        c.argument('tags', tags_type)
+        c.argument('identity', action=AddIdentity, nargs='+', help='Managed service identity of the factory. Expect val'
+                   'ue: KEY1=VALUE1 KEY2=VALUE2 ...')
+
+    with self.argument_context('datafactory factory delete') as c:
+        c.argument('resource_group_name', resource_group_name_type)
+        c.argument('factory_name', help='The factory name.')
+
     with self.argument_context('datafactory factory configure-factory-repo') as c:
         c.argument('location_id', help='The location identifier.')
         c.argument('factory_resource_id', help='The factory resource id.')
-        c.argument('vsts_configuration', action=AddVstsConfiguration, nargs='+', help='Factory\'s VSTS repo information'
-                   '. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: project-name, tenant-id, account-'
-                   'name, repository-name, collaboration-branch, root-folder, last-commit-id.', arg_group='RepoConfigur'
-                   'ation')
-        c.argument('github_configuration', action=AddGithubConfiguration, nargs='+', help='Factory\'s GitHub repo infor'
-                   'mation. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: host-name, account-name, re'
-                   'pository-name, collaboration-branch, root-folder, last-commit-id.', arg_group='RepoConfiguration')
+        c.argument('factory_vsts_configuration', action=AddFactoryVstsConfiguration, nargs='+', help='Factory\'s VSTS r'
+                   'epo information. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: project-name, tena'
+                   'nt-id, account-name, repository-name, collaboration-branch, root-folder, last-commit-id.',
+                   arg_group='RepoConfiguration')
+        c.argument('factory_git_hub_configuration', action=AddFactoryGitHubConfiguration, nargs='+', help='Factory\'s G'
+                   'itHub repo information. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: host-name, '
+                   'account-name, repository-name, collaboration-branch, root-folder, last-commit-id.', arg_group='Repo'
+                   'Configuration')
 
     with self.argument_context('datafactory factory get-data-plane-access') as c:
         c.argument('resource_group_name', resource_group_name_type)
@@ -89,6 +128,8 @@ def load_arguments(self, _):
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
         c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('if_match', help='ETag of the integration runtime entity. Should only be specified for update, for w'
+                   'hich it should match existing entity or can be * for unconditional update.')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Integration runtime prop'
                    'erties. Expected value: json-string/@json-file.'))
 
@@ -223,6 +264,8 @@ def load_arguments(self, _):
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
         c.argument('linked_service_name', help='The linked service name.')
+        c.argument('if_match', help='ETag of the linkedService entity.  Should only be specified for update, for which '
+                   'it should match existing entity or can be * for unconditional update.')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Properties of linked ser'
                    'vice. Expected value: json-string/@json-file.'))
 
@@ -230,6 +273,8 @@ def load_arguments(self, _):
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
         c.argument('linked_service_name', help='The linked service name.')
+        c.argument('if_match', help='ETag of the linkedService entity.  Should only be specified for update, for which '
+                   'it should match existing entity or can be * for unconditional update.')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Properties of linked ser'
                    'vice. Expected value: json-string/@json-file.'))
 
@@ -253,6 +298,8 @@ def load_arguments(self, _):
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
         c.argument('dataset_name', help='The dataset name.')
+        c.argument('if_match', help='ETag of the dataset entity.  Should only be specified for update, for which it sho'
+                   'uld match existing entity or can be * for unconditional update.')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Dataset properties. Expe'
                    'cted value: json-string/@json-file.'))
 
@@ -260,6 +307,8 @@ def load_arguments(self, _):
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
         c.argument('dataset_name', help='The dataset name.')
+        c.argument('if_match', help='ETag of the dataset entity.  Should only be specified for update, for which it sho'
+                   'uld match existing entity or can be * for unconditional update.')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Dataset properties. Expe'
                    'cted value: json-string/@json-file.'))
 
@@ -283,6 +332,8 @@ def load_arguments(self, _):
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
         c.argument('pipeline_name', help='The pipeline name.')
+        c.argument('if_match', help='ETag of the pipeline entity.  Should only be specified for update, for which it sh'
+                   'ould match existing entity or can be * for unconditional update.')
         c.argument('description', help='The description of the pipeline.')
         c.argument('activities', arg_type=CLIArgumentType(options_list=['--activities'], help='List of activities in pi'
                    'peline. Expected value: json-string/@json-file.'))
@@ -302,6 +353,8 @@ def load_arguments(self, _):
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
         c.argument('pipeline_name', help='The pipeline name.')
+        c.argument('if_match', help='ETag of the pipeline entity.  Should only be specified for update, for which it sh'
+                   'ould match existing entity or can be * for unconditional update.')
         c.argument('description', help='The description of the pipeline.')
         c.argument('activities', arg_type=CLIArgumentType(options_list=['--activities'], help='List of activities in pi'
                    'peline. Expected value: json-string/@json-file.'))
@@ -396,6 +449,8 @@ def load_arguments(self, _):
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
         c.argument('trigger_name', help='The trigger name.')
+        c.argument('if_match', help='ETag of the trigger entity.  Should only be specified for update, for which it sho'
+                   'uld match existing entity or can be * for unconditional update.')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Properties of the trigge'
                    'r. Expected value: json-string/@json-file.'))
 
@@ -403,6 +458,8 @@ def load_arguments(self, _):
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
         c.argument('trigger_name', help='The trigger name.')
+        c.argument('if_match', help='ETag of the trigger entity.  Should only be specified for update, for which it sho'
+                   'uld match existing entity or can be * for unconditional update.')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Properties of the trigge'
                    'r. Expected value: json-string/@json-file.'))
 
@@ -479,6 +536,8 @@ def load_arguments(self, _):
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
         c.argument('data_flow_name', help='The data flow name.')
+        c.argument('if_match', help='ETag of the data flow entity. Should only be specified for update, for which it sh'
+                   'ould match existing entity or can be * for unconditional update.')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Data flow properties. Ex'
                    'pected value: json-string/@json-file.'))
 
@@ -486,6 +545,8 @@ def load_arguments(self, _):
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
         c.argument('data_flow_name', help='The data flow name.')
+        c.argument('if_match', help='ETag of the data flow entity. Should only be specified for update, for which it sh'
+                   'ould match existing entity or can be * for unconditional update.')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Data flow properties. Ex'
                    'pected value: json-string/@json-file.'))
 

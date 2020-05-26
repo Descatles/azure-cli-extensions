@@ -157,7 +157,6 @@ try:
     from ._models_py3 import FileShareDataset
     from ._models_py3 import FilterActivity
     from ._models_py3 import ForEachActivity
-    from ._models_py3 import FormatReadSettings
     from ._models_py3 import FtpServerLinkedService
     from ._models_py3 import GetDataFactoryOperationStatusResponse
     from ._models_py3 import GetMetadataActivity
@@ -361,7 +360,6 @@ try:
     from ._models_py3 import SsisPropertyOverride
     from ._models_py3 import SsisVariable
     from ._models_py3 import StagingSettings
-    from ._models_py3 import StoreReadSettings
     from ._models_py3 import StoredProcedureParameter
     from ._models_py3 import SubResource
     from ._models_py3 import SubResourceDebugResource
@@ -555,7 +553,6 @@ except (SyntaxError, ImportError):
     from ._models import FileShareDataset  # type: ignore
     from ._models import FilterActivity  # type: ignore
     from ._models import ForEachActivity  # type: ignore
-    from ._models import FormatReadSettings  # type: ignore
     from ._models import FtpServerLinkedService  # type: ignore
     from ._models import GetDataFactoryOperationStatusResponse  # type: ignore
     from ._models import GetMetadataActivity  # type: ignore
@@ -759,7 +756,6 @@ except (SyntaxError, ImportError):
     from ._models import SsisPropertyOverride  # type: ignore
     from ._models import SsisVariable  # type: ignore
     from ._models import StagingSettings  # type: ignore
-    from ._models import StoreReadSettings  # type: ignore
     from ._models import StoredProcedureParameter  # type: ignore
     from ._models import SubResource  # type: ignore
     from ._models import SubResourceDebugResource  # type: ignore
@@ -1019,7 +1015,6 @@ __all__ = [
     'FileShareDataset',
     'FilterActivity',
     'ForEachActivity',
-    'FormatReadSettings',
     'FtpServerLinkedService',
     'GetDataFactoryOperationStatusResponse',
     'GetMetadataActivity',
@@ -1223,7 +1218,6 @@ __all__ = [
     'SsisPropertyOverride',
     'SsisVariable',
     'StagingSettings',
-    'StoreReadSettings',
     'StoredProcedureParameter',
     'SubResource',
     'SubResourceDebugResource',

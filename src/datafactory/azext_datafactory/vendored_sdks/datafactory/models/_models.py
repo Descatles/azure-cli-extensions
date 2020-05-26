@@ -6841,8 +6841,6 @@ class DeleteActivity(ExecutionActivity):
     :type log_storage_settings: ~azure.mgmt.datafactory.models.LogStorageSettings
     :param dataset: Required. Delete activity dataset reference.
     :type dataset: ~azure.mgmt.datafactory.models.DatasetReference
-    :param store_settings: Delete activity store settings.
-    :type store_settings: ~azure.mgmt.datafactory.models.StoreReadSettings
     """
 
     _validation = {
@@ -6866,7 +6864,6 @@ class DeleteActivity(ExecutionActivity):
         'enable_logging': {'key': 'typeProperties.enableLogging', 'type': 'object'},
         'log_storage_settings': {'key': 'typeProperties.logStorageSettings', 'type': 'LogStorageSettings'},
         'dataset': {'key': 'typeProperties.dataset', 'type': 'DatasetReference'},
-        'store_settings': {'key': 'typeProperties.storeSettings', 'type': 'StoreReadSettings'},
     }
 
     def __init__(
@@ -6880,7 +6877,6 @@ class DeleteActivity(ExecutionActivity):
         self.enable_logging = kwargs.get('enable_logging', None)
         self.log_storage_settings = kwargs.get('log_storage_settings', None)
         self.dataset = kwargs['dataset']
-        self.store_settings = kwargs.get('store_settings', None)
 
 
 class DeleteDataFlowDebugSessionRequest(msrest.serialization.Model):
@@ -8824,43 +8820,6 @@ class ForEachActivity(ControlActivity):
         self.activities = kwargs['activities']
 
 
-class FormatReadSettings(msrest.serialization.Model):
-    """Format read settings.
-
-    You probably want to use the sub-classes and not this class directly. Known
-    sub-classes are: .
-
-    All required parameters must be populated in order to send to Azure.
-
-    :param additional_properties: Unmatched properties from the message are deserialized to this
-     collection.
-    :type additional_properties: dict[str, object]
-    :param type: Required. The read setting type.Constant filled by server.
-    :type type: str
-    """
-
-    _validation = {
-        'type': {'required': True},
-    }
-
-    _attribute_map = {
-        'additional_properties': {'key': '', 'type': '{object}'},
-        'type': {'key': 'type', 'type': 'str'},
-    }
-
-    _subtype_map = {
-        'type': {}
-    }
-
-    def __init__(
-        self,
-        **kwargs
-    ):
-        super(FormatReadSettings, self).__init__(**kwargs)
-        self.additional_properties = kwargs.get('additional_properties', None)
-        self.type = 'FormatReadSettings'
-
-
 class FtpServerLinkedService(LinkedService):
     """A FTP server Linked Service.
 
@@ -8994,10 +8953,6 @@ class GetMetadataActivity(ExecutionActivity):
     :type dataset: ~azure.mgmt.datafactory.models.DatasetReference
     :param field_list: Fields of metadata to get from dataset.
     :type field_list: list[object]
-    :param store_settings: GetMetadata activity store settings.
-    :type store_settings: ~azure.mgmt.datafactory.models.StoreReadSettings
-    :param format_settings: GetMetadata activity format settings.
-    :type format_settings: ~azure.mgmt.datafactory.models.FormatReadSettings
     """
 
     _validation = {
@@ -9017,8 +8972,6 @@ class GetMetadataActivity(ExecutionActivity):
         'policy': {'key': 'policy', 'type': 'ActivityPolicy'},
         'dataset': {'key': 'typeProperties.dataset', 'type': 'DatasetReference'},
         'field_list': {'key': 'typeProperties.fieldList', 'type': '[object]'},
-        'store_settings': {'key': 'typeProperties.storeSettings', 'type': 'StoreReadSettings'},
-        'format_settings': {'key': 'typeProperties.formatSettings', 'type': 'FormatReadSettings'},
     }
 
     def __init__(
@@ -9029,8 +8982,6 @@ class GetMetadataActivity(ExecutionActivity):
         self.type = 'GetMetadata'
         self.dataset = kwargs['dataset']
         self.field_list = kwargs.get('field_list', None)
-        self.store_settings = kwargs.get('store_settings', None)
-        self.format_settings = kwargs.get('format_settings', None)
 
 
 class GetSsisObjectMetadataRequest(msrest.serialization.Model):
@@ -20567,48 +20518,6 @@ class StoredProcedureParameter(msrest.serialization.Model):
         super(StoredProcedureParameter, self).__init__(**kwargs)
         self.value = kwargs.get('value', None)
         self.type = kwargs.get('type', None)
-
-
-class StoreReadSettings(msrest.serialization.Model):
-    """Connector read setting.
-
-    You probably want to use the sub-classes and not this class directly. Known
-    sub-classes are: .
-
-    All required parameters must be populated in order to send to Azure.
-
-    :param additional_properties: Unmatched properties from the message are deserialized to this
-     collection.
-    :type additional_properties: dict[str, object]
-    :param type: Required. The read setting type.Constant filled by server.
-    :type type: str
-    :param max_concurrent_connections: The maximum concurrent connection count for the source data
-     store. Type: integer (or Expression with resultType integer).
-    :type max_concurrent_connections: object
-    """
-
-    _validation = {
-        'type': {'required': True},
-    }
-
-    _attribute_map = {
-        'additional_properties': {'key': '', 'type': '{object}'},
-        'type': {'key': 'type', 'type': 'str'},
-        'max_concurrent_connections': {'key': 'maxConcurrentConnections', 'type': 'object'},
-    }
-
-    _subtype_map = {
-        'type': {}
-    }
-
-    def __init__(
-        self,
-        **kwargs
-    ):
-        super(StoreReadSettings, self).__init__(**kwargs)
-        self.additional_properties = kwargs.get('additional_properties', None)
-        self.type = 'StoreReadSettings'
-        self.max_concurrent_connections = kwargs.get('max_concurrent_connections', None)
 
 
 class SwitchActivity(ControlActivity):

@@ -20,18 +20,71 @@ def datafactory_factory_list(cmd, client,
     return client.list()
 
 
+def datafactory_factory_show(cmd, client,
+                             resource_group_name,
+                             factory_name,
+                             if_none_match=None):
+    return client.get(resource_group_name=resource_group_name,
+                      factory_name=factory_name,
+                      if_none_match=if_none_match)
+
+
+def datafactory_factory_create(cmd, client,
+                               resource_group_name,
+                               factory_name,
+                               location=None,
+                               tags=None,
+                               identity=None,
+                               factory_vsts_configuration=None,
+                               factory_git_hub_configuration=None):
+    all_repo_configuration = []
+    if factory_vsts_configuration is not None:
+        all_repo_configuration.append(factory_vsts_configuration)
+    if factory_git_hub_configuration is not None:
+        all_repo_configuration.append(factory_git_hub_configuration)
+    if len(all_repo_configuration) > 1:
+        raise CLIError('at most one of  factory_vsts_configuration, factory_git_hub_configuration is needed for repo_co'
+                       'nfiguration!')
+    repo_configuration = all_repo_configuration[0] if len(all_repo_configuration) == 1 else None
+    return client.create_or_update(resource_group_name=resource_group_name,
+                                   factory_name=factory_name,
+                                   location=location,
+                                   tags=tags,
+                                   identity=identity,
+                                   repo_configuration=repo_configuration)
+
+
+def datafactory_factory_update(cmd, client,
+                               resource_group_name,
+                               factory_name,
+                               tags=None,
+                               identity=None):
+    return client.update(resource_group_name=resource_group_name,
+                         factory_name=factory_name,
+                         tags=tags,
+                         identity=identity)
+
+
+def datafactory_factory_delete(cmd, client,
+                               resource_group_name,
+                               factory_name):
+    return client.delete(resource_group_name=resource_group_name,
+                         factory_name=factory_name)
+
+
 def datafactory_factory_configure_factory_repo(cmd, client,
                                                location_id,
                                                factory_resource_id=None,
-                                               vsts_configuration=None,
-                                               github_configuration=None):
+                                               factory_vsts_configuration=None,
+                                               factory_git_hub_configuration=None):
     all_repo_configuration = []
-    if vsts_configuration is not None:
-        all_repo_configuration.append(vsts_configuration)
-    if github_configuration is not None:
-        all_repo_configuration.append(github_configuration)
+    if factory_vsts_configuration is not None:
+        all_repo_configuration.append(factory_vsts_configuration)
+    if factory_git_hub_configuration is not None:
+        all_repo_configuration.append(factory_git_hub_configuration)
     if len(all_repo_configuration) > 1:
-        raise CLIError('at most one of  vsts_configuration, github_configuration is needed for repo_configuration!')
+        raise CLIError('at most one of  factory_vsts_configuration, factory_git_hub_configuration is needed for repo_co'
+                       'nfiguration!')
     repo_configuration = all_repo_configuration[0] if len(all_repo_configuration) == 1 else None
     return client.configure_factory_repo(location_id=location_id,
                                          factory_resource_id=factory_resource_id,
@@ -110,12 +163,14 @@ def datafactory_integration_runtime_create(cmd, client,
                                            resource_group_name,
                                            factory_name,
                                            integration_runtime_name,
-                                           properties):
+                                           properties,
+                                           if_match=None):
     if isinstance(properties, str):
         properties = json.loads(properties)
     return client.create_or_update(resource_group_name=resource_group_name,
                                    factory_name=factory_name,
                                    integration_runtime_name=integration_runtime_name,
+                                   if_match=if_match,
                                    properties=properties)
 
 
@@ -340,12 +395,14 @@ def datafactory_linked_service_create(cmd, client,
                                       resource_group_name,
                                       factory_name,
                                       linked_service_name,
-                                      properties):
+                                      properties,
+                                      if_match=None):
     if isinstance(properties, str):
         properties = json.loads(properties)
     return client.create_or_update(resource_group_name=resource_group_name,
                                    factory_name=factory_name,
                                    linked_service_name=linked_service_name,
+                                   if_match=if_match,
                                    properties=properties)
 
 
@@ -353,7 +410,8 @@ def datafactory_linked_service_update(instance, cmd,
                                       resource_group_name,
                                       factory_name,
                                       linked_service_name,
-                                      properties):
+                                      properties,
+                                      if_match=None):
     if isinstance(properties, str):
         properties = json.loads(properties)
     return instance
@@ -390,12 +448,14 @@ def datafactory_dataset_create(cmd, client,
                                resource_group_name,
                                factory_name,
                                dataset_name,
-                               properties):
+                               properties,
+                               if_match=None):
     if isinstance(properties, str):
         properties = json.loads(properties)
     return client.create_or_update(resource_group_name=resource_group_name,
                                    factory_name=factory_name,
                                    dataset_name=dataset_name,
+                                   if_match=if_match,
                                    properties=properties)
 
 
@@ -403,7 +463,8 @@ def datafactory_dataset_update(instance, cmd,
                                resource_group_name,
                                factory_name,
                                dataset_name,
-                               properties):
+                               properties,
+                               if_match=None):
     if isinstance(properties, str):
         properties = json.loads(properties)
     return instance
@@ -440,6 +501,7 @@ def datafactory_pipeline_create(cmd, client,
                                 resource_group_name,
                                 factory_name,
                                 pipeline_name,
+                                if_match=None,
                                 description=None,
                                 activities=None,
                                 parameters=None,
@@ -461,6 +523,7 @@ def datafactory_pipeline_create(cmd, client,
     return client.create_or_update(resource_group_name=resource_group_name,
                                    factory_name=factory_name,
                                    pipeline_name=pipeline_name,
+                                   if_match=if_match,
                                    description=description,
                                    activities=activities,
                                    parameters=parameters,
@@ -475,6 +538,7 @@ def datafactory_pipeline_update(cmd, client,
                                 resource_group_name,
                                 factory_name,
                                 pipeline_name,
+                                if_match=None,
                                 description=None,
                                 activities=None,
                                 parameters=None,
@@ -496,6 +560,7 @@ def datafactory_pipeline_update(cmd, client,
     return client.create_or_update(resource_group_name=resource_group_name,
                                    factory_name=factory_name,
                                    pipeline_name=pipeline_name,
+                                   if_match=if_match,
                                    description=description,
                                    activities=activities,
                                    parameters=parameters,
@@ -614,12 +679,14 @@ def datafactory_trigger_create(cmd, client,
                                resource_group_name,
                                factory_name,
                                trigger_name,
-                               properties):
+                               properties,
+                               if_match=None):
     if isinstance(properties, str):
         properties = json.loads(properties)
     return client.create_or_update(resource_group_name=resource_group_name,
                                    factory_name=factory_name,
                                    trigger_name=trigger_name,
+                                   if_match=if_match,
                                    properties=properties)
 
 
@@ -627,7 +694,8 @@ def datafactory_trigger_update(instance, cmd,
                                resource_group_name,
                                factory_name,
                                trigger_name,
-                               properties):
+                               properties,
+                               if_match=None):
     if isinstance(properties, str):
         properties = json.loads(properties)
     return instance
@@ -748,12 +816,14 @@ def datafactory_data_flow_create(cmd, client,
                                  resource_group_name,
                                  factory_name,
                                  data_flow_name,
-                                 properties):
+                                 properties,
+                                 if_match=None):
     if isinstance(properties, str):
         properties = json.loads(properties)
     return client.create_or_update(resource_group_name=resource_group_name,
                                    factory_name=factory_name,
                                    data_flow_name=data_flow_name,
+                                   if_match=if_match,
                                    properties=properties)
 
 
@@ -761,7 +831,8 @@ def datafactory_data_flow_update(instance, cmd,
                                  resource_group_name,
                                  factory_name,
                                  data_flow_name,
-                                 properties):
+                                 properties,
+                                 if_match=None):
     if isinstance(properties, str):
         properties = json.loads(properties)
     return instance

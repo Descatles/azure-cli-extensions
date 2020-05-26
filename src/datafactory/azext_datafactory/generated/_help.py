@@ -26,6 +26,45 @@ helps['datafactory factory list'] = """
                az datafactory factory list --resource-group "exampleResourceGroup"
 """
 
+helps['datafactory factory show'] = """
+    type: command
+    short-summary: Gets a factory.
+    examples:
+      - name: Factories_Get
+        text: |-
+               az datafactory factory show --factory-name "exampleFactoryName" --resource-group "exampleResourceGroup"
+"""
+
+helps['datafactory factory create'] = """
+    type: command
+    short-summary: Creates or updates a factory.
+    examples:
+      - name: Factories_CreateOrUpdate
+        text: |-
+               az datafactory factory create --location "East US" --factory-name "exampleFactoryName" --resource-group \
+"exampleResourceGroup"
+"""
+
+helps['datafactory factory update'] = """
+    type: command
+    short-summary: Updates a factory.
+    examples:
+      - name: Factories_Update
+        text: |-
+               az datafactory factory update --factory-name "exampleFactoryName" --tags exampleTag="exampleValue" --res\
+ource-group "exampleResourceGroup"
+"""
+
+helps['datafactory factory delete'] = """
+    type: command
+    short-summary: Deletes a factory.
+    examples:
+      - name: Factories_Delete
+        text: |-
+               az datafactory factory delete --factory-name "exampleFactoryName" --resource-group "exampleResourceGroup\
+"
+"""
+
 helps['datafactory factory configure-factory-repo'] = """
     type: command
     short-summary: Updates a factory's repo information.
@@ -33,9 +72,9 @@ helps['datafactory factory configure-factory-repo'] = """
       - name: Factories_ConfigureFactoryRepo
         text: |-
                az datafactory factory configure-factory-repo --factory-resource-id "/subscriptions/12345678-1234-1234-1\
-234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName" --vst\
-s-configuration account-name="ADF" collaboration-branch="master" last-commit-id="" project-name="project" repository-na\
-me="repo" root-folder="/" tenant-id="" --location-id "East US"
+234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName" --fac\
+tory-vsts-configuration account-name="ADF" collaboration-branch="master" last-commit-id="" project-name="project" repos\
+itory-name="repo" root-folder="/" tenant-id="" --location-id "East US"
 """
 
 helps['datafactory factory get-data-plane-access'] = """
