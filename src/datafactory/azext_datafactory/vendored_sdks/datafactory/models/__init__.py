@@ -137,6 +137,7 @@ try:
     from ._models_py3 import EloquaLinkedService
     from ._models_py3 import EloquaObjectDataset
     from ._models_py3 import EntityReference
+    from ._models_py3 import ExcelDataset
     from ._models_py3 import ExecuteDataFlowActivity
     from ._models_py3 import ExecuteDataFlowActivityTypePropertiesCompute
     from ._models_py3 import ExecutePipelineActivity
@@ -535,6 +536,7 @@ except (SyntaxError, ImportError):
     from ._models import EloquaLinkedService  # type: ignore
     from ._models import EloquaObjectDataset  # type: ignore
     from ._models import EntityReference  # type: ignore
+    from ._models import ExcelDataset  # type: ignore
     from ._models import ExecuteDataFlowActivity  # type: ignore
     from ._models import ExecuteDataFlowActivityTypePropertiesCompute  # type: ignore
     from ._models import ExecutePipelineActivity  # type: ignore
@@ -999,6 +1001,7 @@ __all__ = [
     'EloquaLinkedService',
     'EloquaObjectDataset',
     'EntityReference',
+    'ExcelDataset',
     'ExecuteDataFlowActivity',
     'ExecuteDataFlowActivityTypePropertiesCompute',
     'ExecutePipelineActivity',
