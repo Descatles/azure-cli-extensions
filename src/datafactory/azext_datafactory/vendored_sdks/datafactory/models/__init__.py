@@ -137,6 +137,7 @@ try:
     from ._models_py3 import EloquaLinkedService
     from ._models_py3 import EloquaObjectDataset
     from ._models_py3 import EntityReference
+    from ._models_py3 import ExcelDataset
     from ._models_py3 import ExecuteDataFlowActivity
     from ._models_py3 import ExecuteDataFlowActivityTypePropertiesCompute
     from ._models_py3 import ExecutePipelineActivity
@@ -164,6 +165,7 @@ try:
     from ._models_py3 import GetSsisObjectMetadataRequest
     from ._models_py3 import GitHubAccessTokenRequest
     from ._models_py3 import GitHubAccessTokenResponse
+    from ._models_py3 import GlobalParameterSpecification
     from ._models_py3 import GoogleAdWordsLinkedService
     from ._models_py3 import GoogleAdWordsObjectDataset
     from ._models_py3 import GoogleBigQueryLinkedService
@@ -402,6 +404,7 @@ try:
     from ._models_py3 import WebTableDataset
     from ._models_py3 import XeroLinkedService
     from ._models_py3 import XeroObjectDataset
+    from ._models_py3 import XmlDataset
     from ._models_py3 import ZohoLinkedService
     from ._models_py3 import ZohoObjectDataset
 except (SyntaxError, ImportError):
@@ -535,6 +538,7 @@ except (SyntaxError, ImportError):
     from ._models import EloquaLinkedService  # type: ignore
     from ._models import EloquaObjectDataset  # type: ignore
     from ._models import EntityReference  # type: ignore
+    from ._models import ExcelDataset  # type: ignore
     from ._models import ExecuteDataFlowActivity  # type: ignore
     from ._models import ExecuteDataFlowActivityTypePropertiesCompute  # type: ignore
     from ._models import ExecutePipelineActivity  # type: ignore
@@ -562,6 +566,7 @@ except (SyntaxError, ImportError):
     from ._models import GetSsisObjectMetadataRequest  # type: ignore
     from ._models import GitHubAccessTokenRequest  # type: ignore
     from ._models import GitHubAccessTokenResponse  # type: ignore
+    from ._models import GlobalParameterSpecification  # type: ignore
     from ._models import GoogleAdWordsLinkedService  # type: ignore
     from ._models import GoogleAdWordsObjectDataset  # type: ignore
     from ._models import GoogleBigQueryLinkedService  # type: ignore
@@ -800,6 +805,7 @@ except (SyntaxError, ImportError):
     from ._models import WebTableDataset  # type: ignore
     from ._models import XeroLinkedService  # type: ignore
     from ._models import XeroObjectDataset  # type: ignore
+    from ._models import XmlDataset  # type: ignore
     from ._models import ZohoLinkedService  # type: ignore
     from ._models import ZohoObjectDataset  # type: ignore
 
@@ -816,6 +822,7 @@ from ._data_factory_management_client_enums import (
     DynamicsServicePrincipalCredentialType,
     EventSubscriptionStatus,
     FtpAuthenticationType,
+    GlobalParameterType,
     GoogleAdWordsAuthenticationType,
     GoogleBigQueryAuthenticationType,
     HBaseAuthenticationType,
@@ -999,6 +1006,7 @@ __all__ = [
     'EloquaLinkedService',
     'EloquaObjectDataset',
     'EntityReference',
+    'ExcelDataset',
     'ExecuteDataFlowActivity',
     'ExecuteDataFlowActivityTypePropertiesCompute',
     'ExecutePipelineActivity',
@@ -1026,6 +1034,7 @@ __all__ = [
     'GetSsisObjectMetadataRequest',
     'GitHubAccessTokenRequest',
     'GitHubAccessTokenResponse',
+    'GlobalParameterSpecification',
     'GoogleAdWordsLinkedService',
     'GoogleAdWordsObjectDataset',
     'GoogleBigQueryLinkedService',
@@ -1264,6 +1273,7 @@ __all__ = [
     'WebTableDataset',
     'XeroLinkedService',
     'XeroObjectDataset',
+    'XmlDataset',
     'ZohoLinkedService',
     'ZohoObjectDataset',
     'AvroCompressionCodec',
@@ -1278,6 +1288,7 @@ __all__ = [
     'DynamicsServicePrincipalCredentialType',
     'EventSubscriptionStatus',
     'FtpAuthenticationType',
+    'GlobalParameterType',
     'GoogleAdWordsAuthenticationType',
     'GoogleBigQueryAuthenticationType',
     'HBaseAuthenticationType',
