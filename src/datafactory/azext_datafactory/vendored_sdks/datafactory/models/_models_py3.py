@@ -11,12 +11,14 @@ from typing import Dict, List, Optional, Union
 
 import msrest.serialization
 
+from ._data_factory_management_client_enums import *
+
 
 class AccessPolicyResponse(msrest.serialization.Model):
     """Get Data Plane read only token response definition.
 
     :param policy: The user access policy.
-    :type policy: ~azure.mgmt.datafactory.models.UserAccessPolicy
+    :type policy: ~data_factory_management_client.models.UserAccessPolicy
     :param access_token: Data Plane read only access token.
     :type access_token: str
     :param data_plane_url: Data Plane service base URL.
@@ -47,7 +49,7 @@ class Activity(msrest.serialization.Model):
     """A pipeline activity.
 
     You probably want to use the sub-classes and not this class directly. Known
-    sub-classes are: ControlActivity, ExecutionActivity.
+    sub-classes are: AppendVariableActivity, ControlActivity, ExecutePipelineActivity, ExecutionActivity, FilterActivity, ForEachActivity, IfConditionActivity, SetVariableActivity, SwitchActivity, UntilActivity, ValidationActivity, WaitActivity, WebHookActivity.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -61,9 +63,9 @@ class Activity(msrest.serialization.Model):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     """
 
     _validation = {
@@ -81,7 +83,7 @@ class Activity(msrest.serialization.Model):
     }
 
     _subtype_map = {
-        'type': {'Container': 'ControlActivity', 'Execution': 'ExecutionActivity'}
+        'type': {'AppendVariable': 'AppendVariableActivity', 'Container': 'ControlActivity', 'ExecutePipeline': 'ExecutePipelineActivity', 'Execution': 'ExecutionActivity', 'Filter': 'FilterActivity', 'ForEach': 'ForEachActivity', 'IfCondition': 'IfConditionActivity', 'SetVariable': 'SetVariableActivity', 'Switch': 'SwitchActivity', 'Until': 'UntilActivity', 'Validation': 'ValidationActivity', 'Wait': 'WaitActivity', 'WebHook': 'WebHookActivity'}
     }
 
     def __init__(
@@ -97,7 +99,7 @@ class Activity(msrest.serialization.Model):
         super(Activity, self).__init__(**kwargs)
         self.additional_properties = additional_properties
         self.name = name
-        self.type = 'Activity'
+        self.type: str = 'Activity'
         self.description = description
         self.depends_on = depends_on
         self.user_properties = user_properties
@@ -114,7 +116,8 @@ class ActivityDependency(msrest.serialization.Model):
     :param activity: Required. Activity name.
     :type activity: str
     :param dependency_conditions: Required. Match-Condition for the dependency.
-    :type dependency_conditions: list[str or ~azure.mgmt.datafactory.models.DependencyCondition]
+    :type dependency_conditions: list[str or
+     ~data_factory_management_client.models.DependencyCondition]
     """
 
     _validation = {
@@ -297,7 +300,7 @@ class ActivityRunsQueryResponse(msrest.serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :param value: Required. List of activity runs.
-    :type value: list[~azure.mgmt.datafactory.models.ActivityRun]
+    :type value: list[~data_factory_management_client.models.ActivityRun]
     :param continuation_token: The continuation token for getting the next page of results, if any
      remaining results exist, null otherwise.
     :type continuation_token: str
@@ -349,7 +352,7 @@ class LinkedService(msrest.serialization.Model):
     """The Azure Data Factory nested object which contains the information and credential which can be used to connect with related store or compute resource.
 
     You probably want to use the sub-classes and not this class directly. Known
-    sub-classes are: AmazonMwsLinkedService, AmazonRedshiftLinkedService, AmazonS3LinkedService, AzureBatchLinkedService, AzureBlobFsLinkedService, AzureBlobStorageLinkedService, AzureDataExplorerLinkedService, AzureDataLakeAnalyticsLinkedService, AzureDataLakeStoreLinkedService, AzureDatabricksLinkedService, AzureFileStorageLinkedService, AzureFunctionLinkedService, AzureKeyVaultLinkedService, AzureMlLinkedService, AzureMlServiceLinkedService, AzureMariaDBLinkedService, AzureMySqlLinkedService, AzurePostgreSqlLinkedService, AzureSearchLinkedService, AzureSqlDwLinkedService, AzureSqlDatabaseLinkedService, AzureSqlMiLinkedService, AzureStorageLinkedService, AzureTableStorageLinkedService, CassandraLinkedService, CommonDataServiceForAppsLinkedService, ConcurLinkedService, CosmosDBLinkedService, CosmosDBMongoDBApiLinkedService, CouchbaseLinkedService, CustomDataSourceLinkedService, Db2LinkedService, DrillLinkedService, DynamicsLinkedService, DynamicsAxLinkedService, DynamicsCrmLinkedService, EloquaLinkedService, FileServerLinkedService, FtpServerLinkedService, GoogleAdWordsLinkedService, GoogleBigQueryLinkedService, GoogleCloudStorageLinkedService, GreenplumLinkedService, HBaseLinkedService, HdInsightLinkedService, HdInsightOnDemandLinkedService, HdfsLinkedService, HiveLinkedService, HttpLinkedService, HubspotLinkedService, ImpalaLinkedService, InformixLinkedService, JiraLinkedService, MagentoLinkedService, MariaDBLinkedService, MarketoLinkedService, MicrosoftAccessLinkedService, MongoDBLinkedService, MongoDBV2LinkedService, MySqlLinkedService, NetezzaLinkedService, ODataLinkedService, OdbcLinkedService, Office365LinkedService, OracleLinkedService, OracleServiceCloudLinkedService, PaypalLinkedService, PhoenixLinkedService, PostgreSqlLinkedService, PrestoLinkedService, QuickBooksLinkedService, ResponsysLinkedService, RestServiceLinkedService, SalesforceLinkedService, SalesforceMarketingCloudLinkedService, SalesforceServiceCloudLinkedService, SapBwLinkedService, SapCloudForCustomerLinkedService, SapEccLinkedService, SapHanaLinkedService, SapOpenHubLinkedService, SapTableLinkedService, ServiceNowLinkedService, SftpServerLinkedService, SharePointOnlineListLinkedService, ShopifyLinkedService, SnowflakeLinkedService, SparkLinkedService, SqlServerLinkedService, SquareLinkedService, SybaseLinkedService, TeradataLinkedService, VerticaLinkedService, WebLinkedService, XeroLinkedService, ZohoLinkedService.
+    sub-classes are: AmazonMwsLinkedService, AmazonRedshiftLinkedService, AmazonS3LinkedService, AzureBatchLinkedService, AzureBlobFsLinkedService, AzureBlobStorageLinkedService, AzureDataExplorerLinkedService, AzureDataLakeAnalyticsLinkedService, AzureDataLakeStoreLinkedService, AzureDatabricksLinkedService, AzureFileStorageLinkedService, AzureFunctionLinkedService, AzureKeyVaultLinkedService, AzureMlLinkedService, AzureMlServiceLinkedService, AzureMariaDBLinkedService, AzureMySqlLinkedService, AzurePostgreSqlLinkedService, AzureSearchLinkedService, AzureSqlDWLinkedService, AzureSqlDatabaseLinkedService, AzureSqlMiLinkedService, AzureStorageLinkedService, AzureTableStorageLinkedService, CassandraLinkedService, CommonDataServiceForAppsLinkedService, ConcurLinkedService, CosmosDBLinkedService, CosmosDBMongoDBApiLinkedService, CouchbaseLinkedService, CustomDataSourceLinkedService, Db2LinkedService, DrillLinkedService, DynamicsLinkedService, DynamicsAxLinkedService, DynamicsCrmLinkedService, EloquaLinkedService, FileServerLinkedService, FtpServerLinkedService, GoogleAdWordsLinkedService, GoogleBigQueryLinkedService, GoogleCloudStorageLinkedService, GreenplumLinkedService, HBaseLinkedService, HdInsightLinkedService, HdInsightOnDemandLinkedService, HdfsLinkedService, HiveLinkedService, HttpLinkedService, HubspotLinkedService, ImpalaLinkedService, InformixLinkedService, JiraLinkedService, MagentoLinkedService, MariaDBLinkedService, MarketoLinkedService, MicrosoftAccessLinkedService, MongoDBLinkedService, MongoDBV2LinkedService, MySqlLinkedService, NetezzaLinkedService, ODataLinkedService, OdbcLinkedService, Office365LinkedService, OracleLinkedService, OracleServiceCloudLinkedService, PaypalLinkedService, PhoenixLinkedService, PostgreSqlLinkedService, PrestoLinkedService, QuickBooksLinkedService, ResponsysLinkedService, RestServiceLinkedService, SalesforceLinkedService, SalesforceMarketingCloudLinkedService, SalesforceServiceCloudLinkedService, SapBwLinkedService, SapCloudForCustomerLinkedService, SapEccLinkedService, SapHanaLinkedService, SapOpenHubLinkedService, SapTableLinkedService, ServiceNowLinkedService, SftpServerLinkedService, SharePointOnlineListLinkedService, ShopifyLinkedService, SnowflakeLinkedService, SparkLinkedService, SqlServerLinkedService, SquareLinkedService, SybaseLinkedService, TeradataLinkedService, VerticaLinkedService, WebLinkedService, XeroLinkedService, ZohoLinkedService.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -359,11 +362,11 @@ class LinkedService(msrest.serialization.Model):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     """
@@ -382,7 +385,7 @@ class LinkedService(msrest.serialization.Model):
     }
 
     _subtype_map = {
-        'type': {'AmazonMWS': 'AmazonMwsLinkedService', 'AmazonRedshift': 'AmazonRedshiftLinkedService', 'AmazonS3': 'AmazonS3LinkedService', 'AzureBatch': 'AzureBatchLinkedService', 'AzureBlobFS': 'AzureBlobFsLinkedService', 'AzureBlobStorage': 'AzureBlobStorageLinkedService', 'AzureDataExplorer': 'AzureDataExplorerLinkedService', 'AzureDataLakeAnalytics': 'AzureDataLakeAnalyticsLinkedService', 'AzureDataLakeStore': 'AzureDataLakeStoreLinkedService', 'AzureDatabricks': 'AzureDatabricksLinkedService', 'AzureFileStorage': 'AzureFileStorageLinkedService', 'AzureFunction': 'AzureFunctionLinkedService', 'AzureKeyVault': 'AzureKeyVaultLinkedService', 'AzureML': 'AzureMlLinkedService', 'AzureMLService': 'AzureMlServiceLinkedService', 'AzureMariaDB': 'AzureMariaDBLinkedService', 'AzureMySql': 'AzureMySqlLinkedService', 'AzurePostgreSql': 'AzurePostgreSqlLinkedService', 'AzureSearch': 'AzureSearchLinkedService', 'AzureSqlDW': 'AzureSqlDwLinkedService', 'AzureSqlDatabase': 'AzureSqlDatabaseLinkedService', 'AzureSqlMI': 'AzureSqlMiLinkedService', 'AzureStorage': 'AzureStorageLinkedService', 'AzureTableStorage': 'AzureTableStorageLinkedService', 'Cassandra': 'CassandraLinkedService', 'CommonDataServiceForApps': 'CommonDataServiceForAppsLinkedService', 'Concur': 'ConcurLinkedService', 'CosmosDb': 'CosmosDBLinkedService', 'CosmosDbMongoDbApi': 'CosmosDBMongoDBApiLinkedService', 'Couchbase': 'CouchbaseLinkedService', 'CustomDataSource': 'CustomDataSourceLinkedService', 'Db2': 'Db2LinkedService', 'Drill': 'DrillLinkedService', 'Dynamics': 'DynamicsLinkedService', 'DynamicsAX': 'DynamicsAxLinkedService', 'DynamicsCrm': 'DynamicsCrmLinkedService', 'Eloqua': 'EloquaLinkedService', 'FileServer': 'FileServerLinkedService', 'FtpServer': 'FtpServerLinkedService', 'GoogleAdWords': 'GoogleAdWordsLinkedService', 'GoogleBigQuery': 'GoogleBigQueryLinkedService', 'GoogleCloudStorage': 'GoogleCloudStorageLinkedService', 'Greenplum': 'GreenplumLinkedService', 'HBase': 'HBaseLinkedService', 'HDInsight': 'HdInsightLinkedService', 'HDInsightOnDemand': 'HdInsightOnDemandLinkedService', 'Hdfs': 'HdfsLinkedService', 'Hive': 'HiveLinkedService', 'HttpServer': 'HttpLinkedService', 'Hubspot': 'HubspotLinkedService', 'Impala': 'ImpalaLinkedService', 'Informix': 'InformixLinkedService', 'Jira': 'JiraLinkedService', 'Magento': 'MagentoLinkedService', 'MariaDB': 'MariaDBLinkedService', 'Marketo': 'MarketoLinkedService', 'MicrosoftAccess': 'MicrosoftAccessLinkedService', 'MongoDb': 'MongoDBLinkedService', 'MongoDbV2': 'MongoDBV2LinkedService', 'MySql': 'MySqlLinkedService', 'Netezza': 'NetezzaLinkedService', 'OData': 'ODataLinkedService', 'Odbc': 'OdbcLinkedService', 'Office365': 'Office365LinkedService', 'Oracle': 'OracleLinkedService', 'OracleServiceCloud': 'OracleServiceCloudLinkedService', 'Paypal': 'PaypalLinkedService', 'Phoenix': 'PhoenixLinkedService', 'PostgreSql': 'PostgreSqlLinkedService', 'Presto': 'PrestoLinkedService', 'QuickBooks': 'QuickBooksLinkedService', 'Responsys': 'ResponsysLinkedService', 'RestService': 'RestServiceLinkedService', 'Salesforce': 'SalesforceLinkedService', 'SalesforceMarketingCloud': 'SalesforceMarketingCloudLinkedService', 'SalesforceServiceCloud': 'SalesforceServiceCloudLinkedService', 'SapBW': 'SapBwLinkedService', 'SapCloudForCustomer': 'SapCloudForCustomerLinkedService', 'SapEcc': 'SapEccLinkedService', 'SapHana': 'SapHanaLinkedService', 'SapOpenHub': 'SapOpenHubLinkedService', 'SapTable': 'SapTableLinkedService', 'ServiceNow': 'ServiceNowLinkedService', 'Sftp': 'SftpServerLinkedService', 'SharePointOnlineList': 'SharePointOnlineListLinkedService', 'Shopify': 'ShopifyLinkedService', 'Snowflake': 'SnowflakeLinkedService', 'Spark': 'SparkLinkedService', 'SqlServer': 'SqlServerLinkedService', 'Square': 'SquareLinkedService', 'Sybase': 'SybaseLinkedService', 'Teradata': 'TeradataLinkedService', 'Vertica': 'VerticaLinkedService', 'Web': 'WebLinkedService', 'Xero': 'XeroLinkedService', 'Zoho': 'ZohoLinkedService'}
+        'type': {'AmazonMWS': 'AmazonMwsLinkedService', 'AmazonRedshift': 'AmazonRedshiftLinkedService', 'AmazonS3': 'AmazonS3LinkedService', 'AzureBatch': 'AzureBatchLinkedService', 'AzureBlobFS': 'AzureBlobFsLinkedService', 'AzureBlobStorage': 'AzureBlobStorageLinkedService', 'AzureDataExplorer': 'AzureDataExplorerLinkedService', 'AzureDataLakeAnalytics': 'AzureDataLakeAnalyticsLinkedService', 'AzureDataLakeStore': 'AzureDataLakeStoreLinkedService', 'AzureDatabricks': 'AzureDatabricksLinkedService', 'AzureFileStorage': 'AzureFileStorageLinkedService', 'AzureFunction': 'AzureFunctionLinkedService', 'AzureKeyVault': 'AzureKeyVaultLinkedService', 'AzureML': 'AzureMlLinkedService', 'AzureMLService': 'AzureMlServiceLinkedService', 'AzureMariaDB': 'AzureMariaDBLinkedService', 'AzureMySql': 'AzureMySqlLinkedService', 'AzurePostgreSql': 'AzurePostgreSqlLinkedService', 'AzureSearch': 'AzureSearchLinkedService', 'AzureSqlDW': 'AzureSqlDWLinkedService', 'AzureSqlDatabase': 'AzureSqlDatabaseLinkedService', 'AzureSqlMI': 'AzureSqlMiLinkedService', 'AzureStorage': 'AzureStorageLinkedService', 'AzureTableStorage': 'AzureTableStorageLinkedService', 'Cassandra': 'CassandraLinkedService', 'CommonDataServiceForApps': 'CommonDataServiceForAppsLinkedService', 'Concur': 'ConcurLinkedService', 'CosmosDb': 'CosmosDBLinkedService', 'CosmosDbMongoDbApi': 'CosmosDBMongoDBApiLinkedService', 'Couchbase': 'CouchbaseLinkedService', 'CustomDataSource': 'CustomDataSourceLinkedService', 'Db2': 'Db2LinkedService', 'Drill': 'DrillLinkedService', 'Dynamics': 'DynamicsLinkedService', 'DynamicsAX': 'DynamicsAxLinkedService', 'DynamicsCrm': 'DynamicsCrmLinkedService', 'Eloqua': 'EloquaLinkedService', 'FileServer': 'FileServerLinkedService', 'FtpServer': 'FtpServerLinkedService', 'GoogleAdWords': 'GoogleAdWordsLinkedService', 'GoogleBigQuery': 'GoogleBigQueryLinkedService', 'GoogleCloudStorage': 'GoogleCloudStorageLinkedService', 'Greenplum': 'GreenplumLinkedService', 'HBase': 'HBaseLinkedService', 'HDInsight': 'HdInsightLinkedService', 'HDInsightOnDemand': 'HdInsightOnDemandLinkedService', 'Hdfs': 'HdfsLinkedService', 'Hive': 'HiveLinkedService', 'HttpServer': 'HttpLinkedService', 'Hubspot': 'HubspotLinkedService', 'Impala': 'ImpalaLinkedService', 'Informix': 'InformixLinkedService', 'Jira': 'JiraLinkedService', 'Magento': 'MagentoLinkedService', 'MariaDB': 'MariaDBLinkedService', 'Marketo': 'MarketoLinkedService', 'MicrosoftAccess': 'MicrosoftAccessLinkedService', 'MongoDb': 'MongoDBLinkedService', 'MongoDbV2': 'MongoDBV2LinkedService', 'MySql': 'MySqlLinkedService', 'Netezza': 'NetezzaLinkedService', 'OData': 'ODataLinkedService', 'Odbc': 'OdbcLinkedService', 'Office365': 'Office365LinkedService', 'Oracle': 'OracleLinkedService', 'OracleServiceCloud': 'OracleServiceCloudLinkedService', 'Paypal': 'PaypalLinkedService', 'Phoenix': 'PhoenixLinkedService', 'PostgreSql': 'PostgreSqlLinkedService', 'Presto': 'PrestoLinkedService', 'QuickBooks': 'QuickBooksLinkedService', 'Responsys': 'ResponsysLinkedService', 'RestService': 'RestServiceLinkedService', 'Salesforce': 'SalesforceLinkedService', 'SalesforceMarketingCloud': 'SalesforceMarketingCloudLinkedService', 'SalesforceServiceCloud': 'SalesforceServiceCloudLinkedService', 'SapBW': 'SapBwLinkedService', 'SapCloudForCustomer': 'SapCloudForCustomerLinkedService', 'SapEcc': 'SapEccLinkedService', 'SapHana': 'SapHanaLinkedService', 'SapOpenHub': 'SapOpenHubLinkedService', 'SapTable': 'SapTableLinkedService', 'ServiceNow': 'ServiceNowLinkedService', 'Sftp': 'SftpServerLinkedService', 'SharePointOnlineList': 'SharePointOnlineListLinkedService', 'Shopify': 'ShopifyLinkedService', 'Snowflake': 'SnowflakeLinkedService', 'Spark': 'SparkLinkedService', 'SqlServer': 'SqlServerLinkedService', 'Square': 'SquareLinkedService', 'Sybase': 'SybaseLinkedService', 'Teradata': 'TeradataLinkedService', 'Vertica': 'VerticaLinkedService', 'Web': 'WebLinkedService', 'Xero': 'XeroLinkedService', 'Zoho': 'ZohoLinkedService'}
     }
 
     def __init__(
@@ -397,7 +400,7 @@ class LinkedService(msrest.serialization.Model):
     ):
         super(LinkedService, self).__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = 'LinkedService'
+        self.type: str = 'LinkedService'
         self.connect_via = connect_via
         self.description = description
         self.parameters = parameters
@@ -415,11 +418,11 @@ class AmazonMwsLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param endpoint: Required. The endpoint of the Amazon MWS server, (i.e.
@@ -432,11 +435,11 @@ class AmazonMwsLinkedService(LinkedService):
     :param seller_id: Required. The Amazon seller ID.
     :type seller_id: object
     :param mws_auth_token: The Amazon MWS authentication token.
-    :type mws_auth_token: ~azure.mgmt.datafactory.models.SecretBase
+    :type mws_auth_token: ~data_factory_management_client.models.SecretBase
     :param access_key_id: Required. The access key id used to access data.
     :type access_key_id: object
     :param secret_key: The secret key used to access data.
-    :type secret_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type secret_key: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true.
     :type use_encrypted_endpoints: object
@@ -501,7 +504,7 @@ class AmazonMwsLinkedService(LinkedService):
         **kwargs
     ):
         super(AmazonMwsLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AmazonMWS'
+        self.type: str = 'AmazonMWS'
         self.endpoint = endpoint
         self.marketplace_id = marketplace_id
         self.seller_id = seller_id
@@ -518,7 +521,7 @@ class Dataset(msrest.serialization.Model):
     """The Azure Data Factory nested object which identifies data within different data stores, such as tables, files, folders, and documents.
 
     You probably want to use the sub-classes and not this class directly. Known
-    sub-classes are: AmazonMwsObjectDataset, AmazonRedshiftTableDataset, AmazonS3Dataset, AvroDataset, AzureBlobDataset, AzureBlobFsDataset, AzureDataExplorerTableDataset, AzureDataLakeStoreDataset, AzureMariaDBTableDataset, AzureMySqlTableDataset, AzurePostgreSqlTableDataset, AzureSearchIndexDataset, AzureSqlDwTableDataset, AzureSqlMiTableDataset, AzureSqlTableDataset, AzureTableDataset, BinaryDataset, CassandraTableDataset, CommonDataServiceForAppsEntityDataset, ConcurObjectDataset, CosmosDBMongoDBApiCollectionDataset, CosmosDBSqlApiCollectionDataset, CouchbaseTableDataset, Db2TableDataset, DelimitedTextDataset, DocumentDBCollectionDataset, DrillTableDataset, DynamicsAxResourceDataset, DynamicsCrmEntityDataset, DynamicsEntityDataset, EloquaObjectDataset, FileShareDataset, GoogleAdWordsObjectDataset, GoogleBigQueryObjectDataset, GreenplumTableDataset, HBaseObjectDataset, HiveObjectDataset, HttpDataset, HubspotObjectDataset, ImpalaObjectDataset, InformixTableDataset, JiraObjectDataset, JsonDataset, MagentoObjectDataset, MariaDBTableDataset, MarketoObjectDataset, MicrosoftAccessTableDataset, MongoDBCollectionDataset, MongoDBV2CollectionDataset, MySqlTableDataset, NetezzaTableDataset, ODataResourceDataset, OdbcTableDataset, Office365Dataset, OracleServiceCloudObjectDataset, OracleTableDataset, OrcDataset, ParquetDataset, PaypalObjectDataset, PhoenixObjectDataset, PostgreSqlTableDataset, PrestoObjectDataset, QuickBooksObjectDataset, RelationalTableDataset, ResponsysObjectDataset, RestResourceDataset, SalesforceMarketingCloudObjectDataset, SalesforceObjectDataset, SalesforceServiceCloudObjectDataset, SapBwCubeDataset, SapCloudForCustomerResourceDataset, SapEccResourceDataset, SapHanaTableDataset, SapOpenHubTableDataset, SapTableResourceDataset, ServiceNowObjectDataset, SharePointOnlineListResourceDataset, ShopifyObjectDataset, SnowflakeDataset, SparkObjectDataset, SqlServerTableDataset, SquareObjectDataset, SybaseTableDataset, TeradataTableDataset, VerticaTableDataset, WebTableDataset, XeroObjectDataset, ZohoObjectDataset.
+    sub-classes are: AmazonMwsObjectDataset, AmazonRedshiftTableDataset, AmazonS3Dataset, AvroDataset, AzureBlobDataset, AzureBlobFsDataset, AzureDataExplorerTableDataset, AzureDataLakeStoreDataset, AzureMariaDBTableDataset, AzureMySqlTableDataset, AzurePostgreSqlTableDataset, AzureSearchIndexDataset, AzureSqlDWTableDataset, AzureSqlMiTableDataset, AzureSqlTableDataset, AzureTableDataset, BinaryDataset, CassandraTableDataset, CommonDataServiceForAppsEntityDataset, ConcurObjectDataset, CosmosDBMongoDBApiCollectionDataset, CosmosDBSqlApiCollectionDataset, CouchbaseTableDataset, Db2TableDataset, DelimitedTextDataset, DocumentDBCollectionDataset, DrillTableDataset, DynamicsAxResourceDataset, DynamicsCrmEntityDataset, DynamicsEntityDataset, EloquaObjectDataset, ExcelDataset, FileShareDataset, GoogleAdWordsObjectDataset, GoogleBigQueryObjectDataset, GreenplumTableDataset, HBaseObjectDataset, HiveObjectDataset, HttpDataset, HubspotObjectDataset, ImpalaObjectDataset, InformixTableDataset, JiraObjectDataset, JsonDataset, MagentoObjectDataset, MariaDBTableDataset, MarketoObjectDataset, MicrosoftAccessTableDataset, MongoDBCollectionDataset, MongoDBV2CollectionDataset, MySqlTableDataset, NetezzaTableDataset, ODataResourceDataset, OdbcTableDataset, Office365Dataset, OracleServiceCloudObjectDataset, OracleTableDataset, OrcDataset, ParquetDataset, PaypalObjectDataset, PhoenixObjectDataset, PostgreSqlTableDataset, PrestoObjectDataset, QuickBooksObjectDataset, RelationalTableDataset, ResponsysObjectDataset, RestResourceDataset, SalesforceMarketingCloudObjectDataset, SalesforceObjectDataset, SalesforceServiceCloudObjectDataset, SapBwCubeDataset, SapCloudForCustomerResourceDataset, SapEccResourceDataset, SapHanaTableDataset, SapOpenHubTableDataset, SapTableResourceDataset, ServiceNowObjectDataset, SharePointOnlineListResourceDataset, ShopifyObjectDataset, SnowflakeDataset, SparkObjectDataset, SqlServerTableDataset, SquareObjectDataset, SybaseTableDataset, TeradataTableDataset, VerticaTableDataset, WebTableDataset, XeroObjectDataset, XmlDataset, ZohoObjectDataset.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -536,14 +539,14 @@ class Dataset(msrest.serialization.Model):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     """
 
     _validation = {
@@ -564,7 +567,7 @@ class Dataset(msrest.serialization.Model):
     }
 
     _subtype_map = {
-        'type': {'AmazonMWSObject': 'AmazonMwsObjectDataset', 'AmazonRedshiftTable': 'AmazonRedshiftTableDataset', 'AmazonS3Object': 'AmazonS3Dataset', 'Avro': 'AvroDataset', 'AzureBlob': 'AzureBlobDataset', 'AzureBlobFSFile': 'AzureBlobFsDataset', 'AzureDataExplorerTable': 'AzureDataExplorerTableDataset', 'AzureDataLakeStoreFile': 'AzureDataLakeStoreDataset', 'AzureMariaDBTable': 'AzureMariaDBTableDataset', 'AzureMySqlTable': 'AzureMySqlTableDataset', 'AzurePostgreSqlTable': 'AzurePostgreSqlTableDataset', 'AzureSearchIndex': 'AzureSearchIndexDataset', 'AzureSqlDWTable': 'AzureSqlDwTableDataset', 'AzureSqlMITable': 'AzureSqlMiTableDataset', 'AzureSqlTable': 'AzureSqlTableDataset', 'AzureTable': 'AzureTableDataset', 'Binary': 'BinaryDataset', 'CassandraTable': 'CassandraTableDataset', 'CommonDataServiceForAppsEntity': 'CommonDataServiceForAppsEntityDataset', 'ConcurObject': 'ConcurObjectDataset', 'CosmosDbMongoDbApiCollection': 'CosmosDBMongoDBApiCollectionDataset', 'CosmosDbSqlApiCollection': 'CosmosDBSqlApiCollectionDataset', 'CouchbaseTable': 'CouchbaseTableDataset', 'Db2Table': 'Db2TableDataset', 'DelimitedText': 'DelimitedTextDataset', 'DocumentDbCollection': 'DocumentDBCollectionDataset', 'DrillTable': 'DrillTableDataset', 'DynamicsAXResource': 'DynamicsAxResourceDataset', 'DynamicsCrmEntity': 'DynamicsCrmEntityDataset', 'DynamicsEntity': 'DynamicsEntityDataset', 'EloquaObject': 'EloquaObjectDataset', 'FileShare': 'FileShareDataset', 'GoogleAdWordsObject': 'GoogleAdWordsObjectDataset', 'GoogleBigQueryObject': 'GoogleBigQueryObjectDataset', 'GreenplumTable': 'GreenplumTableDataset', 'HBaseObject': 'HBaseObjectDataset', 'HiveObject': 'HiveObjectDataset', 'HttpFile': 'HttpDataset', 'HubspotObject': 'HubspotObjectDataset', 'ImpalaObject': 'ImpalaObjectDataset', 'InformixTable': 'InformixTableDataset', 'JiraObject': 'JiraObjectDataset', 'Json': 'JsonDataset', 'MagentoObject': 'MagentoObjectDataset', 'MariaDBTable': 'MariaDBTableDataset', 'MarketoObject': 'MarketoObjectDataset', 'MicrosoftAccessTable': 'MicrosoftAccessTableDataset', 'MongoDbCollection': 'MongoDBCollectionDataset', 'MongoDbV2Collection': 'MongoDBV2CollectionDataset', 'MySqlTable': 'MySqlTableDataset', 'NetezzaTable': 'NetezzaTableDataset', 'ODataResource': 'ODataResourceDataset', 'OdbcTable': 'OdbcTableDataset', 'Office365Table': 'Office365Dataset', 'OracleServiceCloudObject': 'OracleServiceCloudObjectDataset', 'OracleTable': 'OracleTableDataset', 'Orc': 'OrcDataset', 'Parquet': 'ParquetDataset', 'PaypalObject': 'PaypalObjectDataset', 'PhoenixObject': 'PhoenixObjectDataset', 'PostgreSqlTable': 'PostgreSqlTableDataset', 'PrestoObject': 'PrestoObjectDataset', 'QuickBooksObject': 'QuickBooksObjectDataset', 'RelationalTable': 'RelationalTableDataset', 'ResponsysObject': 'ResponsysObjectDataset', 'RestResource': 'RestResourceDataset', 'SalesforceMarketingCloudObject': 'SalesforceMarketingCloudObjectDataset', 'SalesforceObject': 'SalesforceObjectDataset', 'SalesforceServiceCloudObject': 'SalesforceServiceCloudObjectDataset', 'SapBwCube': 'SapBwCubeDataset', 'SapCloudForCustomerResource': 'SapCloudForCustomerResourceDataset', 'SapEccResource': 'SapEccResourceDataset', 'SapHanaTable': 'SapHanaTableDataset', 'SapOpenHubTable': 'SapOpenHubTableDataset', 'SapTableResource': 'SapTableResourceDataset', 'ServiceNowObject': 'ServiceNowObjectDataset', 'SharePointOnlineListResource': 'SharePointOnlineListResourceDataset', 'ShopifyObject': 'ShopifyObjectDataset', 'SnowflakeTable': 'SnowflakeDataset', 'SparkObject': 'SparkObjectDataset', 'SqlServerTable': 'SqlServerTableDataset', 'SquareObject': 'SquareObjectDataset', 'SybaseTable': 'SybaseTableDataset', 'TeradataTable': 'TeradataTableDataset', 'VerticaTable': 'VerticaTableDataset', 'WebTable': 'WebTableDataset', 'XeroObject': 'XeroObjectDataset', 'ZohoObject': 'ZohoObjectDataset'}
+        'type': {'AmazonMWSObject': 'AmazonMwsObjectDataset', 'AmazonRedshiftTable': 'AmazonRedshiftTableDataset', 'AmazonS3Object': 'AmazonS3Dataset', 'Avro': 'AvroDataset', 'AzureBlob': 'AzureBlobDataset', 'AzureBlobFSFile': 'AzureBlobFsDataset', 'AzureDataExplorerTable': 'AzureDataExplorerTableDataset', 'AzureDataLakeStoreFile': 'AzureDataLakeStoreDataset', 'AzureMariaDBTable': 'AzureMariaDBTableDataset', 'AzureMySqlTable': 'AzureMySqlTableDataset', 'AzurePostgreSqlTable': 'AzurePostgreSqlTableDataset', 'AzureSearchIndex': 'AzureSearchIndexDataset', 'AzureSqlDWTable': 'AzureSqlDWTableDataset', 'AzureSqlMITable': 'AzureSqlMiTableDataset', 'AzureSqlTable': 'AzureSqlTableDataset', 'AzureTable': 'AzureTableDataset', 'Binary': 'BinaryDataset', 'CassandraTable': 'CassandraTableDataset', 'CommonDataServiceForAppsEntity': 'CommonDataServiceForAppsEntityDataset', 'ConcurObject': 'ConcurObjectDataset', 'CosmosDbMongoDbApiCollection': 'CosmosDBMongoDBApiCollectionDataset', 'CosmosDbSqlApiCollection': 'CosmosDBSqlApiCollectionDataset', 'CouchbaseTable': 'CouchbaseTableDataset', 'Db2Table': 'Db2TableDataset', 'DelimitedText': 'DelimitedTextDataset', 'DocumentDbCollection': 'DocumentDBCollectionDataset', 'DrillTable': 'DrillTableDataset', 'DynamicsAXResource': 'DynamicsAxResourceDataset', 'DynamicsCrmEntity': 'DynamicsCrmEntityDataset', 'DynamicsEntity': 'DynamicsEntityDataset', 'EloquaObject': 'EloquaObjectDataset', 'Excel': 'ExcelDataset', 'FileShare': 'FileShareDataset', 'GoogleAdWordsObject': 'GoogleAdWordsObjectDataset', 'GoogleBigQueryObject': 'GoogleBigQueryObjectDataset', 'GreenplumTable': 'GreenplumTableDataset', 'HBaseObject': 'HBaseObjectDataset', 'HiveObject': 'HiveObjectDataset', 'HttpFile': 'HttpDataset', 'HubspotObject': 'HubspotObjectDataset', 'ImpalaObject': 'ImpalaObjectDataset', 'InformixTable': 'InformixTableDataset', 'JiraObject': 'JiraObjectDataset', 'Json': 'JsonDataset', 'MagentoObject': 'MagentoObjectDataset', 'MariaDBTable': 'MariaDBTableDataset', 'MarketoObject': 'MarketoObjectDataset', 'MicrosoftAccessTable': 'MicrosoftAccessTableDataset', 'MongoDbCollection': 'MongoDBCollectionDataset', 'MongoDbV2Collection': 'MongoDBV2CollectionDataset', 'MySqlTable': 'MySqlTableDataset', 'NetezzaTable': 'NetezzaTableDataset', 'ODataResource': 'ODataResourceDataset', 'OdbcTable': 'OdbcTableDataset', 'Office365Table': 'Office365Dataset', 'OracleServiceCloudObject': 'OracleServiceCloudObjectDataset', 'OracleTable': 'OracleTableDataset', 'Orc': 'OrcDataset', 'Parquet': 'ParquetDataset', 'PaypalObject': 'PaypalObjectDataset', 'PhoenixObject': 'PhoenixObjectDataset', 'PostgreSqlTable': 'PostgreSqlTableDataset', 'PrestoObject': 'PrestoObjectDataset', 'QuickBooksObject': 'QuickBooksObjectDataset', 'RelationalTable': 'RelationalTableDataset', 'ResponsysObject': 'ResponsysObjectDataset', 'RestResource': 'RestResourceDataset', 'SalesforceMarketingCloudObject': 'SalesforceMarketingCloudObjectDataset', 'SalesforceObject': 'SalesforceObjectDataset', 'SalesforceServiceCloudObject': 'SalesforceServiceCloudObjectDataset', 'SapBwCube': 'SapBwCubeDataset', 'SapCloudForCustomerResource': 'SapCloudForCustomerResourceDataset', 'SapEccResource': 'SapEccResourceDataset', 'SapHanaTable': 'SapHanaTableDataset', 'SapOpenHubTable': 'SapOpenHubTableDataset', 'SapTableResource': 'SapTableResourceDataset', 'ServiceNowObject': 'ServiceNowObjectDataset', 'SharePointOnlineListResource': 'SharePointOnlineListResourceDataset', 'ShopifyObject': 'ShopifyObjectDataset', 'SnowflakeTable': 'SnowflakeDataset', 'SparkObject': 'SparkObjectDataset', 'SqlServerTable': 'SqlServerTableDataset', 'SquareObject': 'SquareObjectDataset', 'SybaseTable': 'SybaseTableDataset', 'TeradataTable': 'TeradataTableDataset', 'VerticaTable': 'VerticaTableDataset', 'WebTable': 'WebTableDataset', 'XeroObject': 'XeroObjectDataset', 'Xml': 'XmlDataset', 'ZohoObject': 'ZohoObjectDataset'}
     }
 
     def __init__(
@@ -582,7 +585,7 @@ class Dataset(msrest.serialization.Model):
     ):
         super(Dataset, self).__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = 'Dataset'
+        self.type: str = 'Dataset'
         self.description = description
         self.structure = structure
         self.schema = schema
@@ -611,14 +614,14 @@ class AmazonMwsObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -656,7 +659,7 @@ class AmazonMwsObjectDataset(Dataset):
         **kwargs
     ):
         super(AmazonMwsObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'AmazonMWSObject'
+        self.type: str = 'AmazonMWSObject'
         self.table_name = table_name
 
 
@@ -671,11 +674,11 @@ class AmazonRedshiftLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param server: Required. The name of the Amazon Redshift server. Type: string (or Expression
@@ -685,7 +688,7 @@ class AmazonRedshiftLinkedService(LinkedService):
      resultType string).
     :type username: object
     :param password: The password of the Amazon Redshift source.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param database: Required. The database name of the Amazon Redshift source. Type: string (or
      Expression with resultType string).
     :type database: object
@@ -736,7 +739,7 @@ class AmazonRedshiftLinkedService(LinkedService):
         **kwargs
     ):
         super(AmazonRedshiftLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AmazonRedshift'
+        self.type: str = 'AmazonRedshift'
         self.server = server
         self.username = username
         self.password = password
@@ -764,14 +767,14 @@ class AmazonRedshiftTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -820,7 +823,7 @@ class AmazonRedshiftTableDataset(Dataset):
         **kwargs
     ):
         super(AmazonRedshiftTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'AmazonRedshiftTable'
+        self.type: str = 'AmazonRedshiftTable'
         self.table_name = table_name
         self.table = table
         self.schema_type_properties_schema = schema_type_properties_schema
@@ -845,14 +848,14 @@ class AmazonS3Dataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param bucket_name: Required. The name of the Amazon S3 bucket. Type: string (or Expression
      with resultType string).
     :type bucket_name: object
@@ -872,9 +875,9 @@ class AmazonS3Dataset(Dataset):
      Expression with resultType string).
     :type modified_datetime_end: object
     :param format: The format of files.
-    :type format: ~azure.mgmt.datafactory.models.DatasetStorageFormat
+    :type format: ~data_factory_management_client.models.DatasetStorageFormat
     :param compression: The data compression method used for the Amazon S3 object.
-    :type compression: ~azure.mgmt.datafactory.models.DatasetCompression
+    :type compression: ~data_factory_management_client.models.DatasetCompression
     """
 
     _validation = {
@@ -925,7 +928,7 @@ class AmazonS3Dataset(Dataset):
         **kwargs
     ):
         super(AmazonS3Dataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'AmazonS3Object'
+        self.type: str = 'AmazonS3Object'
         self.bucket_name = bucket_name
         self.key = key
         self.prefix = prefix
@@ -947,11 +950,11 @@ class AmazonS3LinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param access_key_id: The access key identifier of the Amazon S3 Identity and Access Management
@@ -959,7 +962,7 @@ class AmazonS3LinkedService(LinkedService):
     :type access_key_id: object
     :param secret_access_key: The secret access key of the Amazon S3 Identity and Access Management
      (IAM) user.
-    :type secret_access_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type secret_access_key: ~data_factory_management_client.models.SecretBase
     :param service_url: This value specifies the endpoint to access with the S3 Connector. This is
      an optional property; change it only if you want to try a different service endpoint or want to
      switch between https and http. Type: string (or Expression with resultType string).
@@ -1002,69 +1005,14 @@ class AmazonS3LinkedService(LinkedService):
         **kwargs
     ):
         super(AmazonS3LinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AmazonS3'
+        self.type: str = 'AmazonS3'
         self.access_key_id = access_key_id
         self.secret_access_key = secret_access_key
         self.service_url = service_url
         self.encrypted_credential = encrypted_credential
 
 
-class ControlActivity(Activity):
-    """Base class for all control activities like IfCondition, ForEach , Until.
-
-    You probably want to use the sub-classes and not this class directly. Known
-    sub-classes are: AppendVariableActivity, ExecutePipelineActivity, FilterActivity, ForEachActivity, IfConditionActivity, SetVariableActivity, SwitchActivity, UntilActivity, ValidationActivity, WaitActivity, WebHookActivity.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :param additional_properties: Unmatched properties from the message are deserialized to this
-     collection.
-    :type additional_properties: dict[str, object]
-    :param name: Required. Activity name.
-    :type name: str
-    :param type: Required. Type of activity.Constant filled by server.
-    :type type: str
-    :param description: Activity description.
-    :type description: str
-    :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
-    :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
-    """
-
-    _validation = {
-        'name': {'required': True},
-        'type': {'required': True},
-    }
-
-    _attribute_map = {
-        'additional_properties': {'key': '', 'type': '{object}'},
-        'name': {'key': 'name', 'type': 'str'},
-        'type': {'key': 'type', 'type': 'str'},
-        'description': {'key': 'description', 'type': 'str'},
-        'depends_on': {'key': 'dependsOn', 'type': '[ActivityDependency]'},
-        'user_properties': {'key': 'userProperties', 'type': '[UserProperty]'},
-    }
-
-    _subtype_map = {
-        'type': {'AppendVariable': 'AppendVariableActivity', 'ExecutePipeline': 'ExecutePipelineActivity', 'Filter': 'FilterActivity', 'ForEach': 'ForEachActivity', 'IfCondition': 'IfConditionActivity', 'SetVariable': 'SetVariableActivity', 'Switch': 'SwitchActivity', 'Until': 'UntilActivity', 'Validation': 'ValidationActivity', 'Wait': 'WaitActivity', 'WebHook': 'WebHookActivity'}
-    }
-
-    def __init__(
-        self,
-        *,
-        name: str,
-        additional_properties: Optional[Dict[str, object]] = None,
-        description: Optional[str] = None,
-        depends_on: Optional[List["ActivityDependency"]] = None,
-        user_properties: Optional[List["UserProperty"]] = None,
-        **kwargs
-    ):
-        super(ControlActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, **kwargs)
-        self.type = 'Container'
-
-
-class AppendVariableActivity(ControlActivity):
+class AppendVariableActivity(Activity):
     """Append value for a Variable of type Array.
 
     All required parameters must be populated in order to send to Azure.
@@ -1079,9 +1027,9 @@ class AppendVariableActivity(ControlActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param variable_name: Name of the variable whose value needs to be appended to.
     :type variable_name: str
     :param value: Value to be appended. Could be a static value or Expression.
@@ -1117,7 +1065,7 @@ class AppendVariableActivity(ControlActivity):
         **kwargs
     ):
         super(AppendVariableActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, **kwargs)
-        self.type = 'AppendVariable'
+        self.type: str = 'AppendVariable'
         self.variable_name = variable_name
         self.value = value
 
@@ -1141,19 +1089,20 @@ class AvroDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param location: The location of the avro storage.
-    :type location: ~azure.mgmt.datafactory.models.DatasetLocation
+    :type location: ~data_factory_management_client.models.DatasetLocation
     :param avro_compression_codec:  Possible values include: "none", "deflate", "snappy", "xz",
      "bzip2".
-    :type avro_compression_codec: str or ~azure.mgmt.datafactory.models.AvroCompressionCodec
+    :type avro_compression_codec: str or
+     ~data_factory_management_client.models.AvroCompressionCodec
     :param avro_compression_level:
     :type avro_compression_level: int
     """
@@ -1196,7 +1145,7 @@ class AvroDataset(Dataset):
         **kwargs
     ):
         super(AvroDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'Avro'
+        self.type: str = 'Avro'
         self.location = location
         self.avro_compression_codec = avro_compression_codec
         self.avro_compression_level = avro_compression_level
@@ -1213,18 +1162,18 @@ class AzureBatchLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param account_name: Required. The Azure Batch account name. Type: string (or Expression with
      resultType string).
     :type account_name: object
     :param access_key: The Azure Batch account access key.
-    :type access_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type access_key: ~data_factory_management_client.models.SecretBase
     :param batch_uri: Required. The Azure Batch URI. Type: string (or Expression with resultType
      string).
     :type batch_uri: object
@@ -1232,7 +1181,7 @@ class AzureBatchLinkedService(LinkedService):
      resultType string).
     :type pool_name: object
     :param linked_service_name: Required. The Azure Storage linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -1279,7 +1228,7 @@ class AzureBatchLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureBatchLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureBatch'
+        self.type: str = 'AzureBatch'
         self.account_name = account_name
         self.access_key = access_key
         self.batch_uri = batch_uri
@@ -1307,14 +1256,14 @@ class AzureBlobDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param folder_path: The path of the Azure Blob storage. Type: string (or Expression with
      resultType string).
     :type folder_path: object
@@ -1331,9 +1280,9 @@ class AzureBlobDataset(Dataset):
      Expression with resultType string).
     :type modified_datetime_end: object
     :param format: The format of the Azure Blob storage.
-    :type format: ~azure.mgmt.datafactory.models.DatasetStorageFormat
+    :type format: ~data_factory_management_client.models.DatasetStorageFormat
     :param compression: The data compression method used for the blob storage.
-    :type compression: ~azure.mgmt.datafactory.models.DatasetCompression
+    :type compression: ~data_factory_management_client.models.DatasetCompression
     """
 
     _validation = {
@@ -1381,7 +1330,7 @@ class AzureBlobDataset(Dataset):
         **kwargs
     ):
         super(AzureBlobDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'AzureBlob'
+        self.type: str = 'AzureBlob'
         self.folder_path = folder_path
         self.table_root_location = table_root_location
         self.file_name = file_name
@@ -1410,14 +1359,14 @@ class AzureBlobFsDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param folder_path: The path of the Azure Data Lake Storage Gen2 storage. Type: string (or
      Expression with resultType string).
     :type folder_path: object
@@ -1425,9 +1374,9 @@ class AzureBlobFsDataset(Dataset):
      with resultType string).
     :type file_name: object
     :param format: The format of the Azure Data Lake Storage Gen2 storage.
-    :type format: ~azure.mgmt.datafactory.models.DatasetStorageFormat
+    :type format: ~data_factory_management_client.models.DatasetStorageFormat
     :param compression: The data compression method used for the blob storage.
-    :type compression: ~azure.mgmt.datafactory.models.DatasetCompression
+    :type compression: ~data_factory_management_client.models.DatasetCompression
     """
 
     _validation = {
@@ -1469,7 +1418,7 @@ class AzureBlobFsDataset(Dataset):
         **kwargs
     ):
         super(AzureBlobFsDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'AzureBlobFSFile'
+        self.type: str = 'AzureBlobFSFile'
         self.folder_path = folder_path
         self.file_name = file_name
         self.format = format
@@ -1487,11 +1436,11 @@ class AzureBlobFsLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param url: Required. Endpoint for the Azure Data Lake Storage Gen2 service. Type: string (or
@@ -1505,7 +1454,7 @@ class AzureBlobFsLinkedService(LinkedService):
     :type service_principal_id: object
     :param service_principal_key: The Key of the application used to authenticate against the Azure
      Data Lake Storage Gen2 account.
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param tenant: The name or ID of the tenant to which the service principal belongs. Type:
      string (or Expression with resultType string).
     :type tenant: object
@@ -1552,7 +1501,7 @@ class AzureBlobFsLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureBlobFsLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureBlobFS'
+        self.type: str = 'AzureBlobFS'
         self.url = url
         self.account_key = account_key
         self.service_principal_id = service_principal_id
@@ -1572,24 +1521,24 @@ class AzureBlobStorageLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: The connection string. It is mutually exclusive with sasUri,
      serviceEndpoint property. Type: string, SecureString or AzureKeyVaultSecretReference.
     :type connection_string: object
     :param account_key: The Azure key vault secret reference of accountKey in connection string.
-    :type account_key: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type account_key: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param sas_uri: SAS URI of the Azure Blob Storage resource. It is mutually exclusive with
      connectionString, serviceEndpoint property. Type: string, SecureString or
      AzureKeyVaultSecretReference.
     :type sas_uri: object
     :param sas_token: The Azure key vault secret reference of sasToken in sas uri.
-    :type sas_token: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type sas_token: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param service_endpoint: Blob service endpoint of the Azure Blob Storage resource. It is
      mutually exclusive with connectionString, sasUri property.
     :type service_endpoint: str
@@ -1598,7 +1547,7 @@ class AzureBlobStorageLinkedService(LinkedService):
     :type service_principal_id: object
     :param service_principal_key: The key of the service principal used to authenticate against
      Azure SQL Data Warehouse.
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param tenant: The name or ID of the tenant to which the service principal belongs. Type:
      string (or Expression with resultType string).
     :type tenant: object
@@ -1650,7 +1599,7 @@ class AzureBlobStorageLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureBlobStorageLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureBlobStorage'
+        self.type: str = 'AzureBlobStorage'
         self.connection_string = connection_string
         self.account_key = account_key
         self.sas_uri = sas_uri
@@ -1673,11 +1622,11 @@ class AzureDatabricksLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param domain: Required. :code:`<REGION>`.azuredatabricks.net, domain name of your Databricks
@@ -1686,7 +1635,7 @@ class AzureDatabricksLinkedService(LinkedService):
     :param access_token: Required. Access token for databricks REST API. Refer to
      https://docs.azuredatabricks.net/api/latest/authentication.html. Type: string (or Expression
      with resultType string).
-    :type access_token: ~azure.mgmt.datafactory.models.SecretBase
+    :type access_token: ~data_factory_management_client.models.SecretBase
     :param existing_cluster_id: The id of an existing interactive cluster that will be used for all
      runs of this activity. Type: string (or Expression with resultType string).
     :type existing_cluster_id: object
@@ -1789,7 +1738,7 @@ class AzureDatabricksLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureDatabricksLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureDatabricks'
+        self.type: str = 'AzureDatabricks'
         self.domain = domain
         self.access_token = access_token
         self.existing_cluster_id = existing_cluster_id
@@ -1824,13 +1773,13 @@ class ExecutionActivity(Activity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     """
 
     _validation = {
@@ -1866,7 +1815,7 @@ class ExecutionActivity(Activity):
         **kwargs
     ):
         super(ExecutionActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, **kwargs)
-        self.type = 'Execution'
+        self.type: str = 'Execution'
         self.linked_service_name = linked_service_name
         self.policy = policy
 
@@ -1886,13 +1835,13 @@ class AzureDataExplorerCommandActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param command: Required. A control command, according to the Azure Data Explorer command
      syntax. Type: string (or Expression with resultType string).
     :type command: object
@@ -1935,7 +1884,7 @@ class AzureDataExplorerCommandActivity(ExecutionActivity):
         **kwargs
     ):
         super(AzureDataExplorerCommandActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'AzureDataExplorerCommand'
+        self.type: str = 'AzureDataExplorerCommand'
         self.command = command
         self.command_timeout = command_timeout
 
@@ -1951,11 +1900,11 @@ class AzureDataExplorerLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param endpoint: Required. The endpoint of Azure Data Explorer (the engine's endpoint). URL
@@ -1967,7 +1916,7 @@ class AzureDataExplorerLinkedService(LinkedService):
     :type service_principal_id: object
     :param service_principal_key: Required. The key of the service principal used to authenticate
      against Kusto.
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param database: Required. Database name for connection. Type: string (or Expression with
      resultType string).
     :type database: object
@@ -2015,7 +1964,7 @@ class AzureDataExplorerLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureDataExplorerLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureDataExplorer'
+        self.type: str = 'AzureDataExplorer'
         self.endpoint = endpoint
         self.service_principal_id = service_principal_id
         self.service_principal_key = service_principal_key
@@ -2042,14 +1991,14 @@ class AzureDataExplorerTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table: The table name of the Azure Data Explorer database. Type: string (or Expression
      with resultType string).
     :type table: object
@@ -2088,7 +2037,7 @@ class AzureDataExplorerTableDataset(Dataset):
         **kwargs
     ):
         super(AzureDataExplorerTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'AzureDataExplorerTable'
+        self.type: str = 'AzureDataExplorerTable'
         self.table = table
 
 
@@ -2103,11 +2052,11 @@ class AzureDataLakeAnalyticsLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param account_name: Required. The Azure Data Lake Analytics account name. Type: string (or
@@ -2118,7 +2067,7 @@ class AzureDataLakeAnalyticsLinkedService(LinkedService):
     :type service_principal_id: object
     :param service_principal_key: The Key of the application used to authenticate against the Azure
      Data Lake Analytics account.
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param tenant: Required. The name or ID of the tenant to which the service principal belongs.
      Type: string (or Expression with resultType string).
     :type tenant: object
@@ -2179,7 +2128,7 @@ class AzureDataLakeAnalyticsLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureDataLakeAnalyticsLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureDataLakeAnalytics'
+        self.type: str = 'AzureDataLakeAnalytics'
         self.account_name = account_name
         self.service_principal_id = service_principal_id
         self.service_principal_key = service_principal_key
@@ -2209,14 +2158,14 @@ class AzureDataLakeStoreDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param folder_path: Path to the folder in the Azure Data Lake Store. Type: string (or
      Expression with resultType string).
     :type folder_path: object
@@ -2224,10 +2173,10 @@ class AzureDataLakeStoreDataset(Dataset):
      Expression with resultType string).
     :type file_name: object
     :param format: The format of the Data Lake Store.
-    :type format: ~azure.mgmt.datafactory.models.DatasetStorageFormat
+    :type format: ~data_factory_management_client.models.DatasetStorageFormat
     :param compression: The data compression method used for the item(s) in the Azure Data Lake
      Store.
-    :type compression: ~azure.mgmt.datafactory.models.DatasetCompression
+    :type compression: ~data_factory_management_client.models.DatasetCompression
     """
 
     _validation = {
@@ -2269,7 +2218,7 @@ class AzureDataLakeStoreDataset(Dataset):
         **kwargs
     ):
         super(AzureDataLakeStoreDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'AzureDataLakeStoreFile'
+        self.type: str = 'AzureDataLakeStoreFile'
         self.folder_path = folder_path
         self.file_name = file_name
         self.format = format
@@ -2287,11 +2236,11 @@ class AzureDataLakeStoreLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param data_lake_store_uri: Required. Data Lake Store service URI. Type: string (or Expression
@@ -2302,7 +2251,7 @@ class AzureDataLakeStoreLinkedService(LinkedService):
     :type service_principal_id: object
     :param service_principal_key: The Key of the application used to authenticate against the Azure
      Data Lake Store account.
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param tenant: The name or ID of the tenant to which the service principal belongs. Type:
      string (or Expression with resultType string).
     :type tenant: object
@@ -2362,7 +2311,7 @@ class AzureDataLakeStoreLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureDataLakeStoreLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureDataLakeStore'
+        self.type: str = 'AzureDataLakeStore'
         self.data_lake_store_uri = data_lake_store_uri
         self.service_principal_id = service_principal_id
         self.service_principal_key = service_principal_key
@@ -2384,11 +2333,11 @@ class AzureFileStorageLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Host name of the server. Type: string (or Expression with resultType string).
@@ -2397,17 +2346,17 @@ class AzureFileStorageLinkedService(LinkedService):
      string).
     :type user_id: object
     :param password: Password to logon the server.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param connection_string: The connection string. It is mutually exclusive with sasUri property.
      Type: string, SecureString or AzureKeyVaultSecretReference.
     :type connection_string: object
     :param account_key: The Azure key vault secret reference of accountKey in connection string.
-    :type account_key: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type account_key: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param sas_uri: SAS URI of the Azure File resource. It is mutually exclusive with
      connectionString property. Type: string, SecureString or AzureKeyVaultSecretReference.
     :type sas_uri: object
     :param sas_token: The Azure key vault secret reference of sasToken in sas uri.
-    :type sas_token: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type sas_token: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param file_share: The azure file share name. It is required when auth with
      accountKey/sasToken. Type: string (or Expression with resultType string).
     :type file_share: object
@@ -2459,7 +2408,7 @@ class AzureFileStorageLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureFileStorageLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureFileStorage'
+        self.type: str = 'AzureFileStorage'
         self.host = host
         self.user_id = user_id
         self.password = password
@@ -2486,16 +2435,16 @@ class AzureFunctionActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param method: Required. Rest API method for target endpoint. Possible values include: "GET",
      "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE".
-    :type method: str or ~azure.mgmt.datafactory.models.AzureFunctionActivityMethod
+    :type method: str or ~data_factory_management_client.models.AzureFunctionActivityMethod
     :param function_name: Required. Name of the Function that the Azure Function Activity will
      call. Type: string (or Expression with resultType string).
     :type function_name: object
@@ -2547,7 +2496,7 @@ class AzureFunctionActivity(ExecutionActivity):
         **kwargs
     ):
         super(AzureFunctionActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'AzureFunctionActivity'
+        self.type: str = 'AzureFunctionActivity'
         self.method = method
         self.function_name = function_name
         self.headers = headers
@@ -2565,18 +2514,18 @@ class AzureFunctionLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param function_app_url: Required. The endpoint of the Azure Function App. URL will be in the
      format https://:code:`<accountName>`.azurewebsites.net.
     :type function_app_url: object
     :param function_key: Function or Host key for Azure Function App.
-    :type function_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type function_key: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -2614,7 +2563,7 @@ class AzureFunctionLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureFunctionLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureFunction'
+        self.type: str = 'AzureFunction'
         self.function_app_url = function_app_url
         self.function_key = function_key
         self.encrypted_credential = encrypted_credential
@@ -2631,11 +2580,11 @@ class AzureKeyVaultLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param base_url: Required. The base URL of the Azure Key Vault. e.g.
@@ -2670,7 +2619,7 @@ class AzureKeyVaultLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureKeyVaultLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureKeyVault'
+        self.type: str = 'AzureKeyVault'
         self.base_url = base_url
 
 
@@ -2703,7 +2652,7 @@ class SecretBase(msrest.serialization.Model):
         **kwargs
     ):
         super(SecretBase, self).__init__(**kwargs)
-        self.type = None
+        self.type: Optional[str] = None
 
 
 class AzureKeyVaultSecretReference(SecretBase):
@@ -2714,7 +2663,7 @@ class AzureKeyVaultSecretReference(SecretBase):
     :param type: Required. Type of the secret.Constant filled by server.
     :type type: str
     :param store: Required. The Azure Key Vault linked service reference.
-    :type store: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type store: ~data_factory_management_client.models.LinkedServiceReference
     :param secret_name: Required. The name of the secret in Azure Key Vault. Type: string (or
      Expression with resultType string).
     :type secret_name: object
@@ -2745,7 +2694,7 @@ class AzureKeyVaultSecretReference(SecretBase):
         **kwargs
     ):
         super(AzureKeyVaultSecretReference, self).__init__(**kwargs)
-        self.type = 'AzureKeyVaultSecret'
+        self.type: str = 'AzureKeyVaultSecret'
         self.store = store
         self.secret_name = secret_name
         self.secret_version = secret_version
@@ -2762,18 +2711,18 @@ class AzureMariaDBLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: An ODBC connection string. Type: string, SecureString or
      AzureKeyVaultSecretReference.
     :type connection_string: object
     :param pwd: The Azure key vault secret reference of password in connection string.
-    :type pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type pwd: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -2810,7 +2759,7 @@ class AzureMariaDBLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureMariaDBLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureMariaDB'
+        self.type: str = 'AzureMariaDB'
         self.connection_string = connection_string
         self.pwd = pwd
         self.encrypted_credential = encrypted_credential
@@ -2835,14 +2784,14 @@ class AzureMariaDBTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -2880,7 +2829,7 @@ class AzureMariaDBTableDataset(Dataset):
         **kwargs
     ):
         super(AzureMariaDBTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'AzureMariaDBTable'
+        self.type: str = 'AzureMariaDBTable'
         self.table_name = table_name
 
 
@@ -2899,13 +2848,13 @@ class AzureMlBatchExecutionActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param global_parameters: Key,Value pairs to be passed to the Azure ML Batch Execution Service
      endpoint. Keys must match the names of web service parameters defined in the published Azure ML
      web service. Values will be passed in the GlobalParameters property of the Azure ML batch
@@ -2915,12 +2864,14 @@ class AzureMlBatchExecutionActivity(ExecutionActivity):
      Service Outputs to AzureMLWebServiceFile objects specifying the output Blob locations. This
      information will be passed in the WebServiceOutputs property of the Azure ML batch execution
      request.
-    :type web_service_outputs: dict[str, ~azure.mgmt.datafactory.models.AzureMlWebServiceFile]
+    :type web_service_outputs: dict[str,
+     ~data_factory_management_client.models.AzureMlWebServiceFile]
     :param web_service_inputs: Key,Value pairs, mapping the names of Azure ML endpoint's Web
      Service Inputs to AzureMLWebServiceFile objects specifying the input Blob locations.. This
      information will be passed in the WebServiceInputs property of the Azure ML batch execution
      request.
-    :type web_service_inputs: dict[str, ~azure.mgmt.datafactory.models.AzureMlWebServiceFile]
+    :type web_service_inputs: dict[str,
+     ~data_factory_management_client.models.AzureMlWebServiceFile]
     """
 
     _validation = {
@@ -2958,7 +2909,7 @@ class AzureMlBatchExecutionActivity(ExecutionActivity):
         **kwargs
     ):
         super(AzureMlBatchExecutionActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'AzureMLBatchExecution'
+        self.type: str = 'AzureMLBatchExecution'
         self.global_parameters = global_parameters
         self.web_service_outputs = web_service_outputs
         self.web_service_inputs = web_service_inputs
@@ -2979,13 +2930,13 @@ class AzureMlExecutePipelineActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param ml_pipeline_id: Required. ID of the published Azure ML pipeline. Type: string (or
      Expression with resultType string).
     :type ml_pipeline_id: object
@@ -3049,7 +3000,7 @@ class AzureMlExecutePipelineActivity(ExecutionActivity):
         **kwargs
     ):
         super(AzureMlExecutePipelineActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'AzureMLExecutePipeline'
+        self.type: str = 'AzureMLExecutePipeline'
         self.ml_pipeline_id = ml_pipeline_id
         self.experiment_name = experiment_name
         self.ml_pipeline_parameters = ml_pipeline_parameters
@@ -3068,18 +3019,18 @@ class AzureMlLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param ml_endpoint: Required. The Batch Execution REST URL for an Azure ML Studio Web Service
      endpoint. Type: string (or Expression with resultType string).
     :type ml_endpoint: object
     :param api_key: Required. The API key for accessing the Azure ML model endpoint.
-    :type api_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type api_key: ~data_factory_management_client.models.SecretBase
     :param update_resource_endpoint: The Update Resource REST URL for an Azure ML Studio Web
      Service endpoint. Type: string (or Expression with resultType string).
     :type update_resource_endpoint: object
@@ -3089,7 +3040,7 @@ class AzureMlLinkedService(LinkedService):
     :type service_principal_id: object
     :param service_principal_key: The key of the service principal used to authenticate against the
      ARM-based updateResourceEndpoint of an Azure ML Studio web service.
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param tenant: The name or ID of the tenant to which the service principal belongs. Type:
      string (or Expression with resultType string).
     :type tenant: object
@@ -3139,7 +3090,7 @@ class AzureMlLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureMlLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureML'
+        self.type: str = 'AzureML'
         self.ml_endpoint = ml_endpoint
         self.api_key = api_key
         self.update_resource_endpoint = update_resource_endpoint
@@ -3160,11 +3111,11 @@ class AzureMlServiceLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param subscription_id: Required. Azure ML Service workspace subscription ID. Type: string (or
@@ -3182,7 +3133,7 @@ class AzureMlServiceLinkedService(LinkedService):
     :type service_principal_id: object
     :param service_principal_key: The key of the service principal used to authenticate against the
      endpoint of a published Azure ML Service pipeline.
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param tenant: The name or ID of the tenant to which the service principal belongs. Type:
      string (or Expression with resultType string).
     :type tenant: object
@@ -3233,7 +3184,7 @@ class AzureMlServiceLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureMlServiceLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureMLService'
+        self.type: str = 'AzureMLService'
         self.subscription_id = subscription_id
         self.resource_group_name = resource_group_name
         self.ml_workspace_name = ml_workspace_name
@@ -3258,19 +3209,20 @@ class AzureMlUpdateResourceActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param trained_model_name: Required. Name of the Trained Model module in the Web Service
      experiment to be updated. Type: string (or Expression with resultType string).
     :type trained_model_name: object
     :param trained_model_linked_service_name: Required. Name of Azure Storage linked service
      holding the .ilearner file that will be uploaded by the update operation.
-    :type trained_model_linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type trained_model_linked_service_name:
+     ~data_factory_management_client.models.LinkedServiceReference
     :param trained_model_file_path: Required. The relative file path in trainedModelLinkedService
      to represent the .ilearner file that will be uploaded by the update operation.  Type: string
      (or Expression with resultType string).
@@ -3315,7 +3267,7 @@ class AzureMlUpdateResourceActivity(ExecutionActivity):
         **kwargs
     ):
         super(AzureMlUpdateResourceActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'AzureMLUpdateResource'
+        self.type: str = 'AzureMLUpdateResource'
         self.trained_model_name = trained_model_name
         self.trained_model_linked_service_name = trained_model_linked_service_name
         self.trained_model_file_path = trained_model_file_path
@@ -3331,7 +3283,7 @@ class AzureMlWebServiceFile(msrest.serialization.Model):
     :type file_path: object
     :param linked_service_name: Required. Reference to an Azure Storage LinkedService, where Azure
      ML WebService Input/Output file located.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     """
 
     _validation = {
@@ -3367,18 +3319,18 @@ class AzureMySqlLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: Required. The connection string. Type: string, SecureString or
      AzureKeyVaultSecretReference.
     :type connection_string: object
     :param password: The Azure key vault secret reference of password in connection string.
-    :type password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type password: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -3416,7 +3368,7 @@ class AzureMySqlLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureMySqlLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureMySql'
+        self.type: str = 'AzureMySql'
         self.connection_string = connection_string
         self.password = password
         self.encrypted_credential = encrypted_credential
@@ -3441,14 +3393,14 @@ class AzureMySqlTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The Azure MySQL database table name. Type: string (or Expression with
      resultType string).
     :type table_name: object
@@ -3492,7 +3444,7 @@ class AzureMySqlTableDataset(Dataset):
         **kwargs
     ):
         super(AzureMySqlTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'AzureMySqlTable'
+        self.type: str = 'AzureMySqlTable'
         self.table_name = table_name
         self.table = table
 
@@ -3508,18 +3460,18 @@ class AzurePostgreSqlLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: An ODBC connection string. Type: string, SecureString or
      AzureKeyVaultSecretReference.
     :type connection_string: object
     :param password: The Azure key vault secret reference of password in connection string.
-    :type password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type password: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -3556,7 +3508,7 @@ class AzurePostgreSqlLinkedService(LinkedService):
         **kwargs
     ):
         super(AzurePostgreSqlLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzurePostgreSql'
+        self.type: str = 'AzurePostgreSql'
         self.connection_string = connection_string
         self.password = password
         self.encrypted_credential = encrypted_credential
@@ -3581,14 +3533,14 @@ class AzurePostgreSqlTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name of the Azure PostgreSQL database which includes both schema
      and table. Type: string (or Expression with resultType string).
     :type table_name: object
@@ -3637,7 +3589,7 @@ class AzurePostgreSqlTableDataset(Dataset):
         **kwargs
     ):
         super(AzurePostgreSqlTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'AzurePostgreSqlTable'
+        self.type: str = 'AzurePostgreSqlTable'
         self.table_name = table_name
         self.table = table
         self.schema_type_properties_schema = schema_type_properties_schema
@@ -3662,14 +3614,14 @@ class AzureSearchIndexDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param index_name: Required. The name of the Azure Search Index. Type: string (or Expression
      with resultType string).
     :type index_name: object
@@ -3709,7 +3661,7 @@ class AzureSearchIndexDataset(Dataset):
         **kwargs
     ):
         super(AzureSearchIndexDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'AzureSearchIndex'
+        self.type: str = 'AzureSearchIndex'
         self.index_name = index_name
 
 
@@ -3724,18 +3676,18 @@ class AzureSearchLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param url: Required. URL for Azure Search service. Type: string (or Expression with resultType
      string).
     :type url: object
     :param key: Admin Key for Azure Search service.
-    :type key: ~azure.mgmt.datafactory.models.SecretBase
+    :type key: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -3773,7 +3725,7 @@ class AzureSearchLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureSearchLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureSearch'
+        self.type: str = 'AzureSearch'
         self.url = url
         self.key = key
         self.encrypted_credential = encrypted_credential
@@ -3790,24 +3742,24 @@ class AzureSqlDatabaseLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: Required. The connection string. Type: string, SecureString or
      AzureKeyVaultSecretReference.
     :type connection_string: object
     :param password: The Azure key vault secret reference of password in connection string.
-    :type password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type password: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param service_principal_id: The ID of the service principal used to authenticate against Azure
      SQL Database. Type: string (or Expression with resultType string).
     :type service_principal_id: object
     :param service_principal_key: The key of the service principal used to authenticate against
      Azure SQL Database.
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param tenant: The name or ID of the tenant to which the service principal belongs. Type:
      string (or Expression with resultType string).
     :type tenant: object
@@ -3854,7 +3806,7 @@ class AzureSqlDatabaseLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureSqlDatabaseLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureSqlDatabase'
+        self.type: str = 'AzureSqlDatabase'
         self.connection_string = connection_string
         self.password = password
         self.service_principal_id = service_principal_id
@@ -3863,7 +3815,7 @@ class AzureSqlDatabaseLinkedService(LinkedService):
         self.encrypted_credential = encrypted_credential
 
 
-class AzureSqlDwLinkedService(LinkedService):
+class AzureSqlDWLinkedService(LinkedService):
     """Azure SQL Data Warehouse linked service.
 
     All required parameters must be populated in order to send to Azure.
@@ -3874,24 +3826,24 @@ class AzureSqlDwLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: Required. The connection string. Type: string, SecureString or
      AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference.
     :type connection_string: object
     :param password: The Azure key vault secret reference of password in connection string.
-    :type password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type password: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param service_principal_id: The ID of the service principal used to authenticate against Azure
      SQL Data Warehouse. Type: string (or Expression with resultType string).
     :type service_principal_id: object
     :param service_principal_key: The key of the service principal used to authenticate against
      Azure SQL Data Warehouse.
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param tenant: The name or ID of the tenant to which the service principal belongs. Type:
      string (or Expression with resultType string).
     :type tenant: object
@@ -3937,8 +3889,8 @@ class AzureSqlDwLinkedService(LinkedService):
         encrypted_credential: Optional[object] = None,
         **kwargs
     ):
-        super(AzureSqlDwLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureSqlDW'
+        super(AzureSqlDWLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
+        self.type: str = 'AzureSqlDW'
         self.connection_string = connection_string
         self.password = password
         self.service_principal_id = service_principal_id
@@ -3947,7 +3899,7 @@ class AzureSqlDwLinkedService(LinkedService):
         self.encrypted_credential = encrypted_credential
 
 
-class AzureSqlDwTableDataset(Dataset):
+class AzureSqlDWTableDataset(Dataset):
     """The Azure SQL Data Warehouse dataset.
 
     All required parameters must be populated in order to send to Azure.
@@ -3966,14 +3918,14 @@ class AzureSqlDwTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -4021,8 +3973,8 @@ class AzureSqlDwTableDataset(Dataset):
         table: Optional[object] = None,
         **kwargs
     ):
-        super(AzureSqlDwTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'AzureSqlDWTable'
+        super(AzureSqlDWTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
+        self.type: str = 'AzureSqlDWTable'
         self.table_name = table_name
         self.schema_type_properties_schema = schema_type_properties_schema
         self.table = table
@@ -4039,24 +3991,24 @@ class AzureSqlMiLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: Required. The connection string. Type: string, SecureString or
      AzureKeyVaultSecretReference.
     :type connection_string: object
     :param password: The Azure key vault secret reference of password in connection string.
-    :type password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type password: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param service_principal_id: The ID of the service principal used to authenticate against Azure
      SQL Managed Instance. Type: string (or Expression with resultType string).
     :type service_principal_id: object
     :param service_principal_key: The key of the service principal used to authenticate against
      Azure SQL Managed Instance.
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param tenant: The name or ID of the tenant to which the service principal belongs. Type:
      string (or Expression with resultType string).
     :type tenant: object
@@ -4103,7 +4055,7 @@ class AzureSqlMiLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureSqlMiLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureSqlMI'
+        self.type: str = 'AzureSqlMI'
         self.connection_string = connection_string
         self.password = password
         self.service_principal_id = service_principal_id
@@ -4131,14 +4083,14 @@ class AzureSqlMiTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -4187,7 +4139,7 @@ class AzureSqlMiTableDataset(Dataset):
         **kwargs
     ):
         super(AzureSqlMiTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'AzureSqlMITable'
+        self.type: str = 'AzureSqlMITable'
         self.table_name = table_name
         self.schema_type_properties_schema = schema_type_properties_schema
         self.table = table
@@ -4212,14 +4164,14 @@ class AzureSqlTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -4268,7 +4220,7 @@ class AzureSqlTableDataset(Dataset):
         **kwargs
     ):
         super(AzureSqlTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'AzureSqlTable'
+        self.type: str = 'AzureSqlTable'
         self.table_name = table_name
         self.schema_type_properties_schema = schema_type_properties_schema
         self.table = table
@@ -4285,23 +4237,23 @@ class AzureStorageLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: The connection string. It is mutually exclusive with sasUri property.
      Type: string, SecureString or AzureKeyVaultSecretReference.
     :type connection_string: object
     :param account_key: The Azure key vault secret reference of accountKey in connection string.
-    :type account_key: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type account_key: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param sas_uri: SAS URI of the Azure Storage resource. It is mutually exclusive with
      connectionString property. Type: string, SecureString or AzureKeyVaultSecretReference.
     :type sas_uri: object
     :param sas_token: The Azure key vault secret reference of sasToken in sas uri.
-    :type sas_token: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type sas_token: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -4342,7 +4294,7 @@ class AzureStorageLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureStorageLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureStorage'
+        self.type: str = 'AzureStorage'
         self.connection_string = connection_string
         self.account_key = account_key
         self.sas_uri = sas_uri
@@ -4369,14 +4321,14 @@ class AzureTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: Required. The table name of the Azure Table storage. Type: string (or
      Expression with resultType string).
     :type table_name: object
@@ -4416,7 +4368,7 @@ class AzureTableDataset(Dataset):
         **kwargs
     ):
         super(AzureTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'AzureTable'
+        self.type: str = 'AzureTable'
         self.table_name = table_name
 
 
@@ -4431,23 +4383,23 @@ class AzureTableStorageLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: The connection string. It is mutually exclusive with sasUri property.
      Type: string, SecureString or AzureKeyVaultSecretReference.
     :type connection_string: object
     :param account_key: The Azure key vault secret reference of accountKey in connection string.
-    :type account_key: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type account_key: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param sas_uri: SAS URI of the Azure Storage resource. It is mutually exclusive with
      connectionString property. Type: string, SecureString or AzureKeyVaultSecretReference.
     :type sas_uri: object
     :param sas_token: The Azure key vault secret reference of sasToken in sas uri.
-    :type sas_token: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type sas_token: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -4488,7 +4440,7 @@ class AzureTableStorageLinkedService(LinkedService):
         **kwargs
     ):
         super(AzureTableStorageLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'AzureTableStorage'
+        self.type: str = 'AzureTableStorage'
         self.connection_string = connection_string
         self.account_key = account_key
         self.sas_uri = sas_uri
@@ -4515,18 +4467,18 @@ class BinaryDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param location: The location of the Binary storage.
-    :type location: ~azure.mgmt.datafactory.models.DatasetLocation
+    :type location: ~data_factory_management_client.models.DatasetLocation
     :param compression: The data compression method used for the binary dataset.
-    :type compression: ~azure.mgmt.datafactory.models.DatasetCompression
+    :type compression: ~data_factory_management_client.models.DatasetCompression
     """
 
     _validation = {
@@ -4564,7 +4516,7 @@ class BinaryDataset(Dataset):
         **kwargs
     ):
         super(BinaryDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'Binary'
+        self.type: str = 'Binary'
         self.location = location
         self.compression = compression
 
@@ -4580,11 +4532,11 @@ class CassandraLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. Host name for connection. Type: string (or Expression with resultType
@@ -4600,7 +4552,7 @@ class CassandraLinkedService(LinkedService):
      string).
     :type username: object
     :param password: Password for authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -4644,7 +4596,7 @@ class CassandraLinkedService(LinkedService):
         **kwargs
     ):
         super(CassandraLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Cassandra'
+        self.type: str = 'Cassandra'
         self.host = host
         self.authentication_type = authentication_type
         self.port = port
@@ -4672,14 +4624,14 @@ class CassandraTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name of the Cassandra database. Type: string (or Expression with
      resultType string).
     :type table_name: object
@@ -4723,7 +4675,7 @@ class CassandraTableDataset(Dataset):
         **kwargs
     ):
         super(CassandraTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'CassandraTable'
+        self.type: str = 'CassandraTable'
         self.table_name = table_name
         self.keyspace = keyspace
 
@@ -4740,7 +4692,7 @@ class CloudError(msrest.serialization.Model):
     :param target: Property name/path in request associated with error.
     :type target: str
     :param details: Array with additional error details.
-    :type details: list[~azure.mgmt.datafactory.models.CloudError]
+    :type details: list[~data_factory_management_client.models.CloudError]
     """
 
     _validation = {
@@ -4790,14 +4742,14 @@ class CommonDataServiceForAppsEntityDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param entity_name: The logical name of the entity. Type: string (or Expression with resultType
      string).
     :type entity_name: object
@@ -4836,7 +4788,7 @@ class CommonDataServiceForAppsEntityDataset(Dataset):
         **kwargs
     ):
         super(CommonDataServiceForAppsEntityDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'CommonDataServiceForAppsEntity'
+        self.type: str = 'CommonDataServiceForAppsEntity'
         self.entity_name = entity_name
 
 
@@ -4851,18 +4803,18 @@ class CommonDataServiceForAppsLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param deployment_type: Required. The deployment type of the Common Data Service for Apps
      instance. 'Online' for Common Data Service for Apps Online and 'OnPremisesWithIfd' for Common
      Data Service for Apps on-premises with Ifd. Type: string (or Expression with resultType
      string). Possible values include: "Online", "OnPremisesWithIfd".
-    :type deployment_type: str or ~azure.mgmt.datafactory.models.DynamicsDeploymentType
+    :type deployment_type: str or ~data_factory_management_client.models.DynamicsDeploymentType
     :param host_name: The host name of the on-premises Common Data Service for Apps server. The
      property is required for on-prem and not allowed for online. Type: string (or Expression with
      resultType string).
@@ -4885,12 +4837,13 @@ class CommonDataServiceForAppsLinkedService(LinkedService):
      'AADServicePrincipal' for Server-To-Server authentication in online scenario. Type: string (or
      Expression with resultType string). Possible values include: "Office365", "Ifd",
      "AADServicePrincipal".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.DynamicsAuthenticationType
+    :type authentication_type: str or
+     ~data_factory_management_client.models.DynamicsAuthenticationType
     :param username: User name to access the Common Data Service for Apps instance. Type: string
      (or Expression with resultType string).
     :type username: object
     :param password: Password to access the Common Data Service for Apps instance.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param service_principal_id: The client ID of the application in Azure Active Directory used
      for Server-To-Server authentication. Type: string (or Expression with resultType string).
     :type service_principal_id: object
@@ -4899,13 +4852,13 @@ class CommonDataServiceForAppsLinkedService(LinkedService):
      for certificate. Type: string (or Expression with resultType string). Possible values include:
      "ServicePrincipalKey", "ServicePrincipalCert".
     :type service_principal_credential_type: str or
-     ~azure.mgmt.datafactory.models.DynamicsServicePrincipalCredentialType
+     ~data_factory_management_client.models.DynamicsServicePrincipalCredentialType
     :param service_principal_credential: The credential of the service principal object in Azure
      Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
      servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
      servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only
      be AzureKeyVaultSecretReference.
-    :type service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_credential: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -4962,7 +4915,7 @@ class CommonDataServiceForAppsLinkedService(LinkedService):
         **kwargs
     ):
         super(CommonDataServiceForAppsLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'CommonDataServiceForApps'
+        self.type: str = 'CommonDataServiceForApps'
         self.deployment_type = deployment_type
         self.host_name = host_name
         self.port = port
@@ -4988,11 +4941,11 @@ class ConcurLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param client_id: Required. Application client_id supplied by Concur App Management.
@@ -5001,7 +4954,7 @@ class ConcurLinkedService(LinkedService):
     :type username: object
     :param password: The password corresponding to the user name that you provided in the username
      field.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true.
     :type use_encrypted_endpoints: object
@@ -5058,7 +5011,7 @@ class ConcurLinkedService(LinkedService):
         **kwargs
     ):
         super(ConcurLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Concur'
+        self.type: str = 'Concur'
         self.client_id = client_id
         self.username = username
         self.password = password
@@ -5087,14 +5040,14 @@ class ConcurObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -5132,8 +5085,56 @@ class ConcurObjectDataset(Dataset):
         **kwargs
     ):
         super(ConcurObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'ConcurObject'
+        self.type: str = 'ConcurObject'
         self.table_name = table_name
+
+
+class ControlActivity(Activity):
+    """Base class for all control activities like IfCondition, ForEach , Until.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :param additional_properties: Unmatched properties from the message are deserialized to this
+     collection.
+    :type additional_properties: dict[str, object]
+    :param name: Required. Activity name.
+    :type name: str
+    :param type: Required. Type of activity.Constant filled by server.
+    :type type: str
+    :param description: Activity description.
+    :type description: str
+    :param depends_on: Activity depends on condition.
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
+    :param user_properties: Activity user properties.
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
+    """
+
+    _validation = {
+        'name': {'required': True},
+        'type': {'required': True},
+    }
+
+    _attribute_map = {
+        'additional_properties': {'key': '', 'type': '{object}'},
+        'name': {'key': 'name', 'type': 'str'},
+        'type': {'key': 'type', 'type': 'str'},
+        'description': {'key': 'description', 'type': 'str'},
+        'depends_on': {'key': 'dependsOn', 'type': '[ActivityDependency]'},
+        'user_properties': {'key': 'userProperties', 'type': '[UserProperty]'},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: str,
+        additional_properties: Optional[Dict[str, object]] = None,
+        description: Optional[str] = None,
+        depends_on: Optional[List["ActivityDependency"]] = None,
+        user_properties: Optional[List["UserProperty"]] = None,
+        **kwargs
+    ):
+        super(ControlActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, **kwargs)
+        self.type: str = 'Container'
 
 
 class CopyActivity(ExecutionActivity):
@@ -5151,28 +5152,28 @@ class CopyActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param inputs: List of inputs for the activity.
-    :type inputs: list[~azure.mgmt.datafactory.models.DatasetReference]
+    :type inputs: list[~data_factory_management_client.models.DatasetReference]
     :param outputs: List of outputs for the activity.
-    :type outputs: list[~azure.mgmt.datafactory.models.DatasetReference]
+    :type outputs: list[~data_factory_management_client.models.DatasetReference]
     :param source: Required. Copy activity source.
-    :type source: ~azure.mgmt.datafactory.models.CopySource
+    :type source: ~data_factory_management_client.models.CopySource
     :param sink: Required. Copy activity sink.
-    :type sink: ~azure.mgmt.datafactory.models.CopySink
+    :type sink: ~data_factory_management_client.models.CopySink
     :param translator: Copy activity translator. If not specified, tabular translator is used.
     :type translator: object
     :param enable_staging: Specifies whether to copy data via an interim staging. Default value is
      false. Type: boolean (or Expression with resultType boolean).
     :type enable_staging: object
     :param staging_settings: Specifies interim staging settings when EnableStaging is true.
-    :type staging_settings: ~azure.mgmt.datafactory.models.StagingSettings
+    :type staging_settings: ~data_factory_management_client.models.StagingSettings
     :param parallel_copies: Maximum number of concurrent sessions opened on the source or sink to
      avoid overloading the data store. Type: integer (or Expression with resultType integer),
      minimum: 0.
@@ -5186,10 +5187,10 @@ class CopyActivity(ExecutionActivity):
     :param redirect_incompatible_row_settings: Redirect incompatible row settings when
      EnableSkipIncompatibleRow is true.
     :type redirect_incompatible_row_settings:
-     ~azure.mgmt.datafactory.models.RedirectIncompatibleRowSettings
+     ~data_factory_management_client.models.RedirectIncompatibleRowSettings
     :param log_storage_settings: Log storage settings customer need to provide when enabling
      session log.
-    :type log_storage_settings: ~azure.mgmt.datafactory.models.LogStorageSettings
+    :type log_storage_settings: ~data_factory_management_client.models.LogStorageSettings
     :param preserve_rules: Preserve Rules.
     :type preserve_rules: list[object]
     :param preserve: Preserve rules.
@@ -5198,7 +5199,7 @@ class CopyActivity(ExecutionActivity):
      (or Expression with resultType boolean).
     :type validate_data_consistency: object
     :param skip_error_file: Specify the fault tolerance for data consistency.
-    :type skip_error_file: ~azure.mgmt.datafactory.models.SkipErrorFile
+    :type skip_error_file: ~data_factory_management_client.models.SkipErrorFile
     """
 
     _validation = {
@@ -5264,7 +5265,7 @@ class CopyActivity(ExecutionActivity):
         **kwargs
     ):
         super(CopyActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'Copy'
+        self.type: str = 'Copy'
         self.inputs = inputs
         self.outputs = outputs
         self.source = source
@@ -5344,7 +5345,7 @@ class CopySink(msrest.serialization.Model):
     ):
         super(CopySink, self).__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = 'CopySink'
+        self.type: str = 'CopySink'
         self.write_batch_size = write_batch_size
         self.write_batch_timeout = write_batch_timeout
         self.sink_retry_count = sink_retry_count
@@ -5403,7 +5404,7 @@ class CopySource(msrest.serialization.Model):
     ):
         super(CopySource, self).__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = 'CopySource'
+        self.type: str = 'CopySource'
         self.source_retry_count = source_retry_count
         self.source_retry_wait = source_retry_wait
         self.max_concurrent_connections = max_concurrent_connections
@@ -5420,11 +5421,11 @@ class CosmosDBLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: The connection string. Type: string, SecureString or
@@ -5437,7 +5438,7 @@ class CosmosDBLinkedService(LinkedService):
     :type database: object
     :param account_key: The account key of the Azure CosmosDB account. Type: SecureString or
      AzureKeyVaultSecretReference.
-    :type account_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type account_key: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -5478,7 +5479,7 @@ class CosmosDBLinkedService(LinkedService):
         **kwargs
     ):
         super(CosmosDBLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'CosmosDb'
+        self.type: str = 'CosmosDb'
         self.connection_string = connection_string
         self.account_endpoint = account_endpoint
         self.database = database
@@ -5505,14 +5506,14 @@ class CosmosDBMongoDBApiCollectionDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param collection: Required. The collection name of the CosmosDB (MongoDB API) database. Type:
      string (or Expression with resultType string).
     :type collection: object
@@ -5552,7 +5553,7 @@ class CosmosDBMongoDBApiCollectionDataset(Dataset):
         **kwargs
     ):
         super(CosmosDBMongoDBApiCollectionDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'CosmosDbMongoDbApiCollection'
+        self.type: str = 'CosmosDbMongoDbApiCollection'
         self.collection = collection
 
 
@@ -5567,11 +5568,11 @@ class CosmosDBMongoDBApiLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: Required. The CosmosDB (MongoDB API) connection string. Type: string,
@@ -5613,7 +5614,7 @@ class CosmosDBMongoDBApiLinkedService(LinkedService):
         **kwargs
     ):
         super(CosmosDBMongoDBApiLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'CosmosDbMongoDbApi'
+        self.type: str = 'CosmosDbMongoDbApi'
         self.connection_string = connection_string
         self.database = database
 
@@ -5637,14 +5638,14 @@ class CosmosDBSqlApiCollectionDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param collection_name: Required. CosmosDB (SQL API) collection name. Type: string (or
      Expression with resultType string).
     :type collection_name: object
@@ -5684,7 +5685,7 @@ class CosmosDBSqlApiCollectionDataset(Dataset):
         **kwargs
     ):
         super(CosmosDBSqlApiCollectionDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'CosmosDbSqlApiCollection'
+        self.type: str = 'CosmosDbSqlApiCollection'
         self.collection_name = collection_name
 
 
@@ -5699,18 +5700,18 @@ class CouchbaseLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: An ODBC connection string. Type: string, SecureString or
      AzureKeyVaultSecretReference.
     :type connection_string: object
     :param cred_string: The Azure key vault secret reference of credString in connection string.
-    :type cred_string: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type cred_string: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -5747,7 +5748,7 @@ class CouchbaseLinkedService(LinkedService):
         **kwargs
     ):
         super(CouchbaseLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Couchbase'
+        self.type: str = 'Couchbase'
         self.connection_string = connection_string
         self.cred_string = cred_string
         self.encrypted_credential = encrypted_credential
@@ -5772,14 +5773,14 @@ class CouchbaseTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -5817,7 +5818,7 @@ class CouchbaseTableDataset(Dataset):
         **kwargs
     ):
         super(CouchbaseTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'CouchbaseTable'
+        self.type: str = 'CouchbaseTable'
         self.table_name = table_name
 
 
@@ -5835,7 +5836,7 @@ class CreateDataFlowDebugSessionRequest(msrest.serialization.Model):
     :param name: The resource name.
     :type name: str
     :param properties: Integration runtime properties.
-    :type properties: ~azure.mgmt.datafactory.models.IntegrationRuntime
+    :type properties: ~data_factory_management_client.models.IntegrationRuntime
     """
 
     _attribute_map = {
@@ -5971,23 +5972,23 @@ class CustomActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param command: Required. Command for custom activity Type: string (or Expression with
      resultType string).
     :type command: object
     :param resource_linked_service: Resource linked service reference.
-    :type resource_linked_service: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type resource_linked_service: ~data_factory_management_client.models.LinkedServiceReference
     :param folder_path: Folder path for resource files Type: string (or Expression with resultType
      string).
     :type folder_path: object
     :param reference_objects: Reference objects.
-    :type reference_objects: ~azure.mgmt.datafactory.models.CustomActivityReferenceObject
+    :type reference_objects: ~data_factory_management_client.models.CustomActivityReferenceObject
     :param extended_properties: User defined property bag. There is no restriction on the keys or
      values that can be used. The user specified custom activity has the full responsibility to
      consume and interpret the content defined.
@@ -6039,7 +6040,7 @@ class CustomActivity(ExecutionActivity):
         **kwargs
     ):
         super(CustomActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'Custom'
+        self.type: str = 'Custom'
         self.command = command
         self.resource_linked_service = resource_linked_service
         self.folder_path = folder_path
@@ -6052,9 +6053,9 @@ class CustomActivityReferenceObject(msrest.serialization.Model):
     """Reference objects for custom activity.
 
     :param linked_services: Linked service references.
-    :type linked_services: list[~azure.mgmt.datafactory.models.LinkedServiceReference]
+    :type linked_services: list[~data_factory_management_client.models.LinkedServiceReference]
     :param datasets: Dataset references.
-    :type datasets: list[~azure.mgmt.datafactory.models.DatasetReference]
+    :type datasets: list[~data_factory_management_client.models.DatasetReference]
     """
 
     _attribute_map = {
@@ -6085,11 +6086,11 @@ class CustomDataSourceLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param type_properties: Required. Custom linked service properties.
@@ -6123,7 +6124,7 @@ class CustomDataSourceLinkedService(LinkedService):
         **kwargs
     ):
         super(CustomDataSourceLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'CustomDataSource'
+        self.type: str = 'CustomDataSource'
         self.type_properties = type_properties
 
 
@@ -6156,7 +6157,7 @@ class CustomSetupBase(msrest.serialization.Model):
         **kwargs
     ):
         super(CustomSetupBase, self).__init__(**kwargs)
-        self.type = None
+        self.type: Optional[str] = None
 
 
 class DatabricksNotebookActivity(ExecutionActivity):
@@ -6174,13 +6175,13 @@ class DatabricksNotebookActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param notebook_path: Required. The absolute path of the notebook to be run in the Databricks
      Workspace. This path must begin with a slash. Type: string (or Expression with resultType
      string).
@@ -6228,7 +6229,7 @@ class DatabricksNotebookActivity(ExecutionActivity):
         **kwargs
     ):
         super(DatabricksNotebookActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'DatabricksNotebook'
+        self.type: str = 'DatabricksNotebook'
         self.notebook_path = notebook_path
         self.base_parameters = base_parameters
         self.libraries = libraries
@@ -6249,13 +6250,13 @@ class DatabricksSparkJarActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param main_class_name: Required. The full name of the class containing the main method to be
      executed. This class must be contained in a JAR provided as a library. Type: string (or
      Expression with resultType string).
@@ -6302,7 +6303,7 @@ class DatabricksSparkJarActivity(ExecutionActivity):
         **kwargs
     ):
         super(DatabricksSparkJarActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'DatabricksSparkJar'
+        self.type: str = 'DatabricksSparkJar'
         self.main_class_name = main_class_name
         self.parameters = parameters
         self.libraries = libraries
@@ -6323,13 +6324,13 @@ class DatabricksSparkPythonActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param python_file: Required. The URI of the Python file to be executed. DBFS paths are
      supported. Type: string (or Expression with resultType string).
     :type python_file: object
@@ -6375,7 +6376,7 @@ class DatabricksSparkPythonActivity(ExecutionActivity):
         **kwargs
     ):
         super(DatabricksSparkPythonActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'DatabricksSparkPython'
+        self.type: str = 'DatabricksSparkPython'
         self.python_file = python_file
         self.parameters = parameters
         self.libraries = libraries
@@ -6395,7 +6396,7 @@ class DataFlow(msrest.serialization.Model):
     :type annotations: list[object]
     :param folder: The folder that this data flow is in. If not specified, Data flow will appear at
      the root level.
-    :type folder: ~azure.mgmt.datafactory.models.DataFlowFolder
+    :type folder: ~data_factory_management_client.models.DataFlowFolder
     """
 
     _attribute_map = {
@@ -6418,7 +6419,7 @@ class DataFlow(msrest.serialization.Model):
         **kwargs
     ):
         super(DataFlow, self).__init__(**kwargs)
-        self.type = None
+        self.type: Optional[str] = None
         self.description = description
         self.annotations = annotations
         self.folder = folder
@@ -6473,9 +6474,9 @@ class DataFlowDebugCommandRequest(msrest.serialization.Model):
     :type session_id: str
     :param command: The command type. Possible values include: "executePreviewQuery",
      "executeStatisticsQuery", "executeExpressionQuery".
-    :type command: str or ~azure.mgmt.datafactory.models.DataFlowDebugCommandType
+    :type command: str or ~data_factory_management_client.models.DataFlowDebugCommandType
     :param command_payload: The command payload object.
-    :type command_payload: ~azure.mgmt.datafactory.models.DataFlowDebugCommandPayload
+    :type command_payload: ~data_factory_management_client.models.DataFlowDebugCommandPayload
     """
 
     _attribute_map = {
@@ -6535,11 +6536,11 @@ class DataFlowDebugPackage(msrest.serialization.Model):
     :param session_id: The ID of data flow debug session.
     :type session_id: str
     :param datasets: List of datasets.
-    :type datasets: list[~azure.mgmt.datafactory.models.DatasetDebugResource]
+    :type datasets: list[~data_factory_management_client.models.DatasetDebugResource]
     :param linked_services: List of linked services.
-    :type linked_services: list[~azure.mgmt.datafactory.models.LinkedServiceDebugResource]
+    :type linked_services: list[~data_factory_management_client.models.LinkedServiceDebugResource]
     :param source_settings: Source setting for data flow debug.
-    :type source_settings: list[~azure.mgmt.datafactory.models.DataFlowSourceSetting]
+    :type source_settings: list[~data_factory_management_client.models.DataFlowSourceSetting]
     :param parameters_debug_settings_parameters: Data flow parameters.
     :type parameters_debug_settings_parameters: dict[str, object]
     :param dataset_parameters: Parameters for dataset.
@@ -6555,7 +6556,7 @@ class DataFlowDebugPackage(msrest.serialization.Model):
     :param name: The resource name.
     :type name: str
     :param properties: Data flow properties.
-    :type properties: ~azure.mgmt.datafactory.models.DataFlow
+    :type properties: ~data_factory_management_client.models.DataFlow
     """
 
     _validation = {
@@ -6641,7 +6642,7 @@ class DataFlowDebugResource(SubResourceDebugResource):
     :param name: The resource name.
     :type name: str
     :param properties: Required. Data flow properties.
-    :type properties: ~azure.mgmt.datafactory.models.DataFlow
+    :type properties: ~data_factory_management_client.models.DataFlow
     """
 
     _validation = {
@@ -6758,7 +6759,7 @@ class DataFlowListResponse(msrest.serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :param value: Required. List of data flows.
-    :type value: list[~azure.mgmt.datafactory.models.DataFlowResource]
+    :type value: list[~data_factory_management_client.models.DataFlowResource]
     :param next_link: The link to the next page of results, if any remaining results exist.
     :type next_link: str
     """
@@ -6886,7 +6887,7 @@ class DataFlowResource(SubResource):
     :ivar etag: Etag identifies change in the resource.
     :vartype etag: str
     :param properties: Required. Data flow properties.
-    :type properties: ~azure.mgmt.datafactory.models.DataFlow
+    :type properties: ~data_factory_management_client.models.DataFlow
     """
 
     _validation = {
@@ -6957,7 +6958,11 @@ class DataFlowSink(Transformation):
     :param description: Transformation description.
     :type description: str
     :param dataset: Dataset reference.
-    :type dataset: ~azure.mgmt.datafactory.models.DatasetReference
+    :type dataset: ~data_factory_management_client.models.DatasetReference
+    :param linked_service: Linked service reference.
+    :type linked_service: ~data_factory_management_client.models.LinkedServiceReference
+    :param schema_linked_service: Schema linked service reference.
+    :type schema_linked_service: ~data_factory_management_client.models.LinkedServiceReference
     """
 
     _validation = {
@@ -6968,6 +6973,8 @@ class DataFlowSink(Transformation):
         'name': {'key': 'name', 'type': 'str'},
         'description': {'key': 'description', 'type': 'str'},
         'dataset': {'key': 'dataset', 'type': 'DatasetReference'},
+        'linked_service': {'key': 'linkedService', 'type': 'LinkedServiceReference'},
+        'schema_linked_service': {'key': 'schemaLinkedService', 'type': 'LinkedServiceReference'},
     }
 
     def __init__(
@@ -6976,10 +6983,14 @@ class DataFlowSink(Transformation):
         name: str,
         description: Optional[str] = None,
         dataset: Optional["DatasetReference"] = None,
+        linked_service: Optional["LinkedServiceReference"] = None,
+        schema_linked_service: Optional["LinkedServiceReference"] = None,
         **kwargs
     ):
         super(DataFlowSink, self).__init__(name=name, description=description, **kwargs)
         self.dataset = dataset
+        self.linked_service = linked_service
+        self.schema_linked_service = schema_linked_service
 
 
 class DataFlowSource(Transformation):
@@ -6992,7 +7003,11 @@ class DataFlowSource(Transformation):
     :param description: Transformation description.
     :type description: str
     :param dataset: Dataset reference.
-    :type dataset: ~azure.mgmt.datafactory.models.DatasetReference
+    :type dataset: ~data_factory_management_client.models.DatasetReference
+    :param linked_service: Linked service reference.
+    :type linked_service: ~data_factory_management_client.models.LinkedServiceReference
+    :param schema_linked_service: Schema linked service reference.
+    :type schema_linked_service: ~data_factory_management_client.models.LinkedServiceReference
     """
 
     _validation = {
@@ -7003,6 +7018,8 @@ class DataFlowSource(Transformation):
         'name': {'key': 'name', 'type': 'str'},
         'description': {'key': 'description', 'type': 'str'},
         'dataset': {'key': 'dataset', 'type': 'DatasetReference'},
+        'linked_service': {'key': 'linkedService', 'type': 'LinkedServiceReference'},
+        'schema_linked_service': {'key': 'schemaLinkedService', 'type': 'LinkedServiceReference'},
     }
 
     def __init__(
@@ -7011,10 +7028,14 @@ class DataFlowSource(Transformation):
         name: str,
         description: Optional[str] = None,
         dataset: Optional["DatasetReference"] = None,
+        linked_service: Optional["LinkedServiceReference"] = None,
+        schema_linked_service: Optional["LinkedServiceReference"] = None,
         **kwargs
     ):
         super(DataFlowSource, self).__init__(name=name, description=description, **kwargs)
         self.dataset = dataset
+        self.linked_service = linked_service
+        self.schema_linked_service = schema_linked_service
 
 
 class DataFlowSourceSetting(msrest.serialization.Model):
@@ -7106,18 +7127,18 @@ class DataLakeAnalyticsUsqlActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param script_path: Required. Case-sensitive path to folder that contains the U-SQL script.
      Type: string (or Expression with resultType string).
     :type script_path: object
     :param script_linked_service: Required. Script linked service reference.
-    :type script_linked_service: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type script_linked_service: ~data_factory_management_client.models.LinkedServiceReference
     :param degree_of_parallelism: The maximum number of nodes simultaneously used to run the job.
      Default value is 1. Type: integer (or Expression with resultType integer), minimum: 1.
     :type degree_of_parallelism: object
@@ -7180,7 +7201,7 @@ class DataLakeAnalyticsUsqlActivity(ExecutionActivity):
         **kwargs
     ):
         super(DataLakeAnalyticsUsqlActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'DataLakeAnalyticsU-SQL'
+        self.type: str = 'DataLakeAnalyticsU-SQL'
         self.script_path = script_path
         self.script_linked_service = script_linked_service
         self.degree_of_parallelism = degree_of_parallelism
@@ -7226,7 +7247,7 @@ class DatasetCompression(msrest.serialization.Model):
     ):
         super(DatasetCompression, self).__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = 'DatasetCompression'
+        self.type: str = 'DatasetCompression'
 
 
 class DatasetBZip2Compression(DatasetCompression):
@@ -7257,7 +7278,7 @@ class DatasetBZip2Compression(DatasetCompression):
         **kwargs
     ):
         super(DatasetBZip2Compression, self).__init__(additional_properties=additional_properties, **kwargs)
-        self.type = 'BZip2'
+        self.type: str = 'BZip2'
 
 
 class DatasetDebugResource(SubResourceDebugResource):
@@ -7268,7 +7289,7 @@ class DatasetDebugResource(SubResourceDebugResource):
     :param name: The resource name.
     :type name: str
     :param properties: Required. Dataset properties.
-    :type properties: ~azure.mgmt.datafactory.models.Dataset
+    :type properties: ~data_factory_management_client.models.Dataset
     """
 
     _validation = {
@@ -7302,7 +7323,7 @@ class DatasetDeflateCompression(DatasetCompression):
     :param type: Required. Type of dataset compression.Constant filled by server.
     :type type: str
     :param level: The Deflate compression level. Possible values include: "Optimal", "Fastest".
-    :type level: str or ~azure.mgmt.datafactory.models.DatasetCompressionLevel
+    :type level: str or ~data_factory_management_client.models.DatasetCompressionLevel
     """
 
     _validation = {
@@ -7323,7 +7344,7 @@ class DatasetDeflateCompression(DatasetCompression):
         **kwargs
     ):
         super(DatasetDeflateCompression, self).__init__(additional_properties=additional_properties, **kwargs)
-        self.type = 'Deflate'
+        self.type: str = 'Deflate'
         self.level = level
 
 
@@ -7359,7 +7380,7 @@ class DatasetGZipCompression(DatasetCompression):
     :param type: Required. Type of dataset compression.Constant filled by server.
     :type type: str
     :param level: The GZip compression level. Possible values include: "Optimal", "Fastest".
-    :type level: str or ~azure.mgmt.datafactory.models.DatasetCompressionLevel
+    :type level: str or ~data_factory_management_client.models.DatasetCompressionLevel
     """
 
     _validation = {
@@ -7380,7 +7401,7 @@ class DatasetGZipCompression(DatasetCompression):
         **kwargs
     ):
         super(DatasetGZipCompression, self).__init__(additional_properties=additional_properties, **kwargs)
-        self.type = 'GZip'
+        self.type: str = 'GZip'
         self.level = level
 
 
@@ -7390,7 +7411,7 @@ class DatasetListResponse(msrest.serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :param value: Required. List of datasets.
-    :type value: list[~azure.mgmt.datafactory.models.DatasetResource]
+    :type value: list[~data_factory_management_client.models.DatasetResource]
     :param next_link: The link to the next page of results, if any remaining results exist.
     :type next_link: str
     """
@@ -7462,7 +7483,7 @@ class DatasetLocation(msrest.serialization.Model):
     ):
         super(DatasetLocation, self).__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = 'DatasetLocation'
+        self.type: str = 'DatasetLocation'
         self.folder_path = folder_path
         self.file_name = file_name
 
@@ -7523,7 +7544,7 @@ class DatasetResource(SubResource):
     :ivar etag: Etag identifies change in the resource.
     :vartype etag: str
     :param properties: Required. Dataset properties.
-    :type properties: ~azure.mgmt.datafactory.models.Dataset
+    :type properties: ~data_factory_management_client.models.Dataset
     """
 
     _validation = {
@@ -7596,7 +7617,7 @@ class DatasetStorageFormat(msrest.serialization.Model):
     ):
         super(DatasetStorageFormat, self).__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = 'DatasetStorageFormat'
+        self.type: str = 'DatasetStorageFormat'
         self.serializer = serializer
         self.deserializer = deserializer
 
@@ -7612,7 +7633,7 @@ class DatasetZipDeflateCompression(DatasetCompression):
     :param type: Required. Type of dataset compression.Constant filled by server.
     :type type: str
     :param level: The ZipDeflate compression level. Possible values include: "Optimal", "Fastest".
-    :type level: str or ~azure.mgmt.datafactory.models.DatasetCompressionLevel
+    :type level: str or ~data_factory_management_client.models.DatasetCompressionLevel
     """
 
     _validation = {
@@ -7633,7 +7654,7 @@ class DatasetZipDeflateCompression(DatasetCompression):
         **kwargs
     ):
         super(DatasetZipDeflateCompression, self).__init__(additional_properties=additional_properties, **kwargs)
-        self.type = 'ZipDeflate'
+        self.type: str = 'ZipDeflate'
         self.level = level
 
 
@@ -7650,11 +7671,11 @@ class Db2LinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: The connection string. It is mutually exclusive with server,
@@ -7674,7 +7695,7 @@ class Db2LinkedService(LinkedService):
      property. Type: string (or Expression with resultType string).
     :type username: object
     :param password: Password for authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param package_collection: Under where packages are created when querying database. It is
      mutually exclusive with connectionString property. Type: string (or Expression with resultType
      string).
@@ -7732,7 +7753,7 @@ class Db2LinkedService(LinkedService):
         **kwargs
     ):
         super(Db2LinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Db2'
+        self.type: str = 'Db2'
         self.connection_string = connection_string
         self.server = server
         self.database = database
@@ -7762,14 +7783,14 @@ class Db2TableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -7817,7 +7838,7 @@ class Db2TableDataset(Dataset):
         **kwargs
     ):
         super(Db2TableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'Db2Table'
+        self.type: str = 'Db2Table'
         self.table_name = table_name
         self.schema_type_properties_schema = schema_type_properties_schema
         self.table = table
@@ -7838,13 +7859,13 @@ class DeleteActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param recursive: If true, files or sub-folders under current folder path will be deleted
      recursively. Default is false. Type: boolean (or Expression with resultType boolean).
     :type recursive: object
@@ -7856,11 +7877,11 @@ class DeleteActivity(ExecutionActivity):
     :type enable_logging: object
     :param log_storage_settings: Log storage settings customer need to provide when enableLogging
      is true.
-    :type log_storage_settings: ~azure.mgmt.datafactory.models.LogStorageSettings
+    :type log_storage_settings: ~data_factory_management_client.models.LogStorageSettings
     :param dataset: Required. Delete activity dataset reference.
-    :type dataset: ~azure.mgmt.datafactory.models.DatasetReference
+    :type dataset: ~data_factory_management_client.models.DatasetReference
     :param store_settings: Delete activity store settings.
-    :type store_settings: ~azure.mgmt.datafactory.models.StoreReadSettings
+    :type store_settings: ~data_factory_management_client.models.StoreReadSettings
     """
 
     _validation = {
@@ -7906,7 +7927,7 @@ class DeleteActivity(ExecutionActivity):
         **kwargs
     ):
         super(DeleteActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'Delete'
+        self.type: str = 'Delete'
         self.recursive = recursive
         self.max_concurrent_connections = max_concurrent_connections
         self.enable_logging = enable_logging
@@ -7955,16 +7976,16 @@ class DelimitedTextDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param location: The location of the delimited text storage.
-    :type location: ~azure.mgmt.datafactory.models.DatasetLocation
+    :type location: ~data_factory_management_client.models.DatasetLocation
     :param column_delimiter: The column delimiter. Type: string (or Expression with resultType
      string).
     :type column_delimiter: object
@@ -7978,10 +7999,10 @@ class DelimitedTextDataset(Dataset):
     :type encoding_name: object
     :param compression_codec:  Possible values include: "none", "gzip", "snappy", "lzo", "bzip2",
      "deflate", "zipDeflate", "lz4".
-    :type compression_codec: str or ~azure.mgmt.datafactory.models.CompressionCodec
+    :type compression_codec: str or ~data_factory_management_client.models.CompressionCodec
     :param compression_level: The data compression method used for DelimitedText. Possible values
      include: "Optimal", "Fastest".
-    :type compression_level: str or ~azure.mgmt.datafactory.models.DatasetCompressionLevel
+    :type compression_level: str or ~data_factory_management_client.models.DatasetCompressionLevel
     :param quote_char: The quote character. Type: string (or Expression with resultType string).
     :type quote_char: object
     :param escape_char: The escape character. Type: string (or Expression with resultType string).
@@ -8045,7 +8066,7 @@ class DelimitedTextDataset(Dataset):
         **kwargs
     ):
         super(DelimitedTextDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'DelimitedText'
+        self.type: str = 'DelimitedText'
         self.location = location
         self.column_delimiter = column_delimiter
         self.row_delimiter = row_delimiter
@@ -8077,14 +8098,14 @@ class DocumentDBCollectionDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param collection_name: Required. Document Database collection name. Type: string (or
      Expression with resultType string).
     :type collection_name: object
@@ -8124,7 +8145,7 @@ class DocumentDBCollectionDataset(Dataset):
         **kwargs
     ):
         super(DocumentDBCollectionDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'DocumentDbCollection'
+        self.type: str = 'DocumentDbCollection'
         self.collection_name = collection_name
 
 
@@ -8139,18 +8160,18 @@ class DrillLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: An ODBC connection string. Type: string, SecureString or
      AzureKeyVaultSecretReference.
     :type connection_string: object
     :param pwd: The Azure key vault secret reference of password in connection string.
-    :type pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type pwd: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -8187,7 +8208,7 @@ class DrillLinkedService(LinkedService):
         **kwargs
     ):
         super(DrillLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Drill'
+        self.type: str = 'Drill'
         self.connection_string = connection_string
         self.pwd = pwd
         self.encrypted_credential = encrypted_credential
@@ -8212,14 +8233,14 @@ class DrillTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -8267,7 +8288,7 @@ class DrillTableDataset(Dataset):
         **kwargs
     ):
         super(DrillTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'DrillTable'
+        self.type: str = 'DrillTable'
         self.table_name = table_name
         self.table = table
         self.schema_type_properties_schema = schema_type_properties_schema
@@ -8284,11 +8305,11 @@ class DynamicsAxLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param url: Required. The Dynamics AX (or Dynamics 365 Finance and Operations) instance OData
@@ -8300,7 +8321,7 @@ class DynamicsAxLinkedService(LinkedService):
     :param service_principal_key: Required. Specify the application's key. Mark this field as a
      SecureString to store it securely in Data Factory, or reference a secret stored in Azure Key
      Vault. Type: string (or Expression with resultType string).
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param tenant: Required. Specify the tenant information (domain name or tenant ID) under which
      your application resides. Retrieve it by hovering the mouse in the top-right corner of the
      Azure portal. Type: string (or Expression with resultType string).
@@ -8355,7 +8376,7 @@ class DynamicsAxLinkedService(LinkedService):
         **kwargs
     ):
         super(DynamicsAxLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'DynamicsAX'
+        self.type: str = 'DynamicsAX'
         self.url = url
         self.service_principal_id = service_principal_id
         self.service_principal_key = service_principal_key
@@ -8383,14 +8404,14 @@ class DynamicsAxResourceDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param path: Required. The path of the Dynamics AX OData entity. Type: string (or Expression
      with resultType string).
     :type path: object
@@ -8430,7 +8451,7 @@ class DynamicsAxResourceDataset(Dataset):
         **kwargs
     ):
         super(DynamicsAxResourceDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'DynamicsAXResource'
+        self.type: str = 'DynamicsAXResource'
         self.path = path
 
 
@@ -8453,14 +8474,14 @@ class DynamicsCrmEntityDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param entity_name: The logical name of the entity. Type: string (or Expression with resultType
      string).
     :type entity_name: object
@@ -8499,7 +8520,7 @@ class DynamicsCrmEntityDataset(Dataset):
         **kwargs
     ):
         super(DynamicsCrmEntityDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'DynamicsCrmEntity'
+        self.type: str = 'DynamicsCrmEntity'
         self.entity_name = entity_name
 
 
@@ -8514,18 +8535,18 @@ class DynamicsCrmLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param deployment_type: Required. The deployment type of the Dynamics CRM instance. 'Online'
      for Dynamics CRM Online and 'OnPremisesWithIfd' for Dynamics CRM on-premises with Ifd. Type:
      string (or Expression with resultType string). Possible values include: "Online",
      "OnPremisesWithIfd".
-    :type deployment_type: str or ~azure.mgmt.datafactory.models.DynamicsDeploymentType
+    :type deployment_type: str or ~data_factory_management_client.models.DynamicsDeploymentType
     :param host_name: The host name of the on-premises Dynamics CRM server. The property is
      required for on-prem and not allowed for online. Type: string (or Expression with resultType
      string).
@@ -8546,12 +8567,13 @@ class DynamicsCrmLinkedService(LinkedService):
      'AADServicePrincipal' for Server-To-Server authentication in online scenario. Type: string (or
      Expression with resultType string). Possible values include: "Office365", "Ifd",
      "AADServicePrincipal".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.DynamicsAuthenticationType
+    :type authentication_type: str or
+     ~data_factory_management_client.models.DynamicsAuthenticationType
     :param username: User name to access the Dynamics CRM instance. Type: string (or Expression
      with resultType string).
     :type username: object
     :param password: Password to access the Dynamics CRM instance.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param service_principal_id: The client ID of the application in Azure Active Directory used
      for Server-To-Server authentication. Type: string (or Expression with resultType string).
     :type service_principal_id: object
@@ -8560,13 +8582,13 @@ class DynamicsCrmLinkedService(LinkedService):
      for certificate. Type: string (or Expression with resultType string). Possible values include:
      "ServicePrincipalKey", "ServicePrincipalCert".
     :type service_principal_credential_type: str or
-     ~azure.mgmt.datafactory.models.DynamicsServicePrincipalCredentialType
+     ~data_factory_management_client.models.DynamicsServicePrincipalCredentialType
     :param service_principal_credential: The credential of the service principal object in Azure
      Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
      servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
      servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only
      be AzureKeyVaultSecretReference.
-    :type service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_credential: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -8623,7 +8645,7 @@ class DynamicsCrmLinkedService(LinkedService):
         **kwargs
     ):
         super(DynamicsCrmLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'DynamicsCrm'
+        self.type: str = 'DynamicsCrm'
         self.deployment_type = deployment_type
         self.host_name = host_name
         self.port = port
@@ -8657,14 +8679,14 @@ class DynamicsEntityDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param entity_name: The logical name of the entity. Type: string (or Expression with resultType
      string).
     :type entity_name: object
@@ -8703,7 +8725,7 @@ class DynamicsEntityDataset(Dataset):
         **kwargs
     ):
         super(DynamicsEntityDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'DynamicsEntity'
+        self.type: str = 'DynamicsEntity'
         self.entity_name = entity_name
 
 
@@ -8718,17 +8740,17 @@ class DynamicsLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param deployment_type: Required. The deployment type of the Dynamics instance. 'Online' for
      Dynamics Online and 'OnPremisesWithIfd' for Dynamics on-premises with Ifd. Type: string (or
      Expression with resultType string). Possible values include: "Online", "OnPremisesWithIfd".
-    :type deployment_type: str or ~azure.mgmt.datafactory.models.DynamicsDeploymentType
+    :type deployment_type: str or ~data_factory_management_client.models.DynamicsDeploymentType
     :param host_name: The host name of the on-premises Dynamics server. The property is required
      for on-prem and not allowed for online. Type: string (or Expression with resultType string).
     :type host_name: object
@@ -8747,12 +8769,13 @@ class DynamicsLinkedService(LinkedService):
      'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario, 'AADServicePrincipal'
      for Server-To-Server authentication in online scenario. Type: string (or Expression with
      resultType string). Possible values include: "Office365", "Ifd", "AADServicePrincipal".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.DynamicsAuthenticationType
+    :type authentication_type: str or
+     ~data_factory_management_client.models.DynamicsAuthenticationType
     :param username: User name to access the Dynamics instance. Type: string (or Expression with
      resultType string).
     :type username: object
     :param password: Password to access the Dynamics instance.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param service_principal_id: The client ID of the application in Azure Active Directory used
      for Server-To-Server authentication. Type: string (or Expression with resultType string).
     :type service_principal_id: object
@@ -8761,13 +8784,13 @@ class DynamicsLinkedService(LinkedService):
      for certificate. Type: string (or Expression with resultType string). Possible values include:
      "ServicePrincipalKey", "ServicePrincipalCert".
     :type service_principal_credential_type: str or
-     ~azure.mgmt.datafactory.models.DynamicsServicePrincipalCredentialType
+     ~data_factory_management_client.models.DynamicsServicePrincipalCredentialType
     :param service_principal_credential: The credential of the service principal object in Azure
      Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
      servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
      servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only
      be AzureKeyVaultSecretReference.
-    :type service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_credential: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -8824,7 +8847,7 @@ class DynamicsLinkedService(LinkedService):
         **kwargs
     ):
         super(DynamicsLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Dynamics'
+        self.type: str = 'Dynamics'
         self.deployment_type = deployment_type
         self.host_name = host_name
         self.port = port
@@ -8850,11 +8873,11 @@ class EloquaLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param endpoint: Required. The endpoint of the Eloqua server. (i.e. eloqua.example.com).
@@ -8863,7 +8886,7 @@ class EloquaLinkedService(LinkedService):
      sitename/username. (i.e. Eloqua/Alice).
     :type username: object
     :param password: The password corresponding to the user name.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true.
     :type use_encrypted_endpoints: object
@@ -8920,7 +8943,7 @@ class EloquaLinkedService(LinkedService):
         **kwargs
     ):
         super(EloquaLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Eloqua'
+        self.type: str = 'Eloqua'
         self.endpoint = endpoint
         self.username = username
         self.password = password
@@ -8949,14 +8972,14 @@ class EloquaObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -8994,7 +9017,7 @@ class EloquaObjectDataset(Dataset):
         **kwargs
     ):
         super(EloquaObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'EloquaObject'
+        self.type: str = 'EloquaObject'
         self.table_name = table_name
 
 
@@ -9003,7 +9026,7 @@ class EntityReference(msrest.serialization.Model):
 
     :param type: The type of this referenced entity. Possible values include:
      "IntegrationRuntimeReference", "LinkedServiceReference".
-    :type type: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeEntityReferenceType
+    :type type: str or ~data_factory_management_client.models.IntegrationRuntimeEntityReferenceType
     :param reference_name: The name of this referenced entity.
     :type reference_name: str
     """
@@ -9025,6 +9048,103 @@ class EntityReference(msrest.serialization.Model):
         self.reference_name = reference_name
 
 
+class ExcelDataset(Dataset):
+    """Excel dataset.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :param additional_properties: Unmatched properties from the message are deserialized to this
+     collection.
+    :type additional_properties: dict[str, object]
+    :param type: Required. Type of dataset.Constant filled by server.
+    :type type: str
+    :param description: Dataset description.
+    :type description: str
+    :param structure: Columns that define the structure of the dataset. Type: array (or Expression
+     with resultType array), itemType: DatasetDataElement.
+    :type structure: object
+    :param schema: Columns that define the physical type schema of the dataset. Type: array (or
+     Expression with resultType array), itemType: DatasetSchemaDataElement.
+    :type schema: object
+    :param linked_service_name: Required. Linked service reference.
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
+    :param parameters: Parameters for dataset.
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
+    :param annotations: List of tags that can be used for describing the Dataset.
+    :type annotations: list[object]
+    :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
+     root level.
+    :type folder: ~data_factory_management_client.models.DatasetFolder
+    :param location: The location of the excel storage.
+    :type location: ~data_factory_management_client.models.DatasetLocation
+    :param sheet_name: The sheet of excel file. Type: string (or Expression with resultType
+     string).
+    :type sheet_name: object
+    :param range: The partial data of one sheet. Type: string (or Expression with resultType
+     string).
+    :type range: object
+    :param first_row_as_header: When used as input, treat the first row of data as headers. When
+     used as output,write the headers into the output as the first row of data. The default value is
+     false. Type: boolean (or Expression with resultType boolean).
+    :type first_row_as_header: object
+    :param compression: The data compression method used for the json dataset.
+    :type compression: ~data_factory_management_client.models.DatasetCompression
+    :param null_value: The null value string. Type: string (or Expression with resultType string).
+    :type null_value: object
+    """
+
+    _validation = {
+        'type': {'required': True},
+        'linked_service_name': {'required': True},
+    }
+
+    _attribute_map = {
+        'additional_properties': {'key': '', 'type': '{object}'},
+        'type': {'key': 'type', 'type': 'str'},
+        'description': {'key': 'description', 'type': 'str'},
+        'structure': {'key': 'structure', 'type': 'object'},
+        'schema': {'key': 'schema', 'type': 'object'},
+        'linked_service_name': {'key': 'linkedServiceName', 'type': 'LinkedServiceReference'},
+        'parameters': {'key': 'parameters', 'type': '{ParameterSpecification}'},
+        'annotations': {'key': 'annotations', 'type': '[object]'},
+        'folder': {'key': 'folder', 'type': 'DatasetFolder'},
+        'location': {'key': 'typeProperties.location', 'type': 'DatasetLocation'},
+        'sheet_name': {'key': 'typeProperties.sheetName', 'type': 'object'},
+        'range': {'key': 'typeProperties.range', 'type': 'object'},
+        'first_row_as_header': {'key': 'typeProperties.firstRowAsHeader', 'type': 'object'},
+        'compression': {'key': 'typeProperties.compression', 'type': 'DatasetCompression'},
+        'null_value': {'key': 'typeProperties.nullValue', 'type': 'object'},
+    }
+
+    def __init__(
+        self,
+        *,
+        linked_service_name: "LinkedServiceReference",
+        additional_properties: Optional[Dict[str, object]] = None,
+        description: Optional[str] = None,
+        structure: Optional[object] = None,
+        schema: Optional[object] = None,
+        parameters: Optional[Dict[str, "ParameterSpecification"]] = None,
+        annotations: Optional[List[object]] = None,
+        folder: Optional["DatasetFolder"] = None,
+        location: Optional["DatasetLocation"] = None,
+        sheet_name: Optional[object] = None,
+        range: Optional[object] = None,
+        first_row_as_header: Optional[object] = None,
+        compression: Optional["DatasetCompression"] = None,
+        null_value: Optional[object] = None,
+        **kwargs
+    ):
+        super(ExcelDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
+        self.type: str = 'Excel'
+        self.location = location
+        self.sheet_name = sheet_name
+        self.range = range
+        self.first_row_as_header = first_row_as_header
+        self.compression = compression
+        self.null_value = null_value
+
+
 class ExecuteDataFlowActivity(ExecutionActivity):
     """Execute data flow activity.
 
@@ -9040,21 +9160,22 @@ class ExecuteDataFlowActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param data_flow: Required. Data flow reference.
-    :type data_flow: ~azure.mgmt.datafactory.models.DataFlowReference
+    :type data_flow: ~data_factory_management_client.models.DataFlowReference
     :param staging: Staging info for execute data flow activity.
-    :type staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
+    :type staging: ~data_factory_management_client.models.DataFlowStagingInfo
     :param integration_runtime: The integration runtime reference.
-    :type integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type integration_runtime: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param compute: Compute properties for data flow activity.
-    :type compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
+    :type compute:
+     ~data_factory_management_client.models.ExecuteDataFlowActivityTypePropertiesCompute
     """
 
     _validation = {
@@ -9095,7 +9216,7 @@ class ExecuteDataFlowActivity(ExecutionActivity):
         **kwargs
     ):
         super(ExecuteDataFlowActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'ExecuteDataFlow'
+        self.type: str = 'ExecuteDataFlow'
         self.data_flow = data_flow
         self.staging = staging
         self.integration_runtime = integration_runtime
@@ -9107,7 +9228,7 @@ class ExecuteDataFlowActivityTypePropertiesCompute(msrest.serialization.Model):
 
     :param compute_type: Compute type of the cluster which will execute data flow job. Possible
      values include: "General", "MemoryOptimized", "ComputeOptimized".
-    :type compute_type: str or ~azure.mgmt.datafactory.models.DataFlowComputeType
+    :type compute_type: str or ~data_factory_management_client.models.DataFlowComputeType
     :param core_count: Core count of the cluster which will execute data flow job. Supported values
      are: 8, 16, 32, 48, 80, 144 and 272.
     :type core_count: int
@@ -9130,7 +9251,7 @@ class ExecuteDataFlowActivityTypePropertiesCompute(msrest.serialization.Model):
         self.core_count = core_count
 
 
-class ExecutePipelineActivity(ControlActivity):
+class ExecutePipelineActivity(Activity):
     """Execute pipeline activity.
 
     All required parameters must be populated in order to send to Azure.
@@ -9145,11 +9266,11 @@ class ExecutePipelineActivity(ControlActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param pipeline: Required. Pipeline reference.
-    :type pipeline: ~azure.mgmt.datafactory.models.PipelineReference
+    :type pipeline: ~data_factory_management_client.models.PipelineReference
     :param parameters: Pipeline parameters.
     :type parameters: dict[str, object]
     :param wait_on_completion: Defines whether activity execution will wait for the dependent
@@ -9189,7 +9310,7 @@ class ExecutePipelineActivity(ControlActivity):
         **kwargs
     ):
         super(ExecutePipelineActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, **kwargs)
-        self.type = 'ExecutePipeline'
+        self.type: str = 'ExecutePipeline'
         self.pipeline = pipeline
         self.parameters = parameters
         self.wait_on_completion = wait_on_completion
@@ -9210,15 +9331,15 @@ class ExecuteSsisPackageActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param package_location: Required. SSIS package location.
-    :type package_location: ~azure.mgmt.datafactory.models.SsisPackageLocation
+    :type package_location: ~data_factory_management_client.models.SsisPackageLocation
     :param runtime: Specifies the runtime to execute SSIS package. The value should be "x86" or
      "x64". Type: string (or Expression with resultType string).
     :type runtime: object
@@ -9229,13 +9350,15 @@ class ExecuteSsisPackageActivity(ExecutionActivity):
      Expression with resultType string).
     :type environment_path: object
     :param execution_credential: The package execution credential.
-    :type execution_credential: ~azure.mgmt.datafactory.models.SsisExecutionCredential
+    :type execution_credential: ~data_factory_management_client.models.SsisExecutionCredential
     :param connect_via: Required. The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param project_parameters: The project level parameters to execute the SSIS package.
-    :type project_parameters: dict[str, ~azure.mgmt.datafactory.models.SsisExecutionParameter]
+    :type project_parameters: dict[str,
+     ~data_factory_management_client.models.SsisExecutionParameter]
     :param package_parameters: The package level parameters to execute the SSIS package.
-    :type package_parameters: dict[str, ~azure.mgmt.datafactory.models.SsisExecutionParameter]
+    :type package_parameters: dict[str,
+     ~data_factory_management_client.models.SsisExecutionParameter]
     :param project_connection_managers: The project level connection managers to execute the SSIS
      package.
     :type project_connection_managers: dict[str, object]
@@ -9243,9 +9366,10 @@ class ExecuteSsisPackageActivity(ExecutionActivity):
      package.
     :type package_connection_managers: dict[str, object]
     :param property_overrides: The property overrides to execute the SSIS package.
-    :type property_overrides: dict[str, ~azure.mgmt.datafactory.models.SsisPropertyOverride]
+    :type property_overrides: dict[str,
+     ~data_factory_management_client.models.SsisPropertyOverride]
     :param log_location: SSIS package execution log location.
-    :type log_location: ~azure.mgmt.datafactory.models.SsisLogLocation
+    :type log_location: ~data_factory_management_client.models.SsisLogLocation
     """
 
     _validation = {
@@ -9303,7 +9427,7 @@ class ExecuteSsisPackageActivity(ExecutionActivity):
         **kwargs
     ):
         super(ExecuteSsisPackageActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'ExecuteSSISPackage'
+        self.type: str = 'ExecuteSSISPackage'
         self.package_location = package_location
         self.runtime = runtime
         self.logging_level = logging_level
@@ -9481,7 +9605,7 @@ class Factory(Resource):
      collection.
     :type additional_properties: dict[str, object]
     :param identity: Managed service identity of the factory.
-    :type identity: ~azure.mgmt.datafactory.models.FactoryIdentity
+    :type identity: ~data_factory_management_client.models.FactoryIdentity
     :ivar provisioning_state: Factory provisioning state, example Succeeded.
     :vartype provisioning_state: str
     :ivar create_time: Time the factory was created in ISO8601 format.
@@ -9489,7 +9613,10 @@ class Factory(Resource):
     :ivar version: Version of the factory.
     :vartype version: str
     :param repo_configuration: Git repo information of the factory.
-    :type repo_configuration: ~azure.mgmt.datafactory.models.FactoryRepoConfiguration
+    :type repo_configuration: ~data_factory_management_client.models.FactoryRepoConfiguration
+    :param global_parameters: List of parameters for factory.
+    :type global_parameters: dict[str,
+     ~data_factory_management_client.models.GlobalParameterSpecification]
     """
 
     _validation = {
@@ -9515,6 +9642,7 @@ class Factory(Resource):
         'create_time': {'key': 'properties.createTime', 'type': 'iso-8601'},
         'version': {'key': 'properties.version', 'type': 'str'},
         'repo_configuration': {'key': 'properties.repoConfiguration', 'type': 'FactoryRepoConfiguration'},
+        'global_parameters': {'key': 'properties.globalParameters', 'type': '{GlobalParameterSpecification}'},
     }
 
     def __init__(
@@ -9525,6 +9653,7 @@ class Factory(Resource):
         additional_properties: Optional[Dict[str, object]] = None,
         identity: Optional["FactoryIdentity"] = None,
         repo_configuration: Optional["FactoryRepoConfiguration"] = None,
+        global_parameters: Optional[Dict[str, "GlobalParameterSpecification"]] = None,
         **kwargs
     ):
         super(Factory, self).__init__(location=location, tags=tags, **kwargs)
@@ -9534,6 +9663,7 @@ class Factory(Resource):
         self.create_time = None
         self.version = None
         self.repo_configuration = repo_configuration
+        self.global_parameters = global_parameters
 
 
 class FactoryRepoConfiguration(msrest.serialization.Model):
@@ -9590,7 +9720,7 @@ class FactoryRepoConfiguration(msrest.serialization.Model):
         **kwargs
     ):
         super(FactoryRepoConfiguration, self).__init__(**kwargs)
-        self.type = None
+        self.type: Optional[str] = None
         self.account_name = account_name
         self.repository_name = repository_name
         self.collaboration_branch = collaboration_branch
@@ -9649,7 +9779,7 @@ class FactoryGitHubConfiguration(FactoryRepoConfiguration):
         **kwargs
     ):
         super(FactoryGitHubConfiguration, self).__init__(account_name=account_name, repository_name=repository_name, collaboration_branch=collaboration_branch, root_folder=root_folder, last_commit_id=last_commit_id, **kwargs)
-        self.type = 'FactoryGitHubConfiguration'
+        self.type: str = 'FactoryGitHubConfiguration'
         self.host_name = host_name
 
 
@@ -9698,7 +9828,7 @@ class FactoryListResponse(msrest.serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :param value: Required. List of factories.
-    :type value: list[~azure.mgmt.datafactory.models.Factory]
+    :type value: list[~data_factory_management_client.models.Factory]
     :param next_link: The link to the next page of results, if any remaining results exist.
     :type next_link: str
     """
@@ -9730,7 +9860,7 @@ class FactoryRepoUpdate(msrest.serialization.Model):
     :param factory_resource_id: The factory resource id.
     :type factory_resource_id: str
     :param repo_configuration: Git repo information of the factory.
-    :type repo_configuration: ~azure.mgmt.datafactory.models.FactoryRepoConfiguration
+    :type repo_configuration: ~data_factory_management_client.models.FactoryRepoConfiguration
     """
 
     _attribute_map = {
@@ -9756,7 +9886,7 @@ class FactoryUpdateParameters(msrest.serialization.Model):
     :param tags: A set of tags. The resource tags.
     :type tags: dict[str, str]
     :param identity: Managed service identity of the factory.
-    :type identity: ~azure.mgmt.datafactory.models.FactoryIdentity
+    :type identity: ~data_factory_management_client.models.FactoryIdentity
     """
 
     _attribute_map = {
@@ -9832,7 +9962,7 @@ class FactoryVstsConfiguration(FactoryRepoConfiguration):
         **kwargs
     ):
         super(FactoryVstsConfiguration, self).__init__(account_name=account_name, repository_name=repository_name, collaboration_branch=collaboration_branch, root_folder=root_folder, last_commit_id=last_commit_id, **kwargs)
-        self.type = 'FactoryVSTSConfiguration'
+        self.type: str = 'FactoryVSTSConfiguration'
         self.project_name = project_name
         self.tenant_id = tenant_id
 
@@ -9848,11 +9978,11 @@ class FileServerLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. Host name of the server. Type: string (or Expression with resultType
@@ -9862,7 +9992,7 @@ class FileServerLinkedService(LinkedService):
      string).
     :type user_id: object
     :param password: Password to logon the server.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -9902,7 +10032,7 @@ class FileServerLinkedService(LinkedService):
         **kwargs
     ):
         super(FileServerLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'FileServer'
+        self.type: str = 'FileServer'
         self.host = host
         self.user_id = user_id
         self.password = password
@@ -9928,14 +10058,14 @@ class FileShareDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param folder_path: The path of the on-premises file system. Type: string (or Expression with
      resultType string).
     :type folder_path: object
@@ -9949,12 +10079,12 @@ class FileShareDataset(Dataset):
      with resultType string).
     :type modified_datetime_end: object
     :param format: The format of the files.
-    :type format: ~azure.mgmt.datafactory.models.DatasetStorageFormat
+    :type format: ~data_factory_management_client.models.DatasetStorageFormat
     :param file_filter: Specify a filter to be used to select a subset of files in the folderPath
      rather than all files. Type: string (or Expression with resultType string).
     :type file_filter: object
     :param compression: The data compression method used for the file system.
-    :type compression: ~azure.mgmt.datafactory.models.DatasetCompression
+    :type compression: ~data_factory_management_client.models.DatasetCompression
     """
 
     _validation = {
@@ -10002,7 +10132,7 @@ class FileShareDataset(Dataset):
         **kwargs
     ):
         super(FileShareDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'FileShare'
+        self.type: str = 'FileShare'
         self.folder_path = folder_path
         self.file_name = file_name
         self.modified_datetime_start = modified_datetime_start
@@ -10012,7 +10142,7 @@ class FileShareDataset(Dataset):
         self.compression = compression
 
 
-class FilterActivity(ControlActivity):
+class FilterActivity(Activity):
     """Filter and return results from input array based on the conditions.
 
     All required parameters must be populated in order to send to Azure.
@@ -10027,13 +10157,13 @@ class FilterActivity(ControlActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param items: Required. Input array on which filter should be applied.
-    :type items: ~azure.mgmt.datafactory.models.Expression
+    :type items: ~data_factory_management_client.models.Expression
     :param condition: Required. Condition to be used for filtering the input.
-    :type condition: ~azure.mgmt.datafactory.models.Expression
+    :type condition: ~data_factory_management_client.models.Expression
     """
 
     _validation = {
@@ -10067,12 +10197,12 @@ class FilterActivity(ControlActivity):
         **kwargs
     ):
         super(FilterActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, **kwargs)
-        self.type = 'Filter'
+        self.type: str = 'Filter'
         self.items = items
         self.condition = condition
 
 
-class ForEachActivity(ControlActivity):
+class ForEachActivity(Activity):
     """This activity is used for iterating over a collection and execute given activities.
 
     All required parameters must be populated in order to send to Azure.
@@ -10087,18 +10217,18 @@ class ForEachActivity(ControlActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param is_sequential: Should the loop be executed in sequence or in parallel (max 50).
     :type is_sequential: bool
     :param batch_count: Batch count to be used for controlling the number of parallel execution
      (when isSequential is set to false).
     :type batch_count: int
     :param items: Required. Collection to iterate.
-    :type items: ~azure.mgmt.datafactory.models.Expression
+    :type items: ~data_factory_management_client.models.Expression
     :param activities: Required. List of activities to execute .
-    :type activities: list[~azure.mgmt.datafactory.models.Activity]
+    :type activities: list[~data_factory_management_client.models.Activity]
     """
 
     _validation = {
@@ -10137,7 +10267,7 @@ class ForEachActivity(ControlActivity):
         **kwargs
     ):
         super(ForEachActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, **kwargs)
-        self.type = 'ForEach'
+        self.type: str = 'ForEach'
         self.is_sequential = is_sequential
         self.batch_count = batch_count
         self.items = items
@@ -10180,7 +10310,7 @@ class FormatReadSettings(msrest.serialization.Model):
     ):
         super(FormatReadSettings, self).__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = 'FormatReadSettings'
+        self.type: str = 'FormatReadSettings'
 
 
 class FtpServerLinkedService(LinkedService):
@@ -10194,11 +10324,11 @@ class FtpServerLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. Host name of the FTP server. Type: string (or Expression with resultType
@@ -10209,12 +10339,12 @@ class FtpServerLinkedService(LinkedService):
     :type port: object
     :param authentication_type: The authentication type to be used to connect to the FTP server.
      Possible values include: "Basic", "Anonymous".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.FtpAuthenticationType
+    :type authentication_type: str or ~data_factory_management_client.models.FtpAuthenticationType
     :param user_name: Username to logon the FTP server. Type: string (or Expression with resultType
      string).
     :type user_name: object
     :param password: Password to logon the FTP server.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -10269,7 +10399,7 @@ class FtpServerLinkedService(LinkedService):
         **kwargs
     ):
         super(FtpServerLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'FtpServer'
+        self.type: str = 'FtpServer'
         self.host = host
         self.port = port
         self.authentication_type = authentication_type
@@ -10322,21 +10452,21 @@ class GetMetadataActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param dataset: Required. GetMetadata activity dataset reference.
-    :type dataset: ~azure.mgmt.datafactory.models.DatasetReference
+    :type dataset: ~data_factory_management_client.models.DatasetReference
     :param field_list: Fields of metadata to get from dataset.
     :type field_list: list[object]
     :param store_settings: GetMetadata activity store settings.
-    :type store_settings: ~azure.mgmt.datafactory.models.StoreReadSettings
+    :type store_settings: ~data_factory_management_client.models.StoreReadSettings
     :param format_settings: GetMetadata activity format settings.
-    :type format_settings: ~azure.mgmt.datafactory.models.FormatReadSettings
+    :type format_settings: ~data_factory_management_client.models.FormatReadSettings
     """
 
     _validation = {
@@ -10377,7 +10507,7 @@ class GetMetadataActivity(ExecutionActivity):
         **kwargs
     ):
         super(GetMetadataActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'GetMetadata'
+        self.type: str = 'GetMetadata'
         self.dataset = dataset
         self.field_list = field_list
         self.store_settings = store_settings
@@ -10464,6 +10594,40 @@ class GitHubAccessTokenResponse(msrest.serialization.Model):
         self.git_hub_access_token = git_hub_access_token
 
 
+class GlobalParameterSpecification(msrest.serialization.Model):
+    """Definition of a single parameter for an entity.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :param type: Required. Global Parameter type. Possible values include: "Object", "String",
+     "Int", "Float", "Bool", "Array".
+    :type type: str or ~data_factory_management_client.models.GlobalParameterType
+    :param value: Required. Value of parameter.
+    :type value: object
+    """
+
+    _validation = {
+        'type': {'required': True},
+        'value': {'required': True},
+    }
+
+    _attribute_map = {
+        'type': {'key': 'type', 'type': 'str'},
+        'value': {'key': 'value', 'type': 'object'},
+    }
+
+    def __init__(
+        self,
+        *,
+        type: Union[str, "GlobalParameterType"],
+        value: object,
+        **kwargs
+    ):
+        super(GlobalParameterSpecification, self).__init__(**kwargs)
+        self.type = type
+        self.value = value
+
+
 class GoogleAdWordsLinkedService(LinkedService):
     """Google AdWords service linked service.
 
@@ -10475,11 +10639,11 @@ class GoogleAdWordsLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param client_customer_id: Required. The Client customer ID of the AdWords account that you
@@ -10487,21 +10651,21 @@ class GoogleAdWordsLinkedService(LinkedService):
     :type client_customer_id: object
     :param developer_token: Required. The developer token associated with the manager account that
      you use to grant access to the AdWords API.
-    :type developer_token: ~azure.mgmt.datafactory.models.SecretBase
+    :type developer_token: ~data_factory_management_client.models.SecretBase
     :param authentication_type: Required. The OAuth 2.0 authentication mechanism used for
      authentication. ServiceAuthentication can only be used on self-hosted IR. Possible values
      include: "ServiceAuthentication", "UserAuthentication".
     :type authentication_type: str or
-     ~azure.mgmt.datafactory.models.GoogleAdWordsAuthenticationType
+     ~data_factory_management_client.models.GoogleAdWordsAuthenticationType
     :param refresh_token: The refresh token obtained from Google for authorizing access to AdWords
      for UserAuthentication.
-    :type refresh_token: ~azure.mgmt.datafactory.models.SecretBase
+    :type refresh_token: ~data_factory_management_client.models.SecretBase
     :param client_id: The client id of the google application used to acquire the refresh token.
      Type: string (or Expression with resultType string).
     :type client_id: object
     :param client_secret: The client secret of the google application used to acquire the refresh
      token.
-    :type client_secret: ~azure.mgmt.datafactory.models.SecretBase
+    :type client_secret: ~data_factory_management_client.models.SecretBase
     :param email: The service account email ID that is used for ServiceAuthentication and can only
      be used on self-hosted IR.
     :type email: object
@@ -10570,7 +10734,7 @@ class GoogleAdWordsLinkedService(LinkedService):
         **kwargs
     ):
         super(GoogleAdWordsLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'GoogleAdWords'
+        self.type: str = 'GoogleAdWords'
         self.client_customer_id = client_customer_id
         self.developer_token = developer_token
         self.authentication_type = authentication_type
@@ -10603,14 +10767,14 @@ class GoogleAdWordsObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -10648,7 +10812,7 @@ class GoogleAdWordsObjectDataset(Dataset):
         **kwargs
     ):
         super(GoogleAdWordsObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'GoogleAdWordsObject'
+        self.type: str = 'GoogleAdWordsObject'
         self.table_name = table_name
 
 
@@ -10663,11 +10827,11 @@ class GoogleBigQueryLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param project: Required. The default BigQuery project to query against.
@@ -10682,16 +10846,16 @@ class GoogleBigQueryLinkedService(LinkedService):
      authentication. ServiceAuthentication can only be used on self-hosted IR. Possible values
      include: "ServiceAuthentication", "UserAuthentication".
     :type authentication_type: str or
-     ~azure.mgmt.datafactory.models.GoogleBigQueryAuthenticationType
+     ~data_factory_management_client.models.GoogleBigQueryAuthenticationType
     :param refresh_token: The refresh token obtained from Google for authorizing access to BigQuery
      for UserAuthentication.
-    :type refresh_token: ~azure.mgmt.datafactory.models.SecretBase
+    :type refresh_token: ~data_factory_management_client.models.SecretBase
     :param client_id: The client id of the google application used to acquire the refresh token.
      Type: string (or Expression with resultType string).
     :type client_id: object
     :param client_secret: The client secret of the google application used to acquire the refresh
      token.
-    :type client_secret: ~azure.mgmt.datafactory.models.SecretBase
+    :type client_secret: ~data_factory_management_client.models.SecretBase
     :param email: The service account email ID that is used for ServiceAuthentication and can only
      be used on self-hosted IR.
     :type email: object
@@ -10761,7 +10925,7 @@ class GoogleBigQueryLinkedService(LinkedService):
         **kwargs
     ):
         super(GoogleBigQueryLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'GoogleBigQuery'
+        self.type: str = 'GoogleBigQuery'
         self.project = project
         self.additional_projects = additional_projects
         self.request_google_drive_scope = request_google_drive_scope
@@ -10795,14 +10959,14 @@ class GoogleBigQueryObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using database + table
      properties instead.
     :type table_name: object
@@ -10851,7 +11015,7 @@ class GoogleBigQueryObjectDataset(Dataset):
         **kwargs
     ):
         super(GoogleBigQueryObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'GoogleBigQueryObject'
+        self.type: str = 'GoogleBigQueryObject'
         self.table_name = table_name
         self.table = table
         self.dataset = dataset
@@ -10868,11 +11032,11 @@ class GoogleCloudStorageLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param access_key_id: The access key identifier of the Google Cloud Storage Identity and Access
@@ -10880,7 +11044,7 @@ class GoogleCloudStorageLinkedService(LinkedService):
     :type access_key_id: object
     :param secret_access_key: The secret access key of the Google Cloud Storage Identity and Access
      Management (IAM) user.
-    :type secret_access_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type secret_access_key: ~data_factory_management_client.models.SecretBase
     :param service_url: This value specifies the endpoint to access with the Google Cloud Storage
      Connector. This is an optional property; change it only if you want to try a different service
      endpoint or want to switch between https and http. Type: string (or Expression with resultType
@@ -10924,7 +11088,7 @@ class GoogleCloudStorageLinkedService(LinkedService):
         **kwargs
     ):
         super(GoogleCloudStorageLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'GoogleCloudStorage'
+        self.type: str = 'GoogleCloudStorage'
         self.access_key_id = access_key_id
         self.secret_access_key = secret_access_key
         self.service_url = service_url
@@ -10942,18 +11106,18 @@ class GreenplumLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: An ODBC connection string. Type: string, SecureString or
      AzureKeyVaultSecretReference.
     :type connection_string: object
     :param pwd: The Azure key vault secret reference of password in connection string.
-    :type pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type pwd: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -10990,7 +11154,7 @@ class GreenplumLinkedService(LinkedService):
         **kwargs
     ):
         super(GreenplumLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Greenplum'
+        self.type: str = 'Greenplum'
         self.connection_string = connection_string
         self.pwd = pwd
         self.encrypted_credential = encrypted_credential
@@ -11015,14 +11179,14 @@ class GreenplumTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -11070,7 +11234,7 @@ class GreenplumTableDataset(Dataset):
         **kwargs
     ):
         super(GreenplumTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'GreenplumTable'
+        self.type: str = 'GreenplumTable'
         self.table_name = table_name
         self.table = table
         self.schema_type_properties_schema = schema_type_properties_schema
@@ -11087,11 +11251,11 @@ class HBaseLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. The IP address or host name of the HBase server. (i.e. 192.168.222.160).
@@ -11104,11 +11268,12 @@ class HBaseLinkedService(LinkedService):
     :type http_path: object
     :param authentication_type: Required. The authentication mechanism to use to connect to the
      HBase server. Possible values include: "Anonymous", "Basic".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.HBaseAuthenticationType
+    :type authentication_type: str or
+     ~data_factory_management_client.models.HBaseAuthenticationType
     :param username: The user name used to connect to the HBase instance.
     :type username: object
     :param password: The password corresponding to the user name.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param enable_ssl: Specifies whether the connections to the server are encrypted using SSL. The
      default value is false.
     :type enable_ssl: object
@@ -11176,7 +11341,7 @@ class HBaseLinkedService(LinkedService):
         **kwargs
     ):
         super(HBaseLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'HBase'
+        self.type: str = 'HBase'
         self.host = host
         self.port = port
         self.http_path = http_path
@@ -11209,14 +11374,14 @@ class HBaseObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -11254,7 +11419,7 @@ class HBaseObjectDataset(Dataset):
         **kwargs
     ):
         super(HBaseObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'HBaseObject'
+        self.type: str = 'HBaseObject'
         self.table_name = table_name
 
 
@@ -11269,11 +11434,11 @@ class HdfsLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param url: Required. The URL of the HDFS service endpoint, e.g.
@@ -11290,7 +11455,7 @@ class HdfsLinkedService(LinkedService):
      resultType string).
     :type user_name: object
     :param password: Password for Windows authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     """
 
     _validation = {
@@ -11328,7 +11493,7 @@ class HdfsLinkedService(LinkedService):
         **kwargs
     ):
         super(HdfsLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Hdfs'
+        self.type: str = 'Hdfs'
         self.url = url
         self.authentication_type = authentication_type
         self.encrypted_credential = encrypted_credential
@@ -11351,23 +11516,25 @@ class HdInsightHiveActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param storage_linked_services: Storage linked service references.
-    :type storage_linked_services: list[~azure.mgmt.datafactory.models.LinkedServiceReference]
+    :type storage_linked_services:
+     list[~data_factory_management_client.models.LinkedServiceReference]
     :param arguments: User specified arguments to HDInsightActivity.
     :type arguments: list[object]
     :param get_debug_info: Debug info option. Possible values include: "None", "Always", "Failure".
-    :type get_debug_info: str or ~azure.mgmt.datafactory.models.HdInsightActivityDebugInfoOption
+    :type get_debug_info: str or
+     ~data_factory_management_client.models.HdInsightActivityDebugInfoOption
     :param script_path: Script path. Type: string (or Expression with resultType string).
     :type script_path: object
     :param script_linked_service: Script linked service reference.
-    :type script_linked_service: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type script_linked_service: ~data_factory_management_client.models.LinkedServiceReference
     :param defines: Allows user to specify defines for Hive job request.
     :type defines: dict[str, object]
     :param variables: User specified arguments under hivevar namespace.
@@ -11422,7 +11589,7 @@ class HdInsightHiveActivity(ExecutionActivity):
         **kwargs
     ):
         super(HdInsightHiveActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'HDInsightHive'
+        self.type: str = 'HDInsightHive'
         self.storage_linked_services = storage_linked_services
         self.arguments = arguments
         self.get_debug_info = get_debug_info
@@ -11444,11 +11611,11 @@ class HdInsightLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param cluster_uri: Required. HDInsight cluster URI. Type: string (or Expression with
@@ -11458,12 +11625,13 @@ class HdInsightLinkedService(LinkedService):
      string).
     :type user_name: object
     :param password: HDInsight cluster password.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param linked_service_name: The Azure Storage linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param hcatalog_linked_service_name: A reference to the Azure SQL linked service that points to
      the HCatalog database.
-    :type hcatalog_linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type hcatalog_linked_service_name:
+     ~data_factory_management_client.models.LinkedServiceReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -11517,7 +11685,7 @@ class HdInsightLinkedService(LinkedService):
         **kwargs
     ):
         super(HdInsightLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'HDInsight'
+        self.type: str = 'HDInsight'
         self.cluster_uri = cluster_uri
         self.user_name = user_name
         self.password = password
@@ -11543,25 +11711,27 @@ class HdInsightMapReduceActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param storage_linked_services: Storage linked service references.
-    :type storage_linked_services: list[~azure.mgmt.datafactory.models.LinkedServiceReference]
+    :type storage_linked_services:
+     list[~data_factory_management_client.models.LinkedServiceReference]
     :param arguments: User specified arguments to HDInsightActivity.
     :type arguments: list[object]
     :param get_debug_info: Debug info option. Possible values include: "None", "Always", "Failure".
-    :type get_debug_info: str or ~azure.mgmt.datafactory.models.HdInsightActivityDebugInfoOption
+    :type get_debug_info: str or
+     ~data_factory_management_client.models.HdInsightActivityDebugInfoOption
     :param class_name: Required. Class name. Type: string (or Expression with resultType string).
     :type class_name: object
     :param jar_file_path: Required. Jar path. Type: string (or Expression with resultType string).
     :type jar_file_path: object
     :param jar_linked_service: Jar linked service reference.
-    :type jar_linked_service: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type jar_linked_service: ~data_factory_management_client.models.LinkedServiceReference
     :param jar_libs: Jar libs.
     :type jar_libs: list[object]
     :param defines: Allows user to specify defines for the MapReduce job request.
@@ -11615,7 +11785,7 @@ class HdInsightMapReduceActivity(ExecutionActivity):
         **kwargs
     ):
         super(HdInsightMapReduceActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'HDInsightMapReduce'
+        self.type: str = 'HDInsightMapReduce'
         self.storage_linked_services = storage_linked_services
         self.arguments = arguments
         self.get_debug_info = get_debug_info
@@ -11637,11 +11807,11 @@ class HdInsightOnDemandLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param cluster_size: Required. Number of worker/data nodes in the cluster. Suggestion value: 4.
@@ -11657,7 +11827,7 @@ class HdInsightOnDemandLinkedService(LinkedService):
     :type version: object
     :param linked_service_name: Required. Azure Storage linked service to be used by the on-demand
      cluster for storing and processing data.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param host_subscription_id: Required. The customer’s subscription to host the cluster. Type:
      string (or Expression with resultType string).
     :type host_subscription_id: object
@@ -11665,7 +11835,7 @@ class HdInsightOnDemandLinkedService(LinkedService):
      (or Expression with resultType string).
     :type service_principal_id: object
     :param service_principal_key: The key for the service principal id.
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param tenant: Required. The Tenant id/name to which the service principal belongs. Type:
      string (or Expression with resultType string).
     :type tenant: object
@@ -11679,20 +11849,21 @@ class HdInsightOnDemandLinkedService(LinkedService):
      resultType string).
     :type cluster_user_name: object
     :param cluster_password: The password to access the cluster.
-    :type cluster_password: ~azure.mgmt.datafactory.models.SecretBase
+    :type cluster_password: ~data_factory_management_client.models.SecretBase
     :param cluster_ssh_user_name: The username to SSH remotely connect to cluster’s node (for
      Linux). Type: string (or Expression with resultType string).
     :type cluster_ssh_user_name: object
     :param cluster_ssh_password: The password to SSH remotely connect cluster’s node (for Linux).
-    :type cluster_ssh_password: ~azure.mgmt.datafactory.models.SecretBase
+    :type cluster_ssh_password: ~data_factory_management_client.models.SecretBase
     :param additional_linked_service_names: Specifies additional storage accounts for the HDInsight
      linked service so that the Data Factory service can register them on your behalf.
     :type additional_linked_service_names:
-     list[~azure.mgmt.datafactory.models.LinkedServiceReference]
+     list[~data_factory_management_client.models.LinkedServiceReference]
     :param hcatalog_linked_service_name: The name of Azure SQL linked service that point to the
      HCatalog database. The on-demand HDInsight cluster is created by using the Azure SQL database
      as the metastore.
-    :type hcatalog_linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type hcatalog_linked_service_name:
+     ~data_factory_management_client.models.LinkedServiceReference
     :param cluster_type: The cluster type. Type: string (or Expression with resultType string).
     :type cluster_type: object
     :param spark_version: The version of spark if the cluster type is 'spark'. Type: string (or
@@ -11737,7 +11908,7 @@ class HdInsightOnDemandLinkedService(LinkedService):
      Please refer to https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-customize-
      cluster-linux?toc=%2Fen-us%2Fazure%2Fhdinsight%2Fr-server%2FTOC.json&bc=%2Fen-
      us%2Fazure%2Fbread%2Ftoc.json#understanding-script-actions.
-    :type script_actions: list[~azure.mgmt.datafactory.models.ScriptAction]
+    :type script_actions: list[~data_factory_management_client.models.ScriptAction]
     :param virtual_network_id: The ARM resource ID for the vNet to which the cluster should be
      joined after creation. Type: string (or Expression with resultType string).
     :type virtual_network_id: object
@@ -11843,7 +12014,7 @@ class HdInsightOnDemandLinkedService(LinkedService):
         **kwargs
     ):
         super(HdInsightOnDemandLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'HDInsightOnDemand'
+        self.type: str = 'HDInsightOnDemand'
         self.cluster_size = cluster_size
         self.time_to_live = time_to_live
         self.version = version
@@ -11894,24 +12065,26 @@ class HdInsightPigActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param storage_linked_services: Storage linked service references.
-    :type storage_linked_services: list[~azure.mgmt.datafactory.models.LinkedServiceReference]
+    :type storage_linked_services:
+     list[~data_factory_management_client.models.LinkedServiceReference]
     :param arguments: User specified arguments to HDInsightActivity. Type: array (or Expression
      with resultType array).
     :type arguments: object
     :param get_debug_info: Debug info option. Possible values include: "None", "Always", "Failure".
-    :type get_debug_info: str or ~azure.mgmt.datafactory.models.HdInsightActivityDebugInfoOption
+    :type get_debug_info: str or
+     ~data_factory_management_client.models.HdInsightActivityDebugInfoOption
     :param script_path: Script path. Type: string (or Expression with resultType string).
     :type script_path: object
     :param script_linked_service: Script linked service reference.
-    :type script_linked_service: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type script_linked_service: ~data_factory_management_client.models.LinkedServiceReference
     :param defines: Allows user to specify defines for Pig job request.
     :type defines: dict[str, object]
     """
@@ -11957,7 +12130,7 @@ class HdInsightPigActivity(ExecutionActivity):
         **kwargs
     ):
         super(HdInsightPigActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'HDInsightPig'
+        self.type: str = 'HDInsightPig'
         self.storage_linked_services = storage_linked_services
         self.arguments = arguments
         self.get_debug_info = get_debug_info
@@ -11981,13 +12154,13 @@ class HdInsightSparkActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param root_path: Required. The root path in 'sparkJobLinkedService' for all the job’s files.
      Type: string (or Expression with resultType string).
     :type root_path: object
@@ -11997,10 +12170,11 @@ class HdInsightSparkActivity(ExecutionActivity):
     :param arguments: The user-specified arguments to HDInsightSparkActivity.
     :type arguments: list[object]
     :param get_debug_info: Debug info option. Possible values include: "None", "Always", "Failure".
-    :type get_debug_info: str or ~azure.mgmt.datafactory.models.HdInsightActivityDebugInfoOption
+    :type get_debug_info: str or
+     ~data_factory_management_client.models.HdInsightActivityDebugInfoOption
     :param spark_job_linked_service: The storage linked service for uploading the entry file and
      dependencies, and for receiving logs.
-    :type spark_job_linked_service: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type spark_job_linked_service: ~data_factory_management_client.models.LinkedServiceReference
     :param class_name: The application's Java/Spark main class.
     :type class_name: str
     :param proxy_user: The user to impersonate that will execute the job. Type: string (or
@@ -12057,7 +12231,7 @@ class HdInsightSparkActivity(ExecutionActivity):
         **kwargs
     ):
         super(HdInsightSparkActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'HDInsightSpark'
+        self.type: str = 'HDInsightSpark'
         self.root_path = root_path
         self.entry_file_path = entry_file_path
         self.arguments = arguments
@@ -12083,19 +12257,21 @@ class HdInsightStreamingActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param storage_linked_services: Storage linked service references.
-    :type storage_linked_services: list[~azure.mgmt.datafactory.models.LinkedServiceReference]
+    :type storage_linked_services:
+     list[~data_factory_management_client.models.LinkedServiceReference]
     :param arguments: User specified arguments to HDInsightActivity.
     :type arguments: list[object]
     :param get_debug_info: Debug info option. Possible values include: "None", "Always", "Failure".
-    :type get_debug_info: str or ~azure.mgmt.datafactory.models.HdInsightActivityDebugInfoOption
+    :type get_debug_info: str or
+     ~data_factory_management_client.models.HdInsightActivityDebugInfoOption
     :param mapper: Required. Mapper executable name. Type: string (or Expression with resultType
      string).
     :type mapper: object
@@ -12109,7 +12285,7 @@ class HdInsightStreamingActivity(ExecutionActivity):
     :param file_paths: Required. Paths to streaming job files. Can be directories.
     :type file_paths: list[object]
     :param file_linked_service: Linked service reference where the files are located.
-    :type file_linked_service: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type file_linked_service: ~data_factory_management_client.models.LinkedServiceReference
     :param combiner: Combiner executable name. Type: string (or Expression with resultType string).
     :type combiner: object
     :param command_environment: Command line environment values.
@@ -12176,7 +12352,7 @@ class HdInsightStreamingActivity(ExecutionActivity):
         **kwargs
     ):
         super(HdInsightStreamingActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'HDInsightStreaming'
+        self.type: str = 'HDInsightStreaming'
         self.storage_linked_services = storage_linked_services
         self.arguments = arguments
         self.get_debug_info = get_debug_info
@@ -12202,11 +12378,11 @@ class HiveLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. IP address or host name of the Hive server, separated by ';' for
@@ -12216,15 +12392,15 @@ class HiveLinkedService(LinkedService):
     :type port: object
     :param server_type: The type of Hive server. Possible values include: "HiveServer1",
      "HiveServer2", "HiveThriftServer".
-    :type server_type: str or ~azure.mgmt.datafactory.models.HiveServerType
+    :type server_type: str or ~data_factory_management_client.models.HiveServerType
     :param thrift_transport_protocol: The transport protocol to use in the Thrift layer. Possible
      values include: "Binary", "SASL", "HTTP ".
     :type thrift_transport_protocol: str or
-     ~azure.mgmt.datafactory.models.HiveThriftTransportProtocol
+     ~data_factory_management_client.models.HiveThriftTransportProtocol
     :param authentication_type: Required. The authentication method used to access the Hive server.
      Possible values include: "Anonymous", "Username", "UsernameAndPassword",
      "WindowsAzureHDInsightService".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.HiveAuthenticationType
+    :type authentication_type: str or ~data_factory_management_client.models.HiveAuthenticationType
     :param service_discovery_mode: true to indicate using the ZooKeeper service, false not.
     :type service_discovery_mode: object
     :param zoo_keeper_name_space: The namespace on ZooKeeper under which Hive Server 2 nodes are
@@ -12237,7 +12413,7 @@ class HiveLinkedService(LinkedService):
     :type username: object
     :param password: The password corresponding to the user name that you provided in the Username
      field.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param http_path: The partial URL corresponding to the Hive server.
     :type http_path: object
     :param enable_ssl: Specifies whether the connections to the server are encrypted using SSL. The
@@ -12322,7 +12498,7 @@ class HiveLinkedService(LinkedService):
         **kwargs
     ):
         super(HiveLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Hive'
+        self.type: str = 'Hive'
         self.host = host
         self.port = port
         self.server_type = server_type
@@ -12361,14 +12537,14 @@ class HiveObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -12416,7 +12592,7 @@ class HiveObjectDataset(Dataset):
         **kwargs
     ):
         super(HiveObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'HiveObject'
+        self.type: str = 'HiveObject'
         self.table_name = table_name
         self.table = table
         self.schema_type_properties_schema = schema_type_properties_schema
@@ -12441,14 +12617,14 @@ class HttpDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param relative_url: The relative URL based on the URL in the HttpLinkedService refers to an
      HTTP file Type: string (or Expression with resultType string).
     :type relative_url: object
@@ -12465,9 +12641,9 @@ class HttpDataset(Dataset):
      string).
     :type additional_headers: object
     :param format: The format of files.
-    :type format: ~azure.mgmt.datafactory.models.DatasetStorageFormat
+    :type format: ~data_factory_management_client.models.DatasetStorageFormat
     :param compression: The data compression method used on files.
-    :type compression: ~azure.mgmt.datafactory.models.DatasetCompression
+    :type compression: ~data_factory_management_client.models.DatasetCompression
     """
 
     _validation = {
@@ -12513,7 +12689,7 @@ class HttpDataset(Dataset):
         **kwargs
     ):
         super(HttpDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'HttpFile'
+        self.type: str = 'HttpFile'
         self.relative_url = relative_url
         self.request_method = request_method
         self.request_body = request_body
@@ -12533,11 +12709,11 @@ class HttpLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param url: Required. The base URL of the HTTP endpoint, e.g. http://www.microsoft.com. Type:
@@ -12545,13 +12721,13 @@ class HttpLinkedService(LinkedService):
     :type url: object
     :param authentication_type: The authentication type to be used to connect to the HTTP server.
      Possible values include: "Basic", "Anonymous", "Digest", "Windows", "ClientCertificate".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.HttpAuthenticationType
+    :type authentication_type: str or ~data_factory_management_client.models.HttpAuthenticationType
     :param user_name: User name for Basic, Digest, or Windows authentication. Type: string (or
      Expression with resultType string).
     :type user_name: object
     :param password: Password for Basic, Digest, Windows, or ClientCertificate with
      EmbeddedCertData authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param embedded_cert_data: Base64 encoded certificate data for ClientCertificate
      authentication. For on-premises copy with ClientCertificate authentication, either
      CertThumbprint or EmbeddedCertData/Password should be specified. Type: string (or Expression
@@ -12612,7 +12788,7 @@ class HttpLinkedService(LinkedService):
         **kwargs
     ):
         super(HttpLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'HttpServer'
+        self.type: str = 'HttpServer'
         self.url = url
         self.authentication_type = authentication_type
         self.user_name = user_name
@@ -12634,23 +12810,23 @@ class HubspotLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param client_id: Required. The client ID associated with your Hubspot application.
     :type client_id: object
     :param client_secret: The client secret associated with your Hubspot application.
-    :type client_secret: ~azure.mgmt.datafactory.models.SecretBase
+    :type client_secret: ~data_factory_management_client.models.SecretBase
     :param access_token: The access token obtained when initially authenticating your OAuth
      integration.
-    :type access_token: ~azure.mgmt.datafactory.models.SecretBase
+    :type access_token: ~data_factory_management_client.models.SecretBase
     :param refresh_token: The refresh token obtained when initially authenticating your OAuth
      integration.
-    :type refresh_token: ~azure.mgmt.datafactory.models.SecretBase
+    :type refresh_token: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true.
     :type use_encrypted_endpoints: object
@@ -12708,7 +12884,7 @@ class HubspotLinkedService(LinkedService):
         **kwargs
     ):
         super(HubspotLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Hubspot'
+        self.type: str = 'Hubspot'
         self.client_id = client_id
         self.client_secret = client_secret
         self.access_token = access_token
@@ -12738,14 +12914,14 @@ class HubspotObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -12783,11 +12959,11 @@ class HubspotObjectDataset(Dataset):
         **kwargs
     ):
         super(HubspotObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'HubspotObject'
+        self.type: str = 'HubspotObject'
         self.table_name = table_name
 
 
-class IfConditionActivity(ControlActivity):
+class IfConditionActivity(Activity):
     """This activity evaluates a boolean expression and executes either the activities under the ifTrueActivities property or the ifFalseActivities property depending on the result of the expression.
 
     All required parameters must be populated in order to send to Azure.
@@ -12802,19 +12978,19 @@ class IfConditionActivity(ControlActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param expression: Required. An expression that would evaluate to Boolean. This is used to
      determine the block of activities (ifTrueActivities or ifFalseActivities) that will be
      executed.
-    :type expression: ~azure.mgmt.datafactory.models.Expression
+    :type expression: ~data_factory_management_client.models.Expression
     :param if_true_activities: List of activities to execute if expression is evaluated to true.
      This is an optional property and if not provided, the activity will exit without any action.
-    :type if_true_activities: list[~azure.mgmt.datafactory.models.Activity]
+    :type if_true_activities: list[~data_factory_management_client.models.Activity]
     :param if_false_activities: List of activities to execute if expression is evaluated to false.
      This is an optional property and if not provided, the activity will exit without any action.
-    :type if_false_activities: list[~azure.mgmt.datafactory.models.Activity]
+    :type if_false_activities: list[~data_factory_management_client.models.Activity]
     """
 
     _validation = {
@@ -12849,7 +13025,7 @@ class IfConditionActivity(ControlActivity):
         **kwargs
     ):
         super(IfConditionActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, **kwargs)
-        self.type = 'IfCondition'
+        self.type: str = 'IfCondition'
         self.expression = expression
         self.if_true_activities = if_true_activities
         self.if_false_activities = if_false_activities
@@ -12866,11 +13042,11 @@ class ImpalaLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. The IP address or host name of the Impala server. (i.e.
@@ -12881,12 +13057,13 @@ class ImpalaLinkedService(LinkedService):
     :type port: object
     :param authentication_type: Required. The authentication type to use. Possible values include:
      "Anonymous", "SASLUsername", "UsernameAndPassword".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.ImpalaAuthenticationType
+    :type authentication_type: str or
+     ~data_factory_management_client.models.ImpalaAuthenticationType
     :param username: The user name used to access the Impala server. The default value is anonymous
      when using SASLUsername.
     :type username: object
     :param password: The password corresponding to the user name when using UsernameAndPassword.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param enable_ssl: Specifies whether the connections to the server are encrypted using SSL. The
      default value is false.
     :type enable_ssl: object
@@ -12957,7 +13134,7 @@ class ImpalaLinkedService(LinkedService):
         **kwargs
     ):
         super(ImpalaLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Impala'
+        self.type: str = 'Impala'
         self.host = host
         self.port = port
         self.authentication_type = authentication_type
@@ -12990,14 +13167,14 @@ class ImpalaObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -13046,7 +13223,7 @@ class ImpalaObjectDataset(Dataset):
         **kwargs
     ):
         super(ImpalaObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'ImpalaObject'
+        self.type: str = 'ImpalaObject'
         self.table_name = table_name
         self.table = table
         self.schema_type_properties_schema = schema_type_properties_schema
@@ -13063,11 +13240,11 @@ class InformixLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: Required. The non-access credential portion of the connection string
@@ -13080,12 +13257,12 @@ class InformixLinkedService(LinkedService):
     :type authentication_type: object
     :param credential: The access credential portion of the connection string specified in driver-
      specific property-value format.
-    :type credential: ~azure.mgmt.datafactory.models.SecretBase
+    :type credential: ~data_factory_management_client.models.SecretBase
     :param user_name: User name for Basic authentication. Type: string (or Expression with
      resultType string).
     :type user_name: object
     :param password: Password for Basic authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -13129,7 +13306,7 @@ class InformixLinkedService(LinkedService):
         **kwargs
     ):
         super(InformixLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Informix'
+        self.type: str = 'Informix'
         self.connection_string = connection_string
         self.authentication_type = authentication_type
         self.credential = credential
@@ -13157,14 +13334,14 @@ class InformixTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The Informix table name. Type: string (or Expression with resultType
      string).
     :type table_name: object
@@ -13203,7 +13380,7 @@ class InformixTableDataset(Dataset):
         **kwargs
     ):
         super(InformixTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'InformixTable'
+        self.type: str = 'InformixTable'
         self.table_name = table_name
 
 
@@ -13220,7 +13397,7 @@ class IntegrationRuntime(msrest.serialization.Model):
     :type additional_properties: dict[str, object]
     :param type: Required. Type of integration runtime.Constant filled by server.  Possible values
      include: "Managed", "SelfHosted".
-    :type type: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeType
+    :type type: str or ~data_factory_management_client.models.IntegrationRuntimeType
     :param description: Integration runtime description.
     :type description: str
     """
@@ -13248,7 +13425,7 @@ class IntegrationRuntime(msrest.serialization.Model):
     ):
         super(IntegrationRuntime, self).__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = 'IntegrationRuntime'
+        self.type: str = 'IntegrationRuntime'
         self.description = description
 
 
@@ -13296,9 +13473,10 @@ class IntegrationRuntimeComputeProperties(msrest.serialization.Model):
      integration runtime.
     :type max_parallel_executions_per_node: int
     :param data_flow_properties: Data flow properties for managed integration runtime.
-    :type data_flow_properties: ~azure.mgmt.datafactory.models.IntegrationRuntimeDataFlowProperties
+    :type data_flow_properties:
+     ~data_factory_management_client.models.IntegrationRuntimeDataFlowProperties
     :param v_net_properties: VNet properties for managed integration runtime.
-    :type v_net_properties: ~azure.mgmt.datafactory.models.IntegrationRuntimeVNetProperties
+    :type v_net_properties: ~data_factory_management_client.models.IntegrationRuntimeVNetProperties
     """
 
     _validation = {
@@ -13405,7 +13583,7 @@ class IntegrationRuntimeCustomSetupScriptProperties(msrest.serialization.Model):
      script.
     :type blob_container_uri: str
     :param sas_token: The SAS token of the Azure blob container.
-    :type sas_token: ~azure.mgmt.datafactory.models.SecureString
+    :type sas_token: ~data_factory_management_client.models.SecureString
     """
 
     _attribute_map = {
@@ -13433,7 +13611,7 @@ class IntegrationRuntimeDataFlowProperties(msrest.serialization.Model):
     :type additional_properties: dict[str, object]
     :param compute_type: Compute type of the cluster which will execute data flow job. Possible
      values include: "General", "MemoryOptimized", "ComputeOptimized".
-    :type compute_type: str or ~azure.mgmt.datafactory.models.DataFlowComputeType
+    :type compute_type: str or ~data_factory_management_client.models.DataFlowComputeType
     :param core_count: Core count of the cluster which will execute data flow job. Supported values
      are: 8, 16, 32, 48, 80, 144 and 272.
     :type core_count: int
@@ -13473,9 +13651,9 @@ class IntegrationRuntimeDataProxyProperties(msrest.serialization.Model):
     """Data proxy properties for a managed dedicated integration runtime.
 
     :param connect_via: The self-hosted integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.EntityReference
+    :type connect_via: ~data_factory_management_client.models.EntityReference
     :param staging_linked_service: The staging linked service reference.
-    :type staging_linked_service: ~azure.mgmt.datafactory.models.EntityReference
+    :type staging_linked_service: ~data_factory_management_client.models.EntityReference
     :param path: The path to contain the staged data in the Blob storage.
     :type path: str
     """
@@ -13508,7 +13686,7 @@ class IntegrationRuntimeDebugResource(SubResourceDebugResource):
     :param name: The resource name.
     :type name: str
     :param properties: Required. Integration runtime properties.
-    :type properties: ~azure.mgmt.datafactory.models.IntegrationRuntime
+    :type properties: ~data_factory_management_client.models.IntegrationRuntime
     """
 
     _validation = {
@@ -13537,7 +13715,7 @@ class IntegrationRuntimeListResponse(msrest.serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :param value: Required. List of integration runtimes.
-    :type value: list[~azure.mgmt.datafactory.models.IntegrationRuntimeResource]
+    :type value: list[~data_factory_management_client.models.IntegrationRuntimeResource]
     :param next_link: The link to the next page of results, if any remaining results exist.
     :type next_link: str
     """
@@ -13569,7 +13747,7 @@ class IntegrationRuntimeMonitoringData(msrest.serialization.Model):
     :param name: Integration runtime name.
     :type name: str
     :param nodes: Integration runtime node monitoring data.
-    :type nodes: list[~azure.mgmt.datafactory.models.IntegrationRuntimeNodeMonitoringData]
+    :type nodes: list[~data_factory_management_client.models.IntegrationRuntimeNodeMonitoringData]
     """
 
     _attribute_map = {
@@ -13728,7 +13906,7 @@ class IntegrationRuntimeRegenerateKeyParameters(msrest.serialization.Model):
 
     :param key_name: The name of the authentication key to regenerate. Possible values include:
      "authKey1", "authKey2".
-    :type key_name: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeAuthKeyName
+    :type key_name: str or ~data_factory_management_client.models.IntegrationRuntimeAuthKeyName
     """
 
     _attribute_map = {
@@ -13761,7 +13939,7 @@ class IntegrationRuntimeResource(SubResource):
     :ivar etag: Etag identifies change in the resource.
     :vartype etag: str
     :param properties: Required. Integration runtime properties.
-    :type properties: ~azure.mgmt.datafactory.models.IntegrationRuntime
+    :type properties: ~data_factory_management_client.models.IntegrationRuntime
     """
 
     _validation = {
@@ -13802,12 +13980,12 @@ class IntegrationRuntimeSsisCatalogInfo(msrest.serialization.Model):
     :type catalog_admin_user_name: str
     :param catalog_admin_password: The password of the administrator user account of the catalog
      database.
-    :type catalog_admin_password: ~azure.mgmt.datafactory.models.SecureString
+    :type catalog_admin_password: ~data_factory_management_client.models.SecureString
     :param catalog_pricing_tier: The pricing tier for the catalog database. The valid values could
      be found in https://azure.microsoft.com/en-us/pricing/details/sql-database/. Possible values
      include: "Basic", "Standard", "Premium", "PremiumRS".
     :type catalog_pricing_tier: str or
-     ~azure.mgmt.datafactory.models.IntegrationRuntimeSsisCatalogPricingTier
+     ~data_factory_management_client.models.IntegrationRuntimeSsisCatalogPricingTier
     """
 
     _validation = {
@@ -13847,26 +14025,27 @@ class IntegrationRuntimeSsisProperties(msrest.serialization.Model):
      collection.
     :type additional_properties: dict[str, object]
     :param catalog_info: Catalog information for managed dedicated integration runtime.
-    :type catalog_info: ~azure.mgmt.datafactory.models.IntegrationRuntimeSsisCatalogInfo
+    :type catalog_info: ~data_factory_management_client.models.IntegrationRuntimeSsisCatalogInfo
     :param license_type: License type for bringing your own license scenario. Possible values
      include: "BasePrice", "LicenseIncluded".
-    :type license_type: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeLicenseType
+    :type license_type: str or ~data_factory_management_client.models.IntegrationRuntimeLicenseType
     :param custom_setup_script_properties: Custom setup script properties for a managed dedicated
      integration runtime.
     :type custom_setup_script_properties:
-     ~azure.mgmt.datafactory.models.IntegrationRuntimeCustomSetupScriptProperties
+     ~data_factory_management_client.models.IntegrationRuntimeCustomSetupScriptProperties
     :param data_proxy_properties: Data proxy properties for a managed dedicated integration
      runtime.
     :type data_proxy_properties:
-     ~azure.mgmt.datafactory.models.IntegrationRuntimeDataProxyProperties
+     ~data_factory_management_client.models.IntegrationRuntimeDataProxyProperties
     :param edition: The edition for the SSIS Integration Runtime. Possible values include:
      "Standard", "Enterprise".
-    :type edition: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeEdition
+    :type edition: str or ~data_factory_management_client.models.IntegrationRuntimeEdition
     :param express_custom_setup_properties: Custom setup without script properties for a SSIS
      integration runtime.
-    :type express_custom_setup_properties: list[~azure.mgmt.datafactory.models.CustomSetupBase]
+    :type express_custom_setup_properties:
+     list[~data_factory_management_client.models.CustomSetupBase]
     :param package_stores: Package stores for the SSIS Integration Runtime.
-    :type package_stores: list[~azure.mgmt.datafactory.models.PackageStore]
+    :type package_stores: list[~data_factory_management_client.models.PackageStore]
     """
 
     _attribute_map = {
@@ -13919,13 +14098,13 @@ class IntegrationRuntimeStatus(msrest.serialization.Model):
     :type additional_properties: dict[str, object]
     :param type: Required. Type of integration runtime.Constant filled by server.  Possible values
      include: "Managed", "SelfHosted".
-    :type type: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeType
+    :type type: str or ~data_factory_management_client.models.IntegrationRuntimeType
     :ivar data_factory_name: The data factory name which the integration runtime belong to.
     :vartype data_factory_name: str
     :ivar state: The state of integration runtime. Possible values include: "Initial", "Stopped",
      "Started", "Starting", "Stopping", "NeedRegistration", "Online", "Limited", "Offline",
      "AccessDenied".
-    :vartype state: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeState
+    :vartype state: str or ~data_factory_management_client.models.IntegrationRuntimeState
     """
 
     _validation = {
@@ -13953,7 +14132,7 @@ class IntegrationRuntimeStatus(msrest.serialization.Model):
     ):
         super(IntegrationRuntimeStatus, self).__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = 'IntegrationRuntimeStatus'
+        self.type: str = 'IntegrationRuntimeStatus'
         self.data_factory_name = None
         self.state = None
 
@@ -13964,7 +14143,7 @@ class IntegrationRuntimeStatusListResponse(msrest.serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :param value: Required. List of integration runtime status.
-    :type value: list[~azure.mgmt.datafactory.models.IntegrationRuntimeStatusResponse]
+    :type value: list[~data_factory_management_client.models.IntegrationRuntimeStatusResponse]
     :param next_link: The link to the next page of results, if any remaining results exist.
     :type next_link: str
     """
@@ -14000,7 +14179,7 @@ class IntegrationRuntimeStatusResponse(msrest.serialization.Model):
     :ivar name: The integration runtime name.
     :vartype name: str
     :param properties: Required. Integration runtime properties.
-    :type properties: ~azure.mgmt.datafactory.models.IntegrationRuntimeStatus
+    :type properties: ~data_factory_management_client.models.IntegrationRuntimeStatus
     """
 
     _validation = {
@@ -14073,11 +14252,11 @@ class JiraLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. The IP address or host name of the Jira service. (e.g.
@@ -14090,7 +14269,7 @@ class JiraLinkedService(LinkedService):
     :type username: object
     :param password: The password corresponding to the user name that you provided in the username
      field.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true.
     :type use_encrypted_endpoints: object
@@ -14149,7 +14328,7 @@ class JiraLinkedService(LinkedService):
         **kwargs
     ):
         super(JiraLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Jira'
+        self.type: str = 'Jira'
         self.host = host
         self.port = port
         self.username = username
@@ -14179,14 +14358,14 @@ class JiraObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -14224,7 +14403,7 @@ class JiraObjectDataset(Dataset):
         **kwargs
     ):
         super(JiraObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'JiraObject'
+        self.type: str = 'JiraObject'
         self.table_name = table_name
 
 
@@ -14247,16 +14426,16 @@ class JsonDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param location: The location of the json data storage.
-    :type location: ~azure.mgmt.datafactory.models.DatasetLocation
+    :type location: ~data_factory_management_client.models.DatasetLocation
     :param encoding_name: The code page name of the preferred encoding. If not specified, the
      default value is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column
      of the table in the following link to set supported values:
@@ -14264,7 +14443,7 @@ class JsonDataset(Dataset):
      resultType string).
     :type encoding_name: object
     :param compression: The data compression method used for the json dataset.
-    :type compression: ~azure.mgmt.datafactory.models.DatasetCompression
+    :type compression: ~data_factory_management_client.models.DatasetCompression
     """
 
     _validation = {
@@ -14304,7 +14483,7 @@ class JsonDataset(Dataset):
         **kwargs
     ):
         super(JsonDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'Json'
+        self.type: str = 'Json'
         self.location = location
         self.encoding_name = encoding_name
         self.compression = compression
@@ -14387,7 +14566,7 @@ class LinkedIntegrationRuntimeType(msrest.serialization.Model):
         **kwargs
     ):
         super(LinkedIntegrationRuntimeType, self).__init__(**kwargs)
-        self.authorization_type = None
+        self.authorization_type: Optional[str] = None
 
 
 class LinkedIntegrationRuntimeKeyAuthorization(LinkedIntegrationRuntimeType):
@@ -14399,7 +14578,7 @@ class LinkedIntegrationRuntimeKeyAuthorization(LinkedIntegrationRuntimeType):
      sharing.Constant filled by server.
     :type authorization_type: str
     :param key: Required. The key used for authorization.
-    :type key: ~azure.mgmt.datafactory.models.SecureString
+    :type key: ~data_factory_management_client.models.SecureString
     """
 
     _validation = {
@@ -14419,7 +14598,7 @@ class LinkedIntegrationRuntimeKeyAuthorization(LinkedIntegrationRuntimeType):
         **kwargs
     ):
         super(LinkedIntegrationRuntimeKeyAuthorization, self).__init__(**kwargs)
-        self.authorization_type = 'Key'
+        self.authorization_type: str = 'Key'
         self.key = key
 
 
@@ -14452,7 +14631,7 @@ class LinkedIntegrationRuntimeRbacAuthorization(LinkedIntegrationRuntimeType):
         **kwargs
     ):
         super(LinkedIntegrationRuntimeRbacAuthorization, self).__init__(**kwargs)
-        self.authorization_type = 'RBAC'
+        self.authorization_type: str = 'RBAC'
         self.resource_id = resource_id
 
 
@@ -14491,7 +14670,7 @@ class LinkedServiceDebugResource(SubResourceDebugResource):
     :param name: The resource name.
     :type name: str
     :param properties: Required. Properties of linked service.
-    :type properties: ~azure.mgmt.datafactory.models.LinkedService
+    :type properties: ~data_factory_management_client.models.LinkedService
     """
 
     _validation = {
@@ -14520,7 +14699,7 @@ class LinkedServiceListResponse(msrest.serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :param value: Required. List of linked services.
-    :type value: list[~azure.mgmt.datafactory.models.LinkedServiceResource]
+    :type value: list[~data_factory_management_client.models.LinkedServiceResource]
     :param next_link: The link to the next page of results, if any remaining results exist.
     :type next_link: str
     """
@@ -14602,7 +14781,7 @@ class LinkedServiceResource(SubResource):
     :ivar etag: Etag identifies change in the resource.
     :vartype etag: str
     :param properties: Required. Properties of linked service.
-    :type properties: ~azure.mgmt.datafactory.models.LinkedService
+    :type properties: ~data_factory_management_client.models.LinkedService
     """
 
     _validation = {
@@ -14640,7 +14819,7 @@ class LogStorageSettings(msrest.serialization.Model):
      collection.
     :type additional_properties: dict[str, object]
     :param linked_service_name: Required. Log storage linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param path: The path to storage for storing detailed logs of activity execution. Type: string
      (or Expression with resultType string).
     :type path: object
@@ -14685,17 +14864,17 @@ class LookupActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param source: Required. Dataset-specific source properties, same as copy activity source.
-    :type source: ~azure.mgmt.datafactory.models.CopySource
+    :type source: ~data_factory_management_client.models.CopySource
     :param dataset: Required. Lookup activity dataset reference.
-    :type dataset: ~azure.mgmt.datafactory.models.DatasetReference
+    :type dataset: ~data_factory_management_client.models.DatasetReference
     :param first_row_only: Whether to return first row or all rows. Default value is true. Type:
      boolean (or Expression with resultType boolean).
     :type first_row_only: object
@@ -14738,7 +14917,7 @@ class LookupActivity(ExecutionActivity):
         **kwargs
     ):
         super(LookupActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'Lookup'
+        self.type: str = 'Lookup'
         self.source = source
         self.dataset = dataset
         self.first_row_only = first_row_only
@@ -14755,17 +14934,17 @@ class MagentoLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. The URL of the Magento instance. (i.e. 192.168.222.110/magento3).
     :type host: object
     :param access_token: The access token from Magento.
-    :type access_token: ~azure.mgmt.datafactory.models.SecretBase
+    :type access_token: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true.
     :type use_encrypted_endpoints: object
@@ -14819,7 +14998,7 @@ class MagentoLinkedService(LinkedService):
         **kwargs
     ):
         super(MagentoLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Magento'
+        self.type: str = 'Magento'
         self.host = host
         self.access_token = access_token
         self.use_encrypted_endpoints = use_encrypted_endpoints
@@ -14847,14 +15026,14 @@ class MagentoObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -14892,7 +15071,7 @@ class MagentoObjectDataset(Dataset):
         **kwargs
     ):
         super(MagentoObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'MagentoObject'
+        self.type: str = 'MagentoObject'
         self.table_name = table_name
 
 
@@ -14908,17 +15087,18 @@ class ManagedIntegrationRuntime(IntegrationRuntime):
     :type additional_properties: dict[str, object]
     :param type: Required. Type of integration runtime.Constant filled by server.  Possible values
      include: "Managed", "SelfHosted".
-    :type type: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeType
+    :type type: str or ~data_factory_management_client.models.IntegrationRuntimeType
     :param description: Integration runtime description.
     :type description: str
     :ivar state: Integration runtime state, only valid for managed dedicated integration runtime.
      Possible values include: "Initial", "Stopped", "Started", "Starting", "Stopping",
      "NeedRegistration", "Online", "Limited", "Offline", "AccessDenied".
-    :vartype state: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeState
+    :vartype state: str or ~data_factory_management_client.models.IntegrationRuntimeState
     :param compute_properties: The compute resource for managed integration runtime.
-    :type compute_properties: ~azure.mgmt.datafactory.models.IntegrationRuntimeComputeProperties
+    :type compute_properties:
+     ~data_factory_management_client.models.IntegrationRuntimeComputeProperties
     :param ssis_properties: SSIS properties for managed integration runtime.
-    :type ssis_properties: ~azure.mgmt.datafactory.models.IntegrationRuntimeSsisProperties
+    :type ssis_properties: ~data_factory_management_client.models.IntegrationRuntimeSsisProperties
     """
 
     _validation = {
@@ -14945,7 +15125,7 @@ class ManagedIntegrationRuntime(IntegrationRuntime):
         **kwargs
     ):
         super(ManagedIntegrationRuntime, self).__init__(additional_properties=additional_properties, description=description, **kwargs)
-        self.type = 'Managed'
+        self.type: str = 'Managed'
         self.state = None
         self.compute_properties = compute_properties
         self.ssis_properties = ssis_properties
@@ -15010,9 +15190,10 @@ class ManagedIntegrationRuntimeNode(msrest.serialization.Model):
     :vartype node_id: str
     :ivar status: The managed integration runtime node status. Possible values include: "Starting",
      "Available", "Recycling", "Unavailable".
-    :vartype status: str or ~azure.mgmt.datafactory.models.ManagedIntegrationRuntimeNodeStatus
+    :vartype status: str or
+     ~data_factory_management_client.models.ManagedIntegrationRuntimeNodeStatus
     :param errors: The errors that occurred on this integration runtime node.
-    :type errors: list[~azure.mgmt.datafactory.models.ManagedIntegrationRuntimeError]
+    :type errors: list[~data_factory_management_client.models.ManagedIntegrationRuntimeError]
     """
 
     _validation = {
@@ -15110,22 +15291,23 @@ class ManagedIntegrationRuntimeStatus(IntegrationRuntimeStatus):
     :type additional_properties: dict[str, object]
     :param type: Required. Type of integration runtime.Constant filled by server.  Possible values
      include: "Managed", "SelfHosted".
-    :type type: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeType
+    :type type: str or ~data_factory_management_client.models.IntegrationRuntimeType
     :ivar data_factory_name: The data factory name which the integration runtime belong to.
     :vartype data_factory_name: str
     :ivar state: The state of integration runtime. Possible values include: "Initial", "Stopped",
      "Started", "Starting", "Stopping", "NeedRegistration", "Online", "Limited", "Offline",
      "AccessDenied".
-    :vartype state: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeState
+    :vartype state: str or ~data_factory_management_client.models.IntegrationRuntimeState
     :ivar create_time: The time at which the integration runtime was created, in ISO8601 format.
     :vartype create_time: ~datetime.datetime
     :ivar nodes: The list of nodes for managed integration runtime.
-    :vartype nodes: list[~azure.mgmt.datafactory.models.ManagedIntegrationRuntimeNode]
+    :vartype nodes: list[~data_factory_management_client.models.ManagedIntegrationRuntimeNode]
     :ivar other_errors: The errors that occurred on this integration runtime.
-    :vartype other_errors: list[~azure.mgmt.datafactory.models.ManagedIntegrationRuntimeError]
+    :vartype other_errors:
+     list[~data_factory_management_client.models.ManagedIntegrationRuntimeError]
     :ivar last_operation: The last operation result that occurred on this integration runtime.
     :vartype last_operation:
-     ~azure.mgmt.datafactory.models.ManagedIntegrationRuntimeOperationResult
+     ~data_factory_management_client.models.ManagedIntegrationRuntimeOperationResult
     """
 
     _validation = {
@@ -15156,7 +15338,7 @@ class ManagedIntegrationRuntimeStatus(IntegrationRuntimeStatus):
         **kwargs
     ):
         super(ManagedIntegrationRuntimeStatus, self).__init__(additional_properties=additional_properties, **kwargs)
-        self.type = 'Managed'
+        self.type: str = 'Managed'
         self.create_time = None
         self.nodes = None
         self.other_errors = None
@@ -15174,13 +15356,13 @@ class MappingDataFlow(DataFlow):
     :type annotations: list[object]
     :param folder: The folder that this data flow is in. If not specified, Data flow will appear at
      the root level.
-    :type folder: ~azure.mgmt.datafactory.models.DataFlowFolder
+    :type folder: ~data_factory_management_client.models.DataFlowFolder
     :param sources: List of sources in data flow.
-    :type sources: list[~azure.mgmt.datafactory.models.DataFlowSource]
+    :type sources: list[~data_factory_management_client.models.DataFlowSource]
     :param sinks: List of sinks in data flow.
-    :type sinks: list[~azure.mgmt.datafactory.models.DataFlowSink]
+    :type sinks: list[~data_factory_management_client.models.DataFlowSink]
     :param transformations: List of transformations in data flow.
-    :type transformations: list[~azure.mgmt.datafactory.models.Transformation]
+    :type transformations: list[~data_factory_management_client.models.Transformation]
     :param script: DataFlow script.
     :type script: str
     """
@@ -15209,7 +15391,7 @@ class MappingDataFlow(DataFlow):
         **kwargs
     ):
         super(MappingDataFlow, self).__init__(description=description, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'MappingDataFlow'
+        self.type: str = 'MappingDataFlow'
         self.sources = sources
         self.sinks = sinks
         self.transformations = transformations
@@ -15227,18 +15409,18 @@ class MariaDBLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: An ODBC connection string. Type: string, SecureString or
      AzureKeyVaultSecretReference.
     :type connection_string: object
     :param pwd: The Azure key vault secret reference of password in connection string.
-    :type pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type pwd: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -15275,7 +15457,7 @@ class MariaDBLinkedService(LinkedService):
         **kwargs
     ):
         super(MariaDBLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'MariaDB'
+        self.type: str = 'MariaDB'
         self.connection_string = connection_string
         self.pwd = pwd
         self.encrypted_credential = encrypted_credential
@@ -15300,14 +15482,14 @@ class MariaDBTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -15345,7 +15527,7 @@ class MariaDBTableDataset(Dataset):
         **kwargs
     ):
         super(MariaDBTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'MariaDBTable'
+        self.type: str = 'MariaDBTable'
         self.table_name = table_name
 
 
@@ -15360,11 +15542,11 @@ class MarketoLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param endpoint: Required. The endpoint of the Marketo server. (i.e. 123-ABC-321.mktorest.com).
@@ -15372,7 +15554,7 @@ class MarketoLinkedService(LinkedService):
     :param client_id: Required. The client Id of your Marketo service.
     :type client_id: object
     :param client_secret: The client secret of your Marketo service.
-    :type client_secret: ~azure.mgmt.datafactory.models.SecretBase
+    :type client_secret: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true.
     :type use_encrypted_endpoints: object
@@ -15429,7 +15611,7 @@ class MarketoLinkedService(LinkedService):
         **kwargs
     ):
         super(MarketoLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Marketo'
+        self.type: str = 'Marketo'
         self.endpoint = endpoint
         self.client_id = client_id
         self.client_secret = client_secret
@@ -15458,14 +15640,14 @@ class MarketoObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -15503,7 +15685,7 @@ class MarketoObjectDataset(Dataset):
         **kwargs
     ):
         super(MarketoObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'MarketoObject'
+        self.type: str = 'MarketoObject'
         self.table_name = table_name
 
 
@@ -15518,11 +15700,11 @@ class MicrosoftAccessLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: Required. The non-access credential portion of the connection string
@@ -15535,12 +15717,12 @@ class MicrosoftAccessLinkedService(LinkedService):
     :type authentication_type: object
     :param credential: The access credential portion of the connection string specified in driver-
      specific property-value format.
-    :type credential: ~azure.mgmt.datafactory.models.SecretBase
+    :type credential: ~data_factory_management_client.models.SecretBase
     :param user_name: User name for Basic authentication. Type: string (or Expression with
      resultType string).
     :type user_name: object
     :param password: Password for Basic authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -15584,7 +15766,7 @@ class MicrosoftAccessLinkedService(LinkedService):
         **kwargs
     ):
         super(MicrosoftAccessLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'MicrosoftAccess'
+        self.type: str = 'MicrosoftAccess'
         self.connection_string = connection_string
         self.authentication_type = authentication_type
         self.credential = credential
@@ -15612,14 +15794,14 @@ class MicrosoftAccessTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The Microsoft Access table name. Type: string (or Expression with resultType
      string).
     :type table_name: object
@@ -15658,7 +15840,7 @@ class MicrosoftAccessTableDataset(Dataset):
         **kwargs
     ):
         super(MicrosoftAccessTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'MicrosoftAccessTable'
+        self.type: str = 'MicrosoftAccessTable'
         self.table_name = table_name
 
 
@@ -15681,14 +15863,14 @@ class MongoDBCollectionDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param collection_name: Required. The table name of the MongoDB database. Type: string (or
      Expression with resultType string).
     :type collection_name: object
@@ -15728,7 +15910,7 @@ class MongoDBCollectionDataset(Dataset):
         **kwargs
     ):
         super(MongoDBCollectionDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'MongoDbCollection'
+        self.type: str = 'MongoDbCollection'
         self.collection_name = collection_name
 
 
@@ -15743,11 +15925,11 @@ class MongoDBLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param server: Required. The IP address or server name of the MongoDB server. Type: string (or
@@ -15755,7 +15937,8 @@ class MongoDBLinkedService(LinkedService):
     :type server: object
     :param authentication_type: The authentication type to be used to connect to the MongoDB
      database. Possible values include: "Basic", "Anonymous".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.MongoDBAuthenticationType
+    :type authentication_type: str or
+     ~data_factory_management_client.models.MongoDBAuthenticationType
     :param database_name: Required. The name of the MongoDB database that you want to access. Type:
      string (or Expression with resultType string).
     :type database_name: object
@@ -15763,7 +15946,7 @@ class MongoDBLinkedService(LinkedService):
      string).
     :type username: object
     :param password: Password for authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param auth_source: Database to verify the username and password. Type: string (or Expression
      with resultType string).
     :type auth_source: object
@@ -15828,7 +16011,7 @@ class MongoDBLinkedService(LinkedService):
         **kwargs
     ):
         super(MongoDBLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'MongoDb'
+        self.type: str = 'MongoDb'
         self.server = server
         self.authentication_type = authentication_type
         self.database_name = database_name
@@ -15860,14 +16043,14 @@ class MongoDBV2CollectionDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param collection: Required. The collection name of the MongoDB database. Type: string (or
      Expression with resultType string).
     :type collection: object
@@ -15907,7 +16090,7 @@ class MongoDBV2CollectionDataset(Dataset):
         **kwargs
     ):
         super(MongoDBV2CollectionDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'MongoDbV2Collection'
+        self.type: str = 'MongoDbV2Collection'
         self.collection = collection
 
 
@@ -15922,11 +16105,11 @@ class MongoDBV2LinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: Required. The MongoDB connection string. Type: string, SecureString
@@ -15967,7 +16150,7 @@ class MongoDBV2LinkedService(LinkedService):
         **kwargs
     ):
         super(MongoDBV2LinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'MongoDbV2'
+        self.type: str = 'MongoDbV2'
         self.connection_string = connection_string
         self.database = database
 
@@ -15991,7 +16174,7 @@ class Trigger(msrest.serialization.Model):
     :type description: str
     :ivar runtime_state: Indicates if trigger is running or not. Updated when Start/Stop APIs are
      called on the Trigger. Possible values include: "Started", "Stopped", "Disabled".
-    :vartype runtime_state: str or ~azure.mgmt.datafactory.models.TriggerRuntimeState
+    :vartype runtime_state: str or ~data_factory_management_client.models.TriggerRuntimeState
     :param annotations: List of tags that can be used for describing the trigger.
     :type annotations: list[object]
     """
@@ -16023,7 +16206,7 @@ class Trigger(msrest.serialization.Model):
     ):
         super(Trigger, self).__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = 'Trigger'
+        self.type: str = 'Trigger'
         self.description = description
         self.runtime_state = None
         self.annotations = annotations
@@ -16045,11 +16228,11 @@ class MultiplePipelineTrigger(Trigger):
     :type description: str
     :ivar runtime_state: Indicates if trigger is running or not. Updated when Start/Stop APIs are
      called on the Trigger. Possible values include: "Started", "Stopped", "Disabled".
-    :vartype runtime_state: str or ~azure.mgmt.datafactory.models.TriggerRuntimeState
+    :vartype runtime_state: str or ~data_factory_management_client.models.TriggerRuntimeState
     :param annotations: List of tags that can be used for describing the trigger.
     :type annotations: list[object]
     :param pipelines: Pipelines that need to be started.
-    :type pipelines: list[~azure.mgmt.datafactory.models.TriggerPipelineReference]
+    :type pipelines: list[~data_factory_management_client.models.TriggerPipelineReference]
     """
 
     _validation = {
@@ -16076,7 +16259,7 @@ class MultiplePipelineTrigger(Trigger):
         **kwargs
     ):
         super(MultiplePipelineTrigger, self).__init__(additional_properties=additional_properties, description=description, annotations=annotations, **kwargs)
-        self.type = 'MultiplePipelineTrigger'
+        self.type: str = 'MultiplePipelineTrigger'
         self.pipelines = pipelines
 
 
@@ -16091,17 +16274,17 @@ class MySqlLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: Required. The connection string.
     :type connection_string: object
     :param password: The Azure key vault secret reference of password in connection string.
-    :type password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type password: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -16139,7 +16322,7 @@ class MySqlLinkedService(LinkedService):
         **kwargs
     ):
         super(MySqlLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'MySql'
+        self.type: str = 'MySql'
         self.connection_string = connection_string
         self.password = password
         self.encrypted_credential = encrypted_credential
@@ -16164,14 +16347,14 @@ class MySqlTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The MySQL table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -16209,7 +16392,7 @@ class MySqlTableDataset(Dataset):
         **kwargs
     ):
         super(MySqlTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'MySqlTable'
+        self.type: str = 'MySqlTable'
         self.table_name = table_name
 
 
@@ -16224,18 +16407,18 @@ class NetezzaLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: An ODBC connection string. Type: string, SecureString or
      AzureKeyVaultSecretReference.
     :type connection_string: object
     :param pwd: The Azure key vault secret reference of password in connection string.
-    :type pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type pwd: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -16272,7 +16455,7 @@ class NetezzaLinkedService(LinkedService):
         **kwargs
     ):
         super(NetezzaLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Netezza'
+        self.type: str = 'Netezza'
         self.connection_string = connection_string
         self.pwd = pwd
         self.encrypted_credential = encrypted_credential
@@ -16297,14 +16480,14 @@ class NetezzaTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -16353,7 +16536,7 @@ class NetezzaTableDataset(Dataset):
         **kwargs
     ):
         super(NetezzaTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'NetezzaTable'
+        self.type: str = 'NetezzaTable'
         self.table_name = table_name
         self.table = table
         self.schema_type_properties_schema = schema_type_properties_schema
@@ -16370,11 +16553,11 @@ class ODataLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param url: Required. The URL of the OData service endpoint. Type: string (or Expression with
@@ -16383,12 +16566,13 @@ class ODataLinkedService(LinkedService):
     :param authentication_type: Type of authentication used to connect to the OData service.
      Possible values include: "Basic", "Anonymous", "Windows", "AadServicePrincipal",
      "ManagedServiceIdentity".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.ODataAuthenticationType
+    :type authentication_type: str or
+     ~data_factory_management_client.models.ODataAuthenticationType
     :param user_name: User name of the OData service. Type: string (or Expression with resultType
      string).
     :type user_name: object
     :param password: Password of the OData service.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param tenant: Specify the tenant information (domain name or tenant ID) under which your
      application resides. Type: string (or Expression with resultType string).
     :type tenant: object
@@ -16401,18 +16585,19 @@ class ODataLinkedService(LinkedService):
     :param aad_service_principal_credential_type: Specify the credential type (key or cert) is used
      for service principal. Possible values include: "ServicePrincipalKey", "ServicePrincipalCert".
     :type aad_service_principal_credential_type: str or
-     ~azure.mgmt.datafactory.models.ODataAadServicePrincipalCredentialType
+     ~data_factory_management_client.models.ODataAadServicePrincipalCredentialType
     :param service_principal_key: Specify the secret of your application registered in Azure Active
      Directory. Type: string (or Expression with resultType string).
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param service_principal_embedded_cert: Specify the base64 encoded certificate of your
      application registered in Azure Active Directory. Type: string (or Expression with resultType
      string).
-    :type service_principal_embedded_cert: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_embedded_cert: ~data_factory_management_client.models.SecretBase
     :param service_principal_embedded_cert_password: Specify the password of your certificate if
      your certificate has a password and you are using AadServicePrincipal authentication. Type:
      string (or Expression with resultType string).
-    :type service_principal_embedded_cert_password: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_embedded_cert_password:
+     ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -16468,7 +16653,7 @@ class ODataLinkedService(LinkedService):
         **kwargs
     ):
         super(ODataLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'OData'
+        self.type: str = 'OData'
         self.url = url
         self.authentication_type = authentication_type
         self.user_name = user_name
@@ -16502,14 +16687,14 @@ class ODataResourceDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param path: The OData resource path. Type: string (or Expression with resultType string).
     :type path: object
     """
@@ -16547,7 +16732,7 @@ class ODataResourceDataset(Dataset):
         **kwargs
     ):
         super(ODataResourceDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'ODataResource'
+        self.type: str = 'ODataResource'
         self.path = path
 
 
@@ -16562,11 +16747,11 @@ class OdbcLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: Required. The non-access credential portion of the connection string
@@ -16578,12 +16763,12 @@ class OdbcLinkedService(LinkedService):
     :type authentication_type: object
     :param credential: The access credential portion of the connection string specified in driver-
      specific property-value format.
-    :type credential: ~azure.mgmt.datafactory.models.SecretBase
+    :type credential: ~data_factory_management_client.models.SecretBase
     :param user_name: User name for Basic authentication. Type: string (or Expression with
      resultType string).
     :type user_name: object
     :param password: Password for Basic authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -16627,7 +16812,7 @@ class OdbcLinkedService(LinkedService):
         **kwargs
     ):
         super(OdbcLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Odbc'
+        self.type: str = 'Odbc'
         self.connection_string = connection_string
         self.authentication_type = authentication_type
         self.credential = credential
@@ -16655,14 +16840,14 @@ class OdbcTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The ODBC table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -16700,7 +16885,7 @@ class OdbcTableDataset(Dataset):
         **kwargs
     ):
         super(OdbcTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'OdbcTable'
+        self.type: str = 'OdbcTable'
         self.table_name = table_name
 
 
@@ -16723,14 +16908,14 @@ class Office365Dataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: Required. Name of the dataset to extract from Office 365. Type: string (or
      Expression with resultType string).
     :type table_name: object
@@ -16775,7 +16960,7 @@ class Office365Dataset(Dataset):
         **kwargs
     ):
         super(Office365Dataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'Office365Table'
+        self.type: str = 'Office365Table'
         self.table_name = table_name
         self.predicate = predicate
 
@@ -16791,11 +16976,11 @@ class Office365LinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param office365_tenant_id: Required. Azure tenant ID to which the Office 365 account belongs.
@@ -16808,7 +16993,7 @@ class Office365LinkedService(LinkedService):
      Expression with resultType string).
     :type service_principal_id: object
     :param service_principal_key: Required. Specify the application's key.
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -16853,7 +17038,7 @@ class Office365LinkedService(LinkedService):
         **kwargs
     ):
         super(Office365LinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Office365'
+        self.type: str = 'Office365'
         self.office365_tenant_id = office365_tenant_id
         self.service_principal_tenant_id = service_principal_tenant_id
         self.service_principal_id = service_principal_id
@@ -16869,9 +17054,10 @@ class Operation(msrest.serialization.Model):
     :param origin: The intended executor of the operation.
     :type origin: str
     :param display: Metadata associated with the operation.
-    :type display: ~azure.mgmt.datafactory.models.OperationDisplay
+    :type display: ~data_factory_management_client.models.OperationDisplay
     :param service_specification: Details about a service operation.
-    :type service_specification: ~azure.mgmt.datafactory.models.OperationServiceSpecification
+    :type service_specification:
+     ~data_factory_management_client.models.OperationServiceSpecification
     """
 
     _attribute_map = {
@@ -16937,7 +17123,7 @@ class OperationListResponse(msrest.serialization.Model):
     """A list of operations that can be performed by the Data Factory service.
 
     :param value: List of Data Factory operations supported by the Data Factory resource provider.
-    :type value: list[~azure.mgmt.datafactory.models.Operation]
+    :type value: list[~data_factory_management_client.models.Operation]
     :param next_link: The link to the next page of results, if any remaining results exist.
     :type next_link: str
     """
@@ -17067,9 +17253,9 @@ class OperationMetricSpecification(msrest.serialization.Model):
     :param source_mdm_namespace: The name of the MDM namespace.
     :type source_mdm_namespace: str
     :param availabilities: Defines how often data for metrics becomes available.
-    :type availabilities: list[~azure.mgmt.datafactory.models.OperationMetricAvailability]
+    :type availabilities: list[~data_factory_management_client.models.OperationMetricAvailability]
     :param dimensions: Defines the metric dimension.
-    :type dimensions: list[~azure.mgmt.datafactory.models.OperationMetricDimension]
+    :type dimensions: list[~data_factory_management_client.models.OperationMetricDimension]
     """
 
     _attribute_map = {
@@ -17117,9 +17303,11 @@ class OperationServiceSpecification(msrest.serialization.Model):
     """Details about a service operation.
 
     :param log_specifications: Details about operations related to logs.
-    :type log_specifications: list[~azure.mgmt.datafactory.models.OperationLogSpecification]
+    :type log_specifications:
+     list[~data_factory_management_client.models.OperationLogSpecification]
     :param metric_specifications: Details about operations related to metrics.
-    :type metric_specifications: list[~azure.mgmt.datafactory.models.OperationMetricSpecification]
+    :type metric_specifications:
+     list[~data_factory_management_client.models.OperationMetricSpecification]
     """
 
     _attribute_map = {
@@ -17150,18 +17338,18 @@ class OracleLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: Required. The connection string. Type: string, SecureString or
      AzureKeyVaultSecretReference.
     :type connection_string: object
     :param password: The Azure key vault secret reference of password in connection string.
-    :type password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type password: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -17199,7 +17387,7 @@ class OracleLinkedService(LinkedService):
         **kwargs
     ):
         super(OracleLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Oracle'
+        self.type: str = 'Oracle'
         self.connection_string = connection_string
         self.password = password
         self.encrypted_credential = encrypted_credential
@@ -17216,11 +17404,11 @@ class OracleServiceCloudLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. The URL of the Oracle Service Cloud instance.
@@ -17229,7 +17417,7 @@ class OracleServiceCloudLinkedService(LinkedService):
     :type username: object
     :param password: Required. The password corresponding to the user name that you provided in the
      username key.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true. Type: boolean (or Expression with resultType boolean).
     :type use_encrypted_endpoints: object
@@ -17288,7 +17476,7 @@ class OracleServiceCloudLinkedService(LinkedService):
         **kwargs
     ):
         super(OracleServiceCloudLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'OracleServiceCloud'
+        self.type: str = 'OracleServiceCloud'
         self.host = host
         self.username = username
         self.password = password
@@ -17317,14 +17505,14 @@ class OracleServiceCloudObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -17362,7 +17550,7 @@ class OracleServiceCloudObjectDataset(Dataset):
         **kwargs
     ):
         super(OracleServiceCloudObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'OracleServiceCloudObject'
+        self.type: str = 'OracleServiceCloudObject'
         self.table_name = table_name
 
 
@@ -17385,14 +17573,14 @@ class OracleTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -17441,7 +17629,7 @@ class OracleTableDataset(Dataset):
         **kwargs
     ):
         super(OracleTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'OracleTable'
+        self.type: str = 'OracleTable'
         self.table_name = table_name
         self.schema_type_properties_schema = schema_type_properties_schema
         self.table = table
@@ -17466,18 +17654,18 @@ class OrcDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param location: The location of the ORC data storage.
-    :type location: ~azure.mgmt.datafactory.models.DatasetLocation
+    :type location: ~data_factory_management_client.models.DatasetLocation
     :param orc_compression_codec:  Possible values include: "none", "zlib", "snappy".
-    :type orc_compression_codec: str or ~azure.mgmt.datafactory.models.OrcCompressionCodec
+    :type orc_compression_codec: str or ~data_factory_management_client.models.OrcCompressionCodec
     """
 
     _validation = {
@@ -17515,7 +17703,7 @@ class OrcDataset(Dataset):
         **kwargs
     ):
         super(OrcDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'Orc'
+        self.type: str = 'Orc'
         self.location = location
         self.orc_compression_codec = orc_compression_codec
 
@@ -17528,7 +17716,7 @@ class PackageStore(msrest.serialization.Model):
     :param name: Required. The name of the package store.
     :type name: str
     :param package_store_linked_service: Required. The package store linked service reference.
-    :type package_store_linked_service: ~azure.mgmt.datafactory.models.EntityReference
+    :type package_store_linked_service: ~data_factory_management_client.models.EntityReference
     """
 
     _validation = {
@@ -17560,7 +17748,7 @@ class ParameterSpecification(msrest.serialization.Model):
 
     :param type: Required. Parameter type. Possible values include: "Object", "String", "Int",
      "Float", "Bool", "Array", "SecureString".
-    :type type: str or ~azure.mgmt.datafactory.models.ParameterType
+    :type type: str or ~data_factory_management_client.models.ParameterType
     :param default_value: Default value of parameter.
     :type default_value: object
     """
@@ -17605,19 +17793,19 @@ class ParquetDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param location: The location of the parquet storage.
-    :type location: ~azure.mgmt.datafactory.models.DatasetLocation
+    :type location: ~data_factory_management_client.models.DatasetLocation
     :param compression_codec:  Possible values include: "none", "gzip", "snappy", "lzo", "bzip2",
      "deflate", "zipDeflate", "lz4".
-    :type compression_codec: str or ~azure.mgmt.datafactory.models.CompressionCodec
+    :type compression_codec: str or ~data_factory_management_client.models.CompressionCodec
     """
 
     _validation = {
@@ -17655,7 +17843,7 @@ class ParquetDataset(Dataset):
         **kwargs
     ):
         super(ParquetDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'Parquet'
+        self.type: str = 'Parquet'
         self.location = location
         self.compression_codec = compression_codec
 
@@ -17671,11 +17859,11 @@ class PaypalLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. The URL of the PayPal instance. (i.e. api.sandbox.paypal.com).
@@ -17683,7 +17871,7 @@ class PaypalLinkedService(LinkedService):
     :param client_id: Required. The client ID associated with your PayPal application.
     :type client_id: object
     :param client_secret: The client secret associated with your PayPal application.
-    :type client_secret: ~azure.mgmt.datafactory.models.SecretBase
+    :type client_secret: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true.
     :type use_encrypted_endpoints: object
@@ -17740,7 +17928,7 @@ class PaypalLinkedService(LinkedService):
         **kwargs
     ):
         super(PaypalLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Paypal'
+        self.type: str = 'Paypal'
         self.host = host
         self.client_id = client_id
         self.client_secret = client_secret
@@ -17769,14 +17957,14 @@ class PaypalObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -17814,7 +18002,7 @@ class PaypalObjectDataset(Dataset):
         **kwargs
     ):
         super(PaypalObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'PaypalObject'
+        self.type: str = 'PaypalObject'
         self.table_name = table_name
 
 
@@ -17829,11 +18017,11 @@ class PhoenixLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. The IP address or host name of the Phoenix server. (i.e.
@@ -17849,11 +18037,12 @@ class PhoenixLinkedService(LinkedService):
     :param authentication_type: Required. The authentication mechanism used to connect to the
      Phoenix server. Possible values include: "Anonymous", "UsernameAndPassword",
      "WindowsAzureHDInsightService".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.PhoenixAuthenticationType
+    :type authentication_type: str or
+     ~data_factory_management_client.models.PhoenixAuthenticationType
     :param username: The user name used to connect to the Phoenix server.
     :type username: object
     :param password: The password corresponding to the user name.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param enable_ssl: Specifies whether the connections to the server are encrypted using SSL. The
      default value is false.
     :type enable_ssl: object
@@ -17926,7 +18115,7 @@ class PhoenixLinkedService(LinkedService):
         **kwargs
     ):
         super(PhoenixLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Phoenix'
+        self.type: str = 'Phoenix'
         self.host = host
         self.port = port
         self.http_path = http_path
@@ -17960,14 +18149,14 @@ class PhoenixObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -18016,31 +18205,10 @@ class PhoenixObjectDataset(Dataset):
         **kwargs
     ):
         super(PhoenixObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'PhoenixObject'
+        self.type: str = 'PhoenixObject'
         self.table_name = table_name
         self.table = table
         self.schema_type_properties_schema = schema_type_properties_schema
-
-
-class PipelineFolder(msrest.serialization.Model):
-    """The folder that this Pipeline is in. If not specified, Pipeline will appear at the root level.
-
-    :param name: The name of the folder that this Pipeline is in.
-    :type name: str
-    """
-
-    _attribute_map = {
-        'name': {'key': 'name', 'type': 'str'},
-    }
-
-    def __init__(
-        self,
-        *,
-        name: Optional[str] = None,
-        **kwargs
-    ):
-        super(PipelineFolder, self).__init__(**kwargs)
-        self.name = name
 
 
 class PipelineListResponse(msrest.serialization.Model):
@@ -18049,7 +18217,7 @@ class PipelineListResponse(msrest.serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :param value: Required. List of pipelines.
-    :type value: list[~azure.mgmt.datafactory.models.PipelineResource]
+    :type value: list[~data_factory_management_client.models.PipelineResource]
     :param next_link: The link to the next page of results, if any remaining results exist.
     :type next_link: str
     """
@@ -18134,20 +18302,19 @@ class PipelineResource(SubResource):
     :param description: The description of the pipeline.
     :type description: str
     :param activities: List of activities in pipeline.
-    :type activities: list[~azure.mgmt.datafactory.models.Activity]
+    :type activities: list[~data_factory_management_client.models.Activity]
     :param parameters: List of parameters for pipeline.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param variables: List of variables for pipeline.
-    :type variables: dict[str, ~azure.mgmt.datafactory.models.VariableSpecification]
+    :type variables: dict[str, ~data_factory_management_client.models.VariableSpecification]
     :param concurrency: The max number of concurrent runs for the pipeline.
     :type concurrency: int
     :param annotations: List of tags that can be used for describing the Pipeline.
     :type annotations: list[object]
     :param run_dimensions: Dimensions emitted by Pipeline.
     :type run_dimensions: dict[str, object]
-    :param folder: The folder that this Pipeline is in. If not specified, Pipeline will appear at
-     the root level.
-    :type folder: ~azure.mgmt.datafactory.models.PipelineFolder
+    :param name_properties_folder_name: The name of the folder that this Pipeline is in.
+    :type name_properties_folder_name: str
     """
 
     _validation = {
@@ -18171,7 +18338,7 @@ class PipelineResource(SubResource):
         'concurrency': {'key': 'properties.concurrency', 'type': 'int'},
         'annotations': {'key': 'properties.annotations', 'type': '[object]'},
         'run_dimensions': {'key': 'properties.runDimensions', 'type': '{object}'},
-        'folder': {'key': 'properties.folder', 'type': 'PipelineFolder'},
+        'name_properties_folder_name': {'key': 'properties.folder.name', 'type': 'str'},
     }
 
     def __init__(
@@ -18185,7 +18352,7 @@ class PipelineResource(SubResource):
         concurrency: Optional[int] = None,
         annotations: Optional[List[object]] = None,
         run_dimensions: Optional[Dict[str, object]] = None,
-        folder: Optional["PipelineFolder"] = None,
+        name_properties_folder_name: Optional[str] = None,
         **kwargs
     ):
         super(PipelineResource, self).__init__(**kwargs)
@@ -18197,7 +18364,7 @@ class PipelineResource(SubResource):
         self.concurrency = concurrency
         self.annotations = annotations
         self.run_dimensions = run_dimensions
-        self.folder = folder
+        self.name_properties_folder_name = name_properties_folder_name
 
 
 class PipelineRun(msrest.serialization.Model):
@@ -18222,7 +18389,7 @@ class PipelineRun(msrest.serialization.Model):
     :ivar run_dimensions: Run dimensions emitted by Pipeline run.
     :vartype run_dimensions: dict[str, str]
     :ivar invoked_by: Entity that started the pipeline run.
-    :vartype invoked_by: ~azure.mgmt.datafactory.models.PipelineRunInvokedBy
+    :vartype invoked_by: ~data_factory_management_client.models.PipelineRunInvokedBy
     :ivar last_updated: The last updated timestamp for the pipeline run event in ISO8601 format.
     :vartype last_updated: ~datetime.datetime
     :ivar run_start: The start time of a pipeline run in ISO8601 format.
@@ -18334,7 +18501,7 @@ class PipelineRunsQueryResponse(msrest.serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :param value: Required. List of pipeline runs.
-    :type value: list[~azure.mgmt.datafactory.models.PipelineRun]
+    :type value: list[~data_factory_management_client.models.PipelineRun]
     :param continuation_token: The continuation token for getting the next page of results, if any
      remaining results exist, null otherwise.
     :type continuation_token: str
@@ -18372,17 +18539,17 @@ class PostgreSqlLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: Required. The connection string.
     :type connection_string: object
     :param password: The Azure key vault secret reference of password in connection string.
-    :type password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type password: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -18420,7 +18587,7 @@ class PostgreSqlLinkedService(LinkedService):
         **kwargs
     ):
         super(PostgreSqlLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'PostgreSql'
+        self.type: str = 'PostgreSql'
         self.connection_string = connection_string
         self.password = password
         self.encrypted_credential = encrypted_credential
@@ -18445,14 +18612,14 @@ class PostgreSqlTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -18500,7 +18667,7 @@ class PostgreSqlTableDataset(Dataset):
         **kwargs
     ):
         super(PostgreSqlTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'PostgreSqlTable'
+        self.type: str = 'PostgreSqlTable'
         self.table_name = table_name
         self.table = table
         self.schema_type_properties_schema = schema_type_properties_schema
@@ -18517,11 +18684,11 @@ class PrestoLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. The IP address or host name of the Presto server. (i.e.
@@ -18536,11 +18703,12 @@ class PrestoLinkedService(LinkedService):
     :type port: object
     :param authentication_type: Required. The authentication mechanism used to connect to the
      Presto server. Possible values include: "Anonymous", "LDAP".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.PrestoAuthenticationType
+    :type authentication_type: str or
+     ~data_factory_management_client.models.PrestoAuthenticationType
     :param username: The user name used to connect to the Presto server.
     :type username: object
     :param password: The password corresponding to the user name.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param enable_ssl: Specifies whether the connections to the server are encrypted using SSL. The
      default value is false.
     :type enable_ssl: object
@@ -18622,7 +18790,7 @@ class PrestoLinkedService(LinkedService):
         **kwargs
     ):
         super(PrestoLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Presto'
+        self.type: str = 'Presto'
         self.host = host
         self.server_version = server_version
         self.catalog = catalog
@@ -18658,14 +18826,14 @@ class PrestoObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -18714,7 +18882,7 @@ class PrestoObjectDataset(Dataset):
         **kwargs
     ):
         super(PrestoObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'PrestoObject'
+        self.type: str = 'PrestoObject'
         self.table_name = table_name
         self.table = table
         self.schema_type_properties_schema = schema_type_properties_schema
@@ -18724,7 +18892,7 @@ class QueryDataFlowDebugSessionsResponse(msrest.serialization.Model):
     """A list of active debug sessions.
 
     :param value: Array with all active debug sessions.
-    :type value: list[~azure.mgmt.datafactory.models.DataFlowDebugSessionInfo]
+    :type value: list[~data_factory_management_client.models.DataFlowDebugSessionInfo]
     :param next_link: The link to the next page of results, if any remaining results exist.
     :type next_link: str
     """
@@ -18757,11 +18925,11 @@ class QuickBooksLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param endpoint: Required. The endpoint of the QuickBooks server. (i.e.
@@ -18772,11 +18940,11 @@ class QuickBooksLinkedService(LinkedService):
     :param consumer_key: Required. The consumer key for OAuth 1.0 authentication.
     :type consumer_key: object
     :param consumer_secret: Required. The consumer secret for OAuth 1.0 authentication.
-    :type consumer_secret: ~azure.mgmt.datafactory.models.SecretBase
+    :type consumer_secret: ~data_factory_management_client.models.SecretBase
     :param access_token: Required. The access token for OAuth 1.0 authentication.
-    :type access_token: ~azure.mgmt.datafactory.models.SecretBase
+    :type access_token: ~data_factory_management_client.models.SecretBase
     :param access_token_secret: Required. The access token secret for OAuth 1.0 authentication.
-    :type access_token_secret: ~azure.mgmt.datafactory.models.SecretBase
+    :type access_token_secret: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true.
     :type use_encrypted_endpoints: object
@@ -18832,7 +19000,7 @@ class QuickBooksLinkedService(LinkedService):
         **kwargs
     ):
         super(QuickBooksLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'QuickBooks'
+        self.type: str = 'QuickBooks'
         self.endpoint = endpoint
         self.company_id = company_id
         self.consumer_key = consumer_key
@@ -18862,14 +19030,14 @@ class QuickBooksObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -18907,7 +19075,7 @@ class QuickBooksObjectDataset(Dataset):
         **kwargs
     ):
         super(QuickBooksObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'QuickBooksObject'
+        self.type: str = 'QuickBooksObject'
         self.table_name = table_name
 
 
@@ -18972,14 +19140,14 @@ class RelationalTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The relational table name. Type: string (or Expression with resultType
      string).
     :type table_name: object
@@ -19018,7 +19186,7 @@ class RelationalTableDataset(Dataset):
         **kwargs
     ):
         super(RelationalTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'RelationalTable'
+        self.type: str = 'RelationalTable'
         self.table_name = table_name
 
 
@@ -19033,11 +19201,11 @@ class ResponsysLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param endpoint: Required. The endpoint of the Responsys server.
@@ -19047,7 +19215,7 @@ class ResponsysLinkedService(LinkedService):
     :type client_id: object
     :param client_secret: The client secret associated with the Responsys application. Type: string
      (or Expression with resultType string).
-    :type client_secret: ~azure.mgmt.datafactory.models.SecretBase
+    :type client_secret: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true. Type: boolean (or Expression with resultType boolean).
     :type use_encrypted_endpoints: object
@@ -19105,7 +19273,7 @@ class ResponsysLinkedService(LinkedService):
         **kwargs
     ):
         super(ResponsysLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Responsys'
+        self.type: str = 'Responsys'
         self.endpoint = endpoint
         self.client_id = client_id
         self.client_secret = client_secret
@@ -19134,14 +19302,14 @@ class ResponsysObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -19179,7 +19347,7 @@ class ResponsysObjectDataset(Dataset):
         **kwargs
     ):
         super(ResponsysObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'ResponsysObject'
+        self.type: str = 'ResponsysObject'
         self.table_name = table_name
 
 
@@ -19202,14 +19370,14 @@ class RestResourceDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param relative_url: The relative URL to the resource that the RESTful API provides. Type:
      string (or Expression with resultType string).
     :type relative_url: object
@@ -19268,7 +19436,7 @@ class RestResourceDataset(Dataset):
         **kwargs
     ):
         super(RestResourceDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'RestResource'
+        self.type: str = 'RestResource'
         self.relative_url = relative_url
         self.request_method = request_method
         self.request_body = request_body
@@ -19287,11 +19455,11 @@ class RestServiceLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param url: Required. The base URL of the REST service.
@@ -19303,17 +19471,18 @@ class RestServiceLinkedService(LinkedService):
     :param authentication_type: Required. Type of authentication used to connect to the REST
      service. Possible values include: "Anonymous", "Basic", "AadServicePrincipal",
      "ManagedServiceIdentity".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.RestServiceAuthenticationType
+    :type authentication_type: str or
+     ~data_factory_management_client.models.RestServiceAuthenticationType
     :param user_name: The user name used in Basic authentication type.
     :type user_name: object
     :param password: The password used in Basic authentication type.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param service_principal_id: The application's client ID used in AadServicePrincipal
      authentication type.
     :type service_principal_id: object
     :param service_principal_key: The application's key used in AadServicePrincipal authentication
      type.
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param tenant: The tenant information (domain name or tenant ID) used in AadServicePrincipal
      authentication type under which your application resides.
     :type tenant: object
@@ -19371,7 +19540,7 @@ class RestServiceLinkedService(LinkedService):
         **kwargs
     ):
         super(RestServiceLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'RestService'
+        self.type: str = 'RestService'
         self.url = url
         self.enable_server_certificate_validation = enable_server_certificate_validation
         self.authentication_type = authentication_type
@@ -19399,9 +19568,9 @@ class RunFilterParameters(msrest.serialization.Model):
      'ISO 8601' format.
     :type last_updated_before: ~datetime.datetime
     :param filters: List of filters.
-    :type filters: list[~azure.mgmt.datafactory.models.RunQueryFilter]
+    :type filters: list[~data_factory_management_client.models.RunQueryFilter]
     :param order_by: List of OrderBy option.
-    :type order_by: list[~azure.mgmt.datafactory.models.RunQueryOrderBy]
+    :type order_by: list[~data_factory_management_client.models.RunQueryOrderBy]
     """
 
     _validation = {
@@ -19446,10 +19615,10 @@ class RunQueryFilter(msrest.serialization.Model):
      runs are TriggerName, TriggerRunTimestamp and Status. Possible values include: "PipelineName",
      "Status", "RunStart", "RunEnd", "ActivityName", "ActivityRunStart", "ActivityRunEnd",
      "ActivityType", "TriggerName", "TriggerRunTimestamp", "RunGroupId", "LatestOnly".
-    :type operand: str or ~azure.mgmt.datafactory.models.RunQueryFilterOperand
+    :type operand: str or ~data_factory_management_client.models.RunQueryFilterOperand
     :param operator: Required. Operator to be used for filter. Possible values include: "Equals",
      "NotEquals", "In", "NotIn".
-    :type operator: str or ~azure.mgmt.datafactory.models.RunQueryFilterOperator
+    :type operator: str or ~data_factory_management_client.models.RunQueryFilterOperator
     :param values: Required. List of filter values.
     :type values: list[str]
     """
@@ -19491,9 +19660,9 @@ class RunQueryOrderBy(msrest.serialization.Model):
      TriggerRunTimestamp and Status. Possible values include: "RunStart", "RunEnd", "PipelineName",
      "Status", "ActivityName", "ActivityRunStart", "ActivityRunEnd", "TriggerName",
      "TriggerRunTimestamp".
-    :type order_by: str or ~azure.mgmt.datafactory.models.RunQueryOrderByField
+    :type order_by: str or ~data_factory_management_client.models.RunQueryOrderByField
     :param order: Required. Sorting order of the parameter. Possible values include: "ASC", "DESC".
-    :type order: str or ~azure.mgmt.datafactory.models.RunQueryOrder
+    :type order: str or ~data_factory_management_client.models.RunQueryOrder
     """
 
     _validation = {
@@ -19529,11 +19698,11 @@ class SalesforceLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param environment_url: The URL of Salesforce instance. Default is
@@ -19545,9 +19714,9 @@ class SalesforceLinkedService(LinkedService):
      (or Expression with resultType string).
     :type username: object
     :param password: The password for Basic authentication of the Salesforce instance.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param security_token: The security token is optional to remotely access Salesforce instance.
-    :type security_token: ~azure.mgmt.datafactory.models.SecretBase
+    :type security_token: ~data_factory_management_client.models.SecretBase
     :param api_version: The Salesforce API version used in ADF. Type: string (or Expression with
      resultType string).
     :type api_version: object
@@ -19593,7 +19762,7 @@ class SalesforceLinkedService(LinkedService):
         **kwargs
     ):
         super(SalesforceLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Salesforce'
+        self.type: str = 'Salesforce'
         self.environment_url = environment_url
         self.username = username
         self.password = password
@@ -19613,11 +19782,11 @@ class SalesforceMarketingCloudLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param client_id: Required. The client ID associated with the Salesforce Marketing Cloud
@@ -19625,7 +19794,7 @@ class SalesforceMarketingCloudLinkedService(LinkedService):
     :type client_id: object
     :param client_secret: The client secret associated with the Salesforce Marketing Cloud
      application. Type: string (or Expression with resultType string).
-    :type client_secret: ~azure.mgmt.datafactory.models.SecretBase
+    :type client_secret: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true. Type: boolean (or Expression with resultType boolean).
     :type use_encrypted_endpoints: object
@@ -19680,7 +19849,7 @@ class SalesforceMarketingCloudLinkedService(LinkedService):
         **kwargs
     ):
         super(SalesforceMarketingCloudLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'SalesforceMarketingCloud'
+        self.type: str = 'SalesforceMarketingCloud'
         self.client_id = client_id
         self.client_secret = client_secret
         self.use_encrypted_endpoints = use_encrypted_endpoints
@@ -19708,14 +19877,14 @@ class SalesforceMarketingCloudObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -19753,7 +19922,7 @@ class SalesforceMarketingCloudObjectDataset(Dataset):
         **kwargs
     ):
         super(SalesforceMarketingCloudObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'SalesforceMarketingCloudObject'
+        self.type: str = 'SalesforceMarketingCloudObject'
         self.table_name = table_name
 
 
@@ -19776,14 +19945,14 @@ class SalesforceObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param object_api_name: The Salesforce object API name. Type: string (or Expression with
      resultType string).
     :type object_api_name: object
@@ -19822,7 +19991,7 @@ class SalesforceObjectDataset(Dataset):
         **kwargs
     ):
         super(SalesforceObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'SalesforceObject'
+        self.type: str = 'SalesforceObject'
         self.object_api_name = object_api_name
 
 
@@ -19837,11 +20006,11 @@ class SalesforceServiceCloudLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param environment_url: The URL of Salesforce Service Cloud instance. Default is
@@ -19853,9 +20022,9 @@ class SalesforceServiceCloudLinkedService(LinkedService):
      (or Expression with resultType string).
     :type username: object
     :param password: The password for Basic authentication of the Salesforce instance.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param security_token: The security token is optional to remotely access Salesforce instance.
-    :type security_token: ~azure.mgmt.datafactory.models.SecretBase
+    :type security_token: ~data_factory_management_client.models.SecretBase
     :param api_version: The Salesforce API version used in ADF. Type: string (or Expression with
      resultType string).
     :type api_version: object
@@ -19906,7 +20075,7 @@ class SalesforceServiceCloudLinkedService(LinkedService):
         **kwargs
     ):
         super(SalesforceServiceCloudLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'SalesforceServiceCloud'
+        self.type: str = 'SalesforceServiceCloud'
         self.environment_url = environment_url
         self.username = username
         self.password = password
@@ -19935,14 +20104,14 @@ class SalesforceServiceCloudObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param object_api_name: The Salesforce Service Cloud object API name. Type: string (or
      Expression with resultType string).
     :type object_api_name: object
@@ -19981,7 +20150,7 @@ class SalesforceServiceCloudObjectDataset(Dataset):
         **kwargs
     ):
         super(SalesforceServiceCloudObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'SalesforceServiceCloudObject'
+        self.type: str = 'SalesforceServiceCloudObject'
         self.object_api_name = object_api_name
 
 
@@ -20004,14 +20173,14 @@ class SapBwCubeDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     """
 
     _validation = {
@@ -20045,7 +20214,7 @@ class SapBwCubeDataset(Dataset):
         **kwargs
     ):
         super(SapBwCubeDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'SapBwCube'
+        self.type: str = 'SapBwCube'
 
 
 class SapBwLinkedService(LinkedService):
@@ -20059,11 +20228,11 @@ class SapBwLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param server: Required. Host name of the SAP BW instance. Type: string (or Expression with
@@ -20079,7 +20248,7 @@ class SapBwLinkedService(LinkedService):
      resultType string).
     :type user_name: object
     :param password: Password to access the SAP BW server.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -20125,7 +20294,7 @@ class SapBwLinkedService(LinkedService):
         **kwargs
     ):
         super(SapBwLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'SapBW'
+        self.type: str = 'SapBW'
         self.server = server
         self.system_number = system_number
         self.client_id = client_id
@@ -20145,11 +20314,11 @@ class SapCloudForCustomerLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param url: Required. The URL of SAP Cloud for Customer OData API. For example,
@@ -20160,7 +20329,7 @@ class SapCloudForCustomerLinkedService(LinkedService):
      resultType string).
     :type username: object
     :param password: The password for Basic authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Either encryptedCredential or
      username/password must be provided. Type: string (or Expression with resultType string).
@@ -20200,7 +20369,7 @@ class SapCloudForCustomerLinkedService(LinkedService):
         **kwargs
     ):
         super(SapCloudForCustomerLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'SapCloudForCustomer'
+        self.type: str = 'SapCloudForCustomer'
         self.url = url
         self.username = username
         self.password = password
@@ -20226,14 +20395,14 @@ class SapCloudForCustomerResourceDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param path: Required. The path of the SAP Cloud for Customer OData entity. Type: string (or
      Expression with resultType string).
     :type path: object
@@ -20273,7 +20442,7 @@ class SapCloudForCustomerResourceDataset(Dataset):
         **kwargs
     ):
         super(SapCloudForCustomerResourceDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'SapCloudForCustomerResource'
+        self.type: str = 'SapCloudForCustomerResource'
         self.path = path
 
 
@@ -20288,11 +20457,11 @@ class SapEccLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param url: Required. The URL of SAP ECC OData API. For example,
@@ -20303,7 +20472,7 @@ class SapEccLinkedService(LinkedService):
      resultType string).
     :type username: str
     :param password: The password for Basic authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Either encryptedCredential or
      username/password must be provided. Type: string (or Expression with resultType string).
@@ -20343,7 +20512,7 @@ class SapEccLinkedService(LinkedService):
         **kwargs
     ):
         super(SapEccLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'SapEcc'
+        self.type: str = 'SapEcc'
         self.url = url
         self.username = username
         self.password = password
@@ -20369,14 +20538,14 @@ class SapEccResourceDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param path: Required. The path of the SAP ECC OData entity. Type: string (or Expression with
      resultType string).
     :type path: object
@@ -20416,7 +20585,7 @@ class SapEccResourceDataset(Dataset):
         **kwargs
     ):
         super(SapEccResourceDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'SapEccResource'
+        self.type: str = 'SapEccResource'
         self.path = path
 
 
@@ -20431,11 +20600,11 @@ class SapHanaLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: SAP HANA ODBC connection string. Type: string, SecureString or
@@ -20446,12 +20615,13 @@ class SapHanaLinkedService(LinkedService):
     :type server: object
     :param authentication_type: The authentication type to be used to connect to the SAP HANA
      server. Possible values include: "Basic", "Windows".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.SapHanaAuthenticationType
+    :type authentication_type: str or
+     ~data_factory_management_client.models.SapHanaAuthenticationType
     :param user_name: Username to access the SAP HANA server. Type: string (or Expression with
      resultType string).
     :type user_name: object
     :param password: Password to access the SAP HANA server.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -20494,7 +20664,7 @@ class SapHanaLinkedService(LinkedService):
         **kwargs
     ):
         super(SapHanaLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'SapHana'
+        self.type: str = 'SapHana'
         self.connection_string = connection_string
         self.server = server
         self.authentication_type = authentication_type
@@ -20522,14 +20692,14 @@ class SapHanaTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param schema_type_properties_schema: The schema name of SAP HANA. Type: string (or Expression
      with resultType string).
     :type schema_type_properties_schema: object
@@ -20572,7 +20742,7 @@ class SapHanaTableDataset(Dataset):
         **kwargs
     ):
         super(SapHanaTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'SapHanaTable'
+        self.type: str = 'SapHanaTable'
         self.schema_type_properties_schema = schema_type_properties_schema
         self.table = table
 
@@ -20588,11 +20758,11 @@ class SapOpenHubLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param server: Required. Host name of the SAP BW instance where the open hub destination is
@@ -20614,7 +20784,7 @@ class SapOpenHubLinkedService(LinkedService):
     :type user_name: object
     :param password: Password to access the SAP BW server where the open hub destination is
      located.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -20662,7 +20832,7 @@ class SapOpenHubLinkedService(LinkedService):
         **kwargs
     ):
         super(SapOpenHubLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'SapOpenHub'
+        self.type: str = 'SapOpenHub'
         self.server = server
         self.system_number = system_number
         self.client_id = client_id
@@ -20691,14 +20861,14 @@ class SapOpenHubTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param open_hub_destination_name: Required. The name of the Open Hub Destination with
      destination type as Database Table. Type: string (or Expression with resultType string).
     :type open_hub_destination_name: object
@@ -20749,7 +20919,7 @@ class SapOpenHubTableDataset(Dataset):
         **kwargs
     ):
         super(SapOpenHubTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'SapOpenHubTable'
+        self.type: str = 'SapOpenHubTable'
         self.open_hub_destination_name = open_hub_destination_name
         self.exclude_last_request = exclude_last_request
         self.base_request_id = base_request_id
@@ -20766,11 +20936,11 @@ class SapTableLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param server: Host name of the SAP instance where the table is located. Type: string (or
@@ -20794,7 +20964,7 @@ class SapTableLinkedService(LinkedService):
      (or Expression with resultType string).
     :type user_name: object
     :param password: Password to access the SAP server where the table is located.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param message_server: The hostname of the SAP Message Server. Type: string (or Expression with
      resultType string).
     :type message_server: object
@@ -20881,7 +21051,7 @@ class SapTableLinkedService(LinkedService):
         **kwargs
     ):
         super(SapTableLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'SapTable'
+        self.type: str = 'SapTable'
         self.server = server
         self.system_number = system_number
         self.client_id = client_id
@@ -20919,14 +21089,14 @@ class SapTableResourceDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: Required. The name of the SAP Table. Type: string (or Expression with
      resultType string).
     :type table_name: object
@@ -20966,7 +21136,7 @@ class SapTableResourceDataset(Dataset):
         **kwargs
     ):
         super(SapTableResourceDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'SapTableResource'
+        self.type: str = 'SapTableResource'
         self.table_name = table_name
 
 
@@ -20981,7 +21151,7 @@ class ScriptAction(msrest.serialization.Model):
     :type uri: str
     :param roles: Required. The node types on which the script action should be executed. Possible
      values include: "Headnode", "Workernode", "Zookeeper".
-    :type roles: str or ~azure.mgmt.datafactory.models.HdiNodeTypes
+    :type roles: str or ~data_factory_management_client.models.HdiNodeTypes
     :param parameters: The parameters for the script action.
     :type parameters: str
     """
@@ -21043,7 +21213,7 @@ class SecureString(SecretBase):
         **kwargs
     ):
         super(SecureString, self).__init__(**kwargs)
-        self.type = 'SecureString'
+        self.type: str = 'SecureString'
         self.value = value
 
 
@@ -21057,11 +21227,11 @@ class SelfHostedIntegrationRuntime(IntegrationRuntime):
     :type additional_properties: dict[str, object]
     :param type: Required. Type of integration runtime.Constant filled by server.  Possible values
      include: "Managed", "SelfHosted".
-    :type type: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeType
+    :type type: str or ~data_factory_management_client.models.IntegrationRuntimeType
     :param description: Integration runtime description.
     :type description: str
     :param linked_info: The base definition of a linked integration runtime.
-    :type linked_info: ~azure.mgmt.datafactory.models.LinkedIntegrationRuntimeType
+    :type linked_info: ~data_factory_management_client.models.LinkedIntegrationRuntimeType
     """
 
     _validation = {
@@ -21084,7 +21254,7 @@ class SelfHostedIntegrationRuntime(IntegrationRuntime):
         **kwargs
     ):
         super(SelfHostedIntegrationRuntime, self).__init__(additional_properties=additional_properties, description=description, **kwargs)
-        self.type = 'SelfHosted'
+        self.type: str = 'SelfHosted'
         self.linked_info = linked_info
 
 
@@ -21105,7 +21275,8 @@ class SelfHostedIntegrationRuntimeNode(msrest.serialization.Model):
     :ivar status: Status of the integration runtime node. Possible values include:
      "NeedRegistration", "Online", "Limited", "Offline", "Upgrading", "Initializing",
      "InitializeFailed".
-    :vartype status: str or ~azure.mgmt.datafactory.models.SelfHostedIntegrationRuntimeNodeStatus
+    :vartype status: str or
+     ~data_factory_management_client.models.SelfHostedIntegrationRuntimeNodeStatus
     :ivar capabilities: The integration runtime capabilities dictionary.
     :vartype capabilities: dict[str, str]
     :ivar version_status: Status of the integration runtime node version.
@@ -21127,7 +21298,7 @@ class SelfHostedIntegrationRuntimeNode(msrest.serialization.Model):
     :ivar last_update_result: The result of the last integration runtime node update. Possible
      values include: "None", "Succeed", "Fail".
     :vartype last_update_result: str or
-     ~azure.mgmt.datafactory.models.IntegrationRuntimeUpdateResult
+     ~data_factory_management_client.models.IntegrationRuntimeUpdateResult
     :ivar last_start_update_time: The last time for the integration runtime node update start.
     :vartype last_start_update_time: ~datetime.datetime
     :ivar last_end_update_time: The last time for the integration runtime node update end.
@@ -21224,13 +21395,13 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):
     :type additional_properties: dict[str, object]
     :param type: Required. Type of integration runtime.Constant filled by server.  Possible values
      include: "Managed", "SelfHosted".
-    :type type: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeType
+    :type type: str or ~data_factory_management_client.models.IntegrationRuntimeType
     :ivar data_factory_name: The data factory name which the integration runtime belong to.
     :vartype data_factory_name: str
     :ivar state: The state of integration runtime. Possible values include: "Initial", "Stopped",
      "Started", "Starting", "Stopping", "NeedRegistration", "Online", "Limited", "Offline",
      "AccessDenied".
-    :vartype state: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeState
+    :vartype state: str or ~data_factory_management_client.models.IntegrationRuntimeState
     :ivar create_time: The time at which the integration runtime was created, in ISO8601 format.
     :vartype create_time: ~datetime.datetime
     :ivar task_queue_id: The task queue id of the integration runtime.
@@ -21239,11 +21410,11 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):
      communication channel (when more than 2 self-hosted integration runtime nodes exist). Possible
      values include: "NotSet", "SslEncrypted", "NotEncrypted".
     :vartype internal_channel_encryption: str or
-     ~azure.mgmt.datafactory.models.IntegrationRuntimeInternalChannelEncryptionMode
+     ~data_factory_management_client.models.IntegrationRuntimeInternalChannelEncryptionMode
     :ivar version: Version of the integration runtime.
     :vartype version: str
     :param nodes: The list of nodes for this integration runtime.
-    :type nodes: list[~azure.mgmt.datafactory.models.SelfHostedIntegrationRuntimeNode]
+    :type nodes: list[~data_factory_management_client.models.SelfHostedIntegrationRuntimeNode]
     :ivar scheduled_update_date: The date at which the integration runtime will be scheduled to
      update, in ISO8601 format.
     :vartype scheduled_update_date: ~datetime.datetime
@@ -21258,12 +21429,13 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):
     :vartype service_urls: list[str]
     :ivar auto_update: Whether Self-hosted integration runtime auto update has been turned on.
      Possible values include: "On", "Off".
-    :vartype auto_update: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeAutoUpdate
+    :vartype auto_update: str or
+     ~data_factory_management_client.models.IntegrationRuntimeAutoUpdate
     :ivar version_status: Status of the integration runtime version.
     :vartype version_status: str
     :param links: The list of linked integration runtimes that are created to share with this
      integration runtime.
-    :type links: list[~azure.mgmt.datafactory.models.LinkedIntegrationRuntime]
+    :type links: list[~data_factory_management_client.models.LinkedIntegrationRuntime]
     :ivar pushed_version: The version that the integration runtime is going to update to.
     :vartype pushed_version: str
     :ivar latest_version: The latest version on download center.
@@ -21325,7 +21497,7 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):
         **kwargs
     ):
         super(SelfHostedIntegrationRuntimeStatus, self).__init__(additional_properties=additional_properties, **kwargs)
-        self.type = 'SelfHosted'
+        self.type: str = 'SelfHosted'
         self.create_time = None
         self.task_queue_id = None
         self.internal_channel_encryption = None
@@ -21355,11 +21527,11 @@ class ServiceNowLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param endpoint: Required. The endpoint of the ServiceNow server. (i.e.
@@ -21367,17 +21539,18 @@ class ServiceNowLinkedService(LinkedService):
     :type endpoint: object
     :param authentication_type: Required. The authentication type to use. Possible values include:
      "Basic", "OAuth2".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.ServiceNowAuthenticationType
+    :type authentication_type: str or
+     ~data_factory_management_client.models.ServiceNowAuthenticationType
     :param username: The user name used to connect to the ServiceNow server for Basic and OAuth2
      authentication.
     :type username: object
     :param password: The password corresponding to the user name for Basic and OAuth2
      authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param client_id: The client id for OAuth2 authentication.
     :type client_id: object
     :param client_secret: The client secret for OAuth2 authentication.
-    :type client_secret: ~azure.mgmt.datafactory.models.SecretBase
+    :type client_secret: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true.
     :type use_encrypted_endpoints: object
@@ -21440,7 +21613,7 @@ class ServiceNowLinkedService(LinkedService):
         **kwargs
     ):
         super(ServiceNowLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'ServiceNow'
+        self.type: str = 'ServiceNow'
         self.endpoint = endpoint
         self.authentication_type = authentication_type
         self.username = username
@@ -21472,14 +21645,14 @@ class ServiceNowObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -21517,11 +21690,11 @@ class ServiceNowObjectDataset(Dataset):
         **kwargs
     ):
         super(ServiceNowObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'ServiceNowObject'
+        self.type: str = 'ServiceNowObject'
         self.table_name = table_name
 
 
-class SetVariableActivity(ControlActivity):
+class SetVariableActivity(Activity):
     """Set value for a Variable.
 
     All required parameters must be populated in order to send to Azure.
@@ -21536,9 +21709,9 @@ class SetVariableActivity(ControlActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param variable_name: Name of the variable whose value needs to be set.
     :type variable_name: str
     :param value: Value to be set. Could be a static value or Expression.
@@ -21574,7 +21747,7 @@ class SetVariableActivity(ControlActivity):
         **kwargs
     ):
         super(SetVariableActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, **kwargs)
-        self.type = 'SetVariable'
+        self.type: str = 'SetVariable'
         self.variable_name = variable_name
         self.value = value
 
@@ -21590,11 +21763,11 @@ class SftpServerLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. The SFTP server host name. Type: string (or Expression with resultType
@@ -21605,12 +21778,12 @@ class SftpServerLinkedService(LinkedService):
     :type port: object
     :param authentication_type: The authentication type to be used to connect to the FTP server.
      Possible values include: "Basic", "SshPublicKey".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.SftpAuthenticationType
+    :type authentication_type: str or ~data_factory_management_client.models.SftpAuthenticationType
     :param user_name: The username used to log on to the SFTP server. Type: string (or Expression
      with resultType string).
     :type user_name: object
     :param password: Password to logon the SFTP server for Basic authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -21623,10 +21796,10 @@ class SftpServerLinkedService(LinkedService):
     :param private_key_content: Base64 encoded SSH private key content for SshPublicKey
      authentication. For on-premises copy with SshPublicKey authentication, either PrivateKeyPath or
      PrivateKeyContent should be specified. SSH private key should be OpenSSH format.
-    :type private_key_content: ~azure.mgmt.datafactory.models.SecretBase
+    :type private_key_content: ~data_factory_management_client.models.SecretBase
     :param pass_phrase: The password to decrypt the SSH private key if the SSH private key is
      encrypted.
-    :type pass_phrase: ~azure.mgmt.datafactory.models.SecretBase
+    :type pass_phrase: ~data_factory_management_client.models.SecretBase
     :param skip_host_key_validation: If true, skip the SSH host key validation. Default value is
      false. Type: boolean (or Expression with resultType boolean).
     :type skip_host_key_validation: object
@@ -21683,7 +21856,7 @@ class SftpServerLinkedService(LinkedService):
         **kwargs
     ):
         super(SftpServerLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Sftp'
+        self.type: str = 'Sftp'
         self.host = host
         self.port = port
         self.authentication_type = authentication_type
@@ -21708,11 +21881,11 @@ class SharePointOnlineListLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param site_url: Required. The URL of the SharePoint Online site. For example,
@@ -21729,7 +21902,7 @@ class SharePointOnlineListLinkedService(LinkedService):
     :type service_principal_id: object
     :param service_principal_key: Required. The client secret of your application registered in
      Azure Active Directory. Type: string (or Expression with resultType string).
-    :type service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type service_principal_key: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -21774,7 +21947,7 @@ class SharePointOnlineListLinkedService(LinkedService):
         **kwargs
     ):
         super(SharePointOnlineListLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'SharePointOnlineList'
+        self.type: str = 'SharePointOnlineList'
         self.site_url = site_url
         self.tenant_id = tenant_id
         self.service_principal_id = service_principal_id
@@ -21801,14 +21974,14 @@ class SharePointOnlineListResourceDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param list_name: The name of the SharePoint Online list. Type: string (or Expression with
      resultType string).
     :type list_name: object
@@ -21847,7 +22020,7 @@ class SharePointOnlineListResourceDataset(Dataset):
         **kwargs
     ):
         super(SharePointOnlineListResourceDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'SharePointOnlineListResource'
+        self.type: str = 'SharePointOnlineListResource'
         self.list_name = list_name
 
 
@@ -21862,18 +22035,18 @@ class ShopifyLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. The endpoint of the Shopify server. (i.e. mystore.myshopify.com).
     :type host: object
     :param access_token: The API access token that can be used to access Shopify’s data. The token
      won't expire if it is offline mode.
-    :type access_token: ~azure.mgmt.datafactory.models.SecretBase
+    :type access_token: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true.
     :type use_encrypted_endpoints: object
@@ -21927,7 +22100,7 @@ class ShopifyLinkedService(LinkedService):
         **kwargs
     ):
         super(ShopifyLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Shopify'
+        self.type: str = 'Shopify'
         self.host = host
         self.access_token = access_token
         self.use_encrypted_endpoints = use_encrypted_endpoints
@@ -21955,14 +22128,14 @@ class ShopifyObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -22000,7 +22173,7 @@ class ShopifyObjectDataset(Dataset):
         **kwargs
     ):
         super(ShopifyObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'ShopifyObject'
+        self.type: str = 'ShopifyObject'
         self.table_name = table_name
 
 
@@ -22051,14 +22224,14 @@ class SnowflakeDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param schema_type_properties_schema: The schema name of the Snowflake database. Type: string
      (or Expression with resultType string).
     :type schema_type_properties_schema: object
@@ -22102,7 +22275,7 @@ class SnowflakeDataset(Dataset):
         **kwargs
     ):
         super(SnowflakeDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'SnowflakeTable'
+        self.type: str = 'SnowflakeTable'
         self.schema_type_properties_schema = schema_type_properties_schema
         self.table = table
 
@@ -22118,18 +22291,18 @@ class SnowflakeLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: Required. The connection string of snowflake. Type: string,
      SecureString.
     :type connection_string: object
     :param password: The Azure key vault secret reference of password in connection string.
-    :type password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type password: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -22167,7 +22340,7 @@ class SnowflakeLinkedService(LinkedService):
         **kwargs
     ):
         super(SnowflakeLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Snowflake'
+        self.type: str = 'Snowflake'
         self.connection_string = connection_string
         self.password = password
         self.encrypted_credential = encrypted_credential
@@ -22184,11 +22357,11 @@ class SparkLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. IP address or host name of the Spark server.
@@ -22198,20 +22371,21 @@ class SparkLinkedService(LinkedService):
     :type port: object
     :param server_type: The type of Spark server. Possible values include: "SharkServer",
      "SharkServer2", "SparkThriftServer".
-    :type server_type: str or ~azure.mgmt.datafactory.models.SparkServerType
+    :type server_type: str or ~data_factory_management_client.models.SparkServerType
     :param thrift_transport_protocol: The transport protocol to use in the Thrift layer. Possible
      values include: "Binary", "SASL", "HTTP ".
     :type thrift_transport_protocol: str or
-     ~azure.mgmt.datafactory.models.SparkThriftTransportProtocol
+     ~data_factory_management_client.models.SparkThriftTransportProtocol
     :param authentication_type: Required. The authentication method used to access the Spark
      server. Possible values include: "Anonymous", "Username", "UsernameAndPassword",
      "WindowsAzureHDInsightService".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.SparkAuthenticationType
+    :type authentication_type: str or
+     ~data_factory_management_client.models.SparkAuthenticationType
     :param username: The user name that you use to access Spark Server.
     :type username: object
     :param password: The password corresponding to the user name that you provided in the Username
      field.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param http_path: The partial URL corresponding to the Spark server.
     :type http_path: object
     :param enable_ssl: Specifies whether the connections to the server are encrypted using SSL. The
@@ -22291,7 +22465,7 @@ class SparkLinkedService(LinkedService):
         **kwargs
     ):
         super(SparkLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Spark'
+        self.type: str = 'Spark'
         self.host = host
         self.port = port
         self.server_type = server_type
@@ -22327,14 +22501,14 @@ class SparkObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -22382,7 +22556,7 @@ class SparkObjectDataset(Dataset):
         **kwargs
     ):
         super(SparkObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'SparkObject'
+        self.type: str = 'SparkObject'
         self.table_name = table_name
         self.table = table
         self.schema_type_properties_schema = schema_type_properties_schema
@@ -22399,11 +22573,11 @@ class SqlServerLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: Required. The connection string. Type: string, SecureString or
@@ -22413,7 +22587,7 @@ class SqlServerLinkedService(LinkedService):
      with resultType string).
     :type user_name: object
     :param password: The on-premises Windows authentication password.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -22453,7 +22627,7 @@ class SqlServerLinkedService(LinkedService):
         **kwargs
     ):
         super(SqlServerLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'SqlServer'
+        self.type: str = 'SqlServer'
         self.connection_string = connection_string
         self.user_name = user_name
         self.password = password
@@ -22475,20 +22649,20 @@ class SqlServerStoredProcedureActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param stored_procedure_name: Required. Stored procedure name. Type: string (or Expression with
      resultType string).
     :type stored_procedure_name: object
     :param stored_procedure_parameters: Value and type setting for stored procedure parameters.
      Example: "{Parameter1: {value: "1", type: "int"}}".
     :type stored_procedure_parameters: dict[str,
-     ~azure.mgmt.datafactory.models.StoredProcedureParameter]
+     ~data_factory_management_client.models.StoredProcedureParameter]
     """
 
     _validation = {
@@ -22525,7 +22699,7 @@ class SqlServerStoredProcedureActivity(ExecutionActivity):
         **kwargs
     ):
         super(SqlServerStoredProcedureActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'SqlServerStoredProcedure'
+        self.type: str = 'SqlServerStoredProcedure'
         self.stored_procedure_name = stored_procedure_name
         self.stored_procedure_parameters = stored_procedure_parameters
 
@@ -22549,14 +22723,14 @@ class SqlServerTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -22605,7 +22779,7 @@ class SqlServerTableDataset(Dataset):
         **kwargs
     ):
         super(SqlServerTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'SqlServerTable'
+        self.type: str = 'SqlServerTable'
         self.table_name = table_name
         self.schema_type_properties_schema = schema_type_properties_schema
         self.table = table
@@ -22622,11 +22796,11 @@ class SquareLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. The URL of the Square instance. (i.e. mystore.mysquare.com).
@@ -22634,7 +22808,7 @@ class SquareLinkedService(LinkedService):
     :param client_id: Required. The client ID associated with your Square application.
     :type client_id: object
     :param client_secret: The client secret associated with your Square application.
-    :type client_secret: ~azure.mgmt.datafactory.models.SecretBase
+    :type client_secret: ~data_factory_management_client.models.SecretBase
     :param redirect_uri: Required. The redirect URL assigned in the Square application dashboard.
      (i.e. http://localhost:2500).
     :type redirect_uri: object
@@ -22697,7 +22871,7 @@ class SquareLinkedService(LinkedService):
         **kwargs
     ):
         super(SquareLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Square'
+        self.type: str = 'Square'
         self.host = host
         self.client_id = client_id
         self.client_secret = client_secret
@@ -22727,14 +22901,14 @@ class SquareObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -22772,7 +22946,7 @@ class SquareObjectDataset(Dataset):
         **kwargs
     ):
         super(SquareObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'SquareObject'
+        self.type: str = 'SquareObject'
         self.table_name = table_name
 
 
@@ -22786,7 +22960,7 @@ class SsisAccessCredential(msrest.serialization.Model):
     :param user_name: Required. UseName for windows authentication.
     :type user_name: object
     :param password: Required. Password for windows authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     """
 
     _validation = {
@@ -22870,7 +23044,7 @@ class SsisObjectMetadata(msrest.serialization.Model):
 
     :param type: Required. Type of metadata.Constant filled by server.  Possible values include:
      "Folder", "Project", "Package", "Environment".
-    :type type: str or ~azure.mgmt.datafactory.models.SsisObjectMetadataType
+    :type type: str or ~data_factory_management_client.models.SsisObjectMetadataType
     :param id: Metadata id.
     :type id: long
     :param name: Metadata name.
@@ -22903,7 +23077,7 @@ class SsisObjectMetadata(msrest.serialization.Model):
         **kwargs
     ):
         super(SsisObjectMetadata, self).__init__(**kwargs)
-        self.type = None
+        self.type: Optional[str] = None
         self.id = id
         self.name = name
         self.description = description
@@ -22916,7 +23090,7 @@ class SsisEnvironment(SsisObjectMetadata):
 
     :param type: Required. Type of metadata.Constant filled by server.  Possible values include:
      "Folder", "Project", "Package", "Environment".
-    :type type: str or ~azure.mgmt.datafactory.models.SsisObjectMetadataType
+    :type type: str or ~data_factory_management_client.models.SsisObjectMetadataType
     :param id: Metadata id.
     :type id: long
     :param name: Metadata name.
@@ -22926,7 +23100,7 @@ class SsisEnvironment(SsisObjectMetadata):
     :param folder_id: Folder id which contains environment.
     :type folder_id: long
     :param variables: Variable in environment.
-    :type variables: list[~azure.mgmt.datafactory.models.SsisVariable]
+    :type variables: list[~data_factory_management_client.models.SsisVariable]
     """
 
     _validation = {
@@ -22953,7 +23127,7 @@ class SsisEnvironment(SsisObjectMetadata):
         **kwargs
     ):
         super(SsisEnvironment, self).__init__(id=id, name=name, description=description, **kwargs)
-        self.type = 'Environment'
+        self.type: str = 'Environment'
         self.folder_id = folder_id
         self.variables = variables
 
@@ -23004,7 +23178,7 @@ class SsisExecutionCredential(msrest.serialization.Model):
     :param user_name: Required. UseName for windows authentication.
     :type user_name: object
     :param password: Required. Password for windows authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecureString
+    :type password: ~data_factory_management_client.models.SecureString
     """
 
     _validation = {
@@ -23068,7 +23242,7 @@ class SsisFolder(SsisObjectMetadata):
 
     :param type: Required. Type of metadata.Constant filled by server.  Possible values include:
      "Folder", "Project", "Package", "Environment".
-    :type type: str or ~azure.mgmt.datafactory.models.SsisObjectMetadataType
+    :type type: str or ~data_factory_management_client.models.SsisObjectMetadataType
     :param id: Metadata id.
     :type id: long
     :param name: Metadata name.
@@ -23097,7 +23271,7 @@ class SsisFolder(SsisObjectMetadata):
         **kwargs
     ):
         super(SsisFolder, self).__init__(id=id, name=name, description=description, **kwargs)
-        self.type = 'Folder'
+        self.type: str = 'Folder'
 
 
 class SsisLogLocation(msrest.serialization.Model):
@@ -23113,7 +23287,7 @@ class SsisLogLocation(msrest.serialization.Model):
     :ivar type: Required. The type of SSIS log location. Default value: "File".
     :vartype type: str
     :param access_credential: The package execution log access credential.
-    :type access_credential: ~azure.mgmt.datafactory.models.SsisAccessCredential
+    :type access_credential: ~data_factory_management_client.models.SsisAccessCredential
     :param log_refresh_interval: Specifies the interval to refresh log. The default interval is 5
      minutes. Type: string (or Expression with resultType string), pattern:
      ((\d+).)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -23152,7 +23326,7 @@ class SsisObjectMetadataListResponse(msrest.serialization.Model):
     """A list of SSIS object metadata.
 
     :param value: List of SSIS object metadata.
-    :type value: list[~azure.mgmt.datafactory.models.SsisObjectMetadata]
+    :type value: list[~data_factory_management_client.models.SsisObjectMetadata]
     :param next_link: The link to the next page of results, if any remaining results exist.
     :type next_link: str
     """
@@ -23217,7 +23391,7 @@ class SsisPackage(SsisObjectMetadata):
 
     :param type: Required. Type of metadata.Constant filled by server.  Possible values include:
      "Folder", "Project", "Package", "Environment".
-    :type type: str or ~azure.mgmt.datafactory.models.SsisObjectMetadataType
+    :type type: str or ~data_factory_management_client.models.SsisObjectMetadataType
     :param id: Metadata id.
     :type id: long
     :param name: Metadata name.
@@ -23231,7 +23405,7 @@ class SsisPackage(SsisObjectMetadata):
     :param project_id: Project id which contains package.
     :type project_id: long
     :param parameters: Parameters in package.
-    :type parameters: list[~azure.mgmt.datafactory.models.SsisParameter]
+    :type parameters: list[~data_factory_management_client.models.SsisParameter]
     """
 
     _validation = {
@@ -23262,7 +23436,7 @@ class SsisPackage(SsisObjectMetadata):
         **kwargs
     ):
         super(SsisPackage, self).__init__(id=id, name=name, description=description, **kwargs)
-        self.type = 'Package'
+        self.type: str = 'Package'
         self.folder_id = folder_id
         self.project_version = project_version
         self.project_id = project_id
@@ -23277,16 +23451,17 @@ class SsisPackageLocation(msrest.serialization.Model):
     :type package_path: object
     :param type: The type of SSIS package location. Possible values include: "SSISDB", "File",
      "InlinePackage", "PackageStore".
-    :type type: str or ~azure.mgmt.datafactory.models.SsisPackageLocationType
+    :type type: str or ~data_factory_management_client.models.SsisPackageLocationType
     :param package_password: Password of the package.
-    :type package_password: ~azure.mgmt.datafactory.models.SecretBase
+    :type package_password: ~data_factory_management_client.models.SecretBase
     :param access_credential: The package access credential.
-    :type access_credential: ~azure.mgmt.datafactory.models.SsisAccessCredential
+    :type access_credential: ~data_factory_management_client.models.SsisAccessCredential
     :param configuration_path: The configuration file of the package execution. Type: string (or
      Expression with resultType string).
     :type configuration_path: object
     :param configuration_access_credential: The configuration file access credential.
-    :type configuration_access_credential: ~azure.mgmt.datafactory.models.SsisAccessCredential
+    :type configuration_access_credential:
+     ~data_factory_management_client.models.SsisAccessCredential
     :param package_name: The package name.
     :type package_name: str
     :param package_content: The embedded package content. Type: string (or Expression with
@@ -23295,7 +23470,7 @@ class SsisPackageLocation(msrest.serialization.Model):
     :param package_last_modified_date: The embedded package last modified date.
     :type package_last_modified_date: str
     :param child_packages: The embedded child package list.
-    :type child_packages: list[~azure.mgmt.datafactory.models.SsisChildPackage]
+    :type child_packages: list[~data_factory_management_client.models.SsisChildPackage]
     """
 
     _attribute_map = {
@@ -23422,7 +23597,7 @@ class SsisProject(SsisObjectMetadata):
 
     :param type: Required. Type of metadata.Constant filled by server.  Possible values include:
      "Folder", "Project", "Package", "Environment".
-    :type type: str or ~azure.mgmt.datafactory.models.SsisObjectMetadataType
+    :type type: str or ~data_factory_management_client.models.SsisObjectMetadataType
     :param id: Metadata id.
     :type id: long
     :param name: Metadata name.
@@ -23434,9 +23609,9 @@ class SsisProject(SsisObjectMetadata):
     :param version: Project version.
     :type version: long
     :param environment_refs: Environment reference in project.
-    :type environment_refs: list[~azure.mgmt.datafactory.models.SsisEnvironmentReference]
+    :type environment_refs: list[~data_factory_management_client.models.SsisEnvironmentReference]
     :param parameters: Parameters in project.
-    :type parameters: list[~azure.mgmt.datafactory.models.SsisParameter]
+    :type parameters: list[~data_factory_management_client.models.SsisParameter]
     """
 
     _validation = {
@@ -23467,7 +23642,7 @@ class SsisProject(SsisObjectMetadata):
         **kwargs
     ):
         super(SsisProject, self).__init__(id=id, name=name, description=description, **kwargs)
-        self.type = 'Project'
+        self.type: str = 'Project'
         self.folder_id = folder_id
         self.version = version
         self.environment_refs = environment_refs
@@ -23568,7 +23743,7 @@ class StagingSettings(msrest.serialization.Model):
      collection.
     :type additional_properties: dict[str, object]
     :param linked_service_name: Required. Staging linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param path: The path to storage for storing the interim data. Type: string (or Expression with
      resultType string).
     :type path: object
@@ -23612,7 +23787,7 @@ class StoredProcedureParameter(msrest.serialization.Model):
     :type value: object
     :param type: Stored procedure parameter type. Possible values include: "String", "Int",
      "Int64", "Decimal", "Guid", "Boolean", "Date".
-    :type type: str or ~azure.mgmt.datafactory.models.StoredProcedureParameterType
+    :type type: str or ~data_factory_management_client.models.StoredProcedureParameterType
     """
 
     _attribute_map = {
@@ -23673,11 +23848,11 @@ class StoreReadSettings(msrest.serialization.Model):
     ):
         super(StoreReadSettings, self).__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = 'StoreReadSettings'
+        self.type: str = 'StoreReadSettings'
         self.max_concurrent_connections = max_concurrent_connections
 
 
-class SwitchActivity(ControlActivity):
+class SwitchActivity(Activity):
     """This activity evaluates an expression and executes activities under the cases property that correspond to the expression evaluation expected in the equals property.
 
     All required parameters must be populated in order to send to Azure.
@@ -23692,19 +23867,19 @@ class SwitchActivity(ControlActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param on: Required. An expression that would evaluate to a string or integer. This is used to
      determine the block of activities in cases that will be executed.
-    :type on: ~azure.mgmt.datafactory.models.Expression
+    :type on: ~data_factory_management_client.models.Expression
     :param cases: List of cases that correspond to expected values of the 'on' property. This is an
      optional property and if not provided, the activity will execute activities provided in
      defaultActivities.
-    :type cases: list[~azure.mgmt.datafactory.models.SwitchCase]
+    :type cases: list[~data_factory_management_client.models.SwitchCase]
     :param default_activities: List of activities to execute if no case condition is satisfied.
      This is an optional property and if not provided, the activity will exit without any action.
-    :type default_activities: list[~azure.mgmt.datafactory.models.Activity]
+    :type default_activities: list[~data_factory_management_client.models.Activity]
     """
 
     _validation = {
@@ -23739,7 +23914,7 @@ class SwitchActivity(ControlActivity):
         **kwargs
     ):
         super(SwitchActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, **kwargs)
-        self.type = 'Switch'
+        self.type: str = 'Switch'
         self.on = on
         self.cases = cases
         self.default_activities = default_activities
@@ -23751,7 +23926,7 @@ class SwitchCase(msrest.serialization.Model):
     :param value: Expected value that satisfies the expression result of the 'on' property.
     :type value: str
     :param activities: List of activities to execute for satisfied case condition.
-    :type activities: list[~azure.mgmt.datafactory.models.Activity]
+    :type activities: list[~data_factory_management_client.models.Activity]
     """
 
     _attribute_map = {
@@ -23782,11 +23957,11 @@ class SybaseLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param server: Required. Server name for connection. Type: string (or Expression with
@@ -23799,12 +23974,13 @@ class SybaseLinkedService(LinkedService):
     :type schema: object
     :param authentication_type: AuthenticationType to be used for connection. Possible values
      include: "Basic", "Windows".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.SybaseAuthenticationType
+    :type authentication_type: str or
+     ~data_factory_management_client.models.SybaseAuthenticationType
     :param username: Username for authentication. Type: string (or Expression with resultType
      string).
     :type username: object
     :param password: Password for authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -23851,7 +24027,7 @@ class SybaseLinkedService(LinkedService):
         **kwargs
     ):
         super(SybaseLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Sybase'
+        self.type: str = 'Sybase'
         self.server = server
         self.database = database
         self.schema = schema
@@ -23880,14 +24056,14 @@ class SybaseTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The Sybase table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -23925,7 +24101,7 @@ class SybaseTableDataset(Dataset):
         **kwargs
     ):
         super(SybaseTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'SybaseTable'
+        self.type: str = 'SybaseTable'
         self.table_name = table_name
 
 
@@ -23940,11 +24116,11 @@ class TeradataLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: Teradata ODBC connection string. Type: string, SecureString or
@@ -23954,12 +24130,13 @@ class TeradataLinkedService(LinkedService):
     :type server: object
     :param authentication_type: AuthenticationType to be used for connection. Possible values
      include: "Basic", "Windows".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.TeradataAuthenticationType
+    :type authentication_type: str or
+     ~data_factory_management_client.models.TeradataAuthenticationType
     :param username: Username for authentication. Type: string (or Expression with resultType
      string).
     :type username: object
     :param password: Password for authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -24002,7 +24179,7 @@ class TeradataLinkedService(LinkedService):
         **kwargs
     ):
         super(TeradataLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Teradata'
+        self.type: str = 'Teradata'
         self.connection_string = connection_string
         self.server = server
         self.authentication_type = authentication_type
@@ -24030,14 +24207,14 @@ class TeradataTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param database: The database name of Teradata. Type: string (or Expression with resultType
      string).
     :type database: object
@@ -24080,7 +24257,7 @@ class TeradataTableDataset(Dataset):
         **kwargs
     ):
         super(TeradataTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'TeradataTable'
+        self.type: str = 'TeradataTable'
         self.database = database
         self.table = table
 
@@ -24119,7 +24296,7 @@ class TriggerListResponse(msrest.serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :param value: Required. List of triggers.
-    :type value: list[~azure.mgmt.datafactory.models.TriggerResource]
+    :type value: list[~data_factory_management_client.models.TriggerResource]
     :param next_link: The link to the next page of results, if any remaining results exist.
     :type next_link: str
     """
@@ -24149,7 +24326,7 @@ class TriggerPipelineReference(msrest.serialization.Model):
     """Pipeline that needs to be triggered with the given parameters.
 
     :param pipeline_reference: Pipeline reference.
-    :type pipeline_reference: ~azure.mgmt.datafactory.models.PipelineReference
+    :type pipeline_reference: ~data_factory_management_client.models.PipelineReference
     :param parameters: Pipeline parameters.
     :type parameters: dict[str, object]
     """
@@ -24177,7 +24354,7 @@ class TriggerQueryResponse(msrest.serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :param value: Required. List of triggers.
-    :type value: list[~azure.mgmt.datafactory.models.TriggerResource]
+    :type value: list[~data_factory_management_client.models.TriggerResource]
     :param continuation_token: The continuation token for getting the next page of results, if any
      remaining results exist, null otherwise.
     :type continuation_token: str
@@ -24220,7 +24397,7 @@ class TriggerResource(SubResource):
     :ivar etag: Etag identifies change in the resource.
     :vartype etag: str
     :param properties: Required. Properties of the trigger.
-    :type properties: ~azure.mgmt.datafactory.models.Trigger
+    :type properties: ~data_factory_management_client.models.Trigger
     """
 
     _validation = {
@@ -24266,7 +24443,7 @@ class TriggerRun(msrest.serialization.Model):
     :ivar trigger_run_timestamp: Trigger run start time.
     :vartype trigger_run_timestamp: ~datetime.datetime
     :ivar status: Trigger run status. Possible values include: "Succeeded", "Failed", "Inprogress".
-    :vartype status: str or ~azure.mgmt.datafactory.models.TriggerRunStatus
+    :vartype status: str or ~data_factory_management_client.models.TriggerRunStatus
     :ivar message: Trigger error message.
     :vartype message: str
     :ivar properties: List of property name and value related to trigger run. Name, value pair
@@ -24333,7 +24510,7 @@ class TriggerRunsQueryResponse(msrest.serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :param value: Required. List of trigger runs.
-    :type value: list[~azure.mgmt.datafactory.models.TriggerRun]
+    :type value: list[~data_factory_management_client.models.TriggerRun]
     :param continuation_token: The continuation token for getting the next page of results, if any
      remaining results exist, null otherwise.
     :type continuation_token: str
@@ -24369,7 +24546,7 @@ class TriggerSubscriptionOperationStatus(msrest.serialization.Model):
     :vartype trigger_name: str
     :ivar status: Event Subscription Status. Possible values include: "Enabled", "Provisioning",
      "Deprovisioning", "Disabled", "Unknown".
-    :vartype status: str or ~azure.mgmt.datafactory.models.EventSubscriptionStatus
+    :vartype status: str or ~data_factory_management_client.models.EventSubscriptionStatus
     """
 
     _validation = {
@@ -24391,7 +24568,7 @@ class TriggerSubscriptionOperationStatus(msrest.serialization.Model):
         self.status = None
 
 
-class UntilActivity(ControlActivity):
+class UntilActivity(Activity):
     """This activity executes inner activities until the specified boolean expression results to true or timeout is reached, whichever is earlier.
 
     All required parameters must be populated in order to send to Azure.
@@ -24406,12 +24583,12 @@ class UntilActivity(ControlActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param expression: Required. An expression that would evaluate to Boolean. The loop will
      continue until this expression evaluates to true.
-    :type expression: ~azure.mgmt.datafactory.models.Expression
+    :type expression: ~data_factory_management_client.models.Expression
     :param timeout: Specifies the timeout for the activity to run. If there is no value specified,
      it takes the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or
      Expression with resultType string), pattern:
@@ -24419,7 +24596,7 @@ class UntilActivity(ControlActivity):
      resultType string), pattern: ((\d+).)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
     :type timeout: object
     :param activities: Required. List of activities to execute.
-    :type activities: list[~azure.mgmt.datafactory.models.Activity]
+    :type activities: list[~data_factory_management_client.models.Activity]
     """
 
     _validation = {
@@ -24455,7 +24632,7 @@ class UntilActivity(ControlActivity):
         **kwargs
     ):
         super(UntilActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, **kwargs)
-        self.type = 'Until'
+        self.type: str = 'Until'
         self.expression = expression
         self.timeout = timeout
         self.activities = activities
@@ -24493,7 +24670,7 @@ class UpdateIntegrationRuntimeRequest(msrest.serialization.Model):
     :param auto_update: Enables or disables the auto-update feature of the self-hosted integration
      runtime. See https://go.microsoft.com/fwlink/?linkid=854189. Possible values include: "On",
      "Off".
-    :type auto_update: str or ~azure.mgmt.datafactory.models.IntegrationRuntimeAutoUpdate
+    :type auto_update: str or ~data_factory_management_client.models.IntegrationRuntimeAutoUpdate
     :param update_delay_offset: The time offset (in hours) in the day, e.g., PT03H is 3 hours. The
      integration runtime auto update will happen on that time.
     :type update_delay_offset: str
@@ -24595,7 +24772,7 @@ class UserProperty(msrest.serialization.Model):
         self.value = value
 
 
-class ValidationActivity(ControlActivity):
+class ValidationActivity(Activity):
     """This activity verifies that an external resource exists.
 
     All required parameters must be populated in order to send to Azure.
@@ -24610,9 +24787,9 @@ class ValidationActivity(ControlActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param timeout: Specifies the timeout for the activity to run. If there is no value specified,
      it takes the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or
      Expression with resultType string), pattern:
@@ -24629,7 +24806,7 @@ class ValidationActivity(ControlActivity):
      with resultType boolean).
     :type child_items: object
     :param dataset: Required. Validation activity dataset reference.
-    :type dataset: ~azure.mgmt.datafactory.models.DatasetReference
+    :type dataset: ~data_factory_management_client.models.DatasetReference
     """
 
     _validation = {
@@ -24668,7 +24845,7 @@ class ValidationActivity(ControlActivity):
         **kwargs
     ):
         super(ValidationActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, **kwargs)
-        self.type = 'Validation'
+        self.type: str = 'Validation'
         self.timeout = timeout
         self.sleep = sleep
         self.minimum_size = minimum_size
@@ -24682,7 +24859,7 @@ class VariableSpecification(msrest.serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :param type: Required. Variable type. Possible values include: "String", "Bool", "Array".
-    :type type: str or ~azure.mgmt.datafactory.models.VariableType
+    :type type: str or ~data_factory_management_client.models.VariableType
     :param default_value: Default value of variable.
     :type default_value: object
     """
@@ -24719,18 +24896,18 @@ class VerticaLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param connection_string: An ODBC connection string. Type: string, SecureString or
      AzureKeyVaultSecretReference.
     :type connection_string: object
     :param pwd: The Azure key vault secret reference of password in connection string.
-    :type pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :type pwd: ~data_factory_management_client.models.AzureKeyVaultSecretReference
     :param encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string (or Expression with
      resultType string).
@@ -24767,7 +24944,7 @@ class VerticaLinkedService(LinkedService):
         **kwargs
     ):
         super(VerticaLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Vertica'
+        self.type: str = 'Vertica'
         self.connection_string = connection_string
         self.pwd = pwd
         self.encrypted_credential = encrypted_credential
@@ -24792,14 +24969,14 @@ class VerticaTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: This property will be retired. Please consider using schema + table
      properties instead.
     :type table_name: object
@@ -24848,13 +25025,13 @@ class VerticaTableDataset(Dataset):
         **kwargs
     ):
         super(VerticaTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'VerticaTable'
+        self.type: str = 'VerticaTable'
         self.table_name = table_name
         self.table = table
         self.schema_type_properties_schema = schema_type_properties_schema
 
 
-class WaitActivity(ControlActivity):
+class WaitActivity(Activity):
     """This activity suspends pipeline execution for the specified interval.
 
     All required parameters must be populated in order to send to Azure.
@@ -24869,11 +25046,11 @@ class WaitActivity(ControlActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param wait_time_in_seconds: Required. Duration in seconds.
-    :type wait_time_in_seconds: int
+    :type wait_time_in_seconds: object
     """
 
     _validation = {
@@ -24889,14 +25066,14 @@ class WaitActivity(ControlActivity):
         'description': {'key': 'description', 'type': 'str'},
         'depends_on': {'key': 'dependsOn', 'type': '[ActivityDependency]'},
         'user_properties': {'key': 'userProperties', 'type': '[UserProperty]'},
-        'wait_time_in_seconds': {'key': 'typeProperties.waitTimeInSeconds', 'type': 'int'},
+        'wait_time_in_seconds': {'key': 'typeProperties.waitTimeInSeconds', 'type': 'object'},
     }
 
     def __init__(
         self,
         *,
         name: str,
-        wait_time_in_seconds: int,
+        wait_time_in_seconds: object,
         additional_properties: Optional[Dict[str, object]] = None,
         description: Optional[str] = None,
         depends_on: Optional[List["ActivityDependency"]] = None,
@@ -24904,7 +25081,7 @@ class WaitActivity(ControlActivity):
         **kwargs
     ):
         super(WaitActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, **kwargs)
-        self.type = 'Wait'
+        self.type: str = 'Wait'
         self.wait_time_in_seconds = wait_time_in_seconds
 
 
@@ -24923,16 +25100,16 @@ class WebActivity(ExecutionActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :param linked_service_name: Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param policy: Activity policy.
-    :type policy: ~azure.mgmt.datafactory.models.ActivityPolicy
+    :type policy: ~data_factory_management_client.models.ActivityPolicy
     :param method: Required. Rest API method for target endpoint. Possible values include: "GET",
      "POST", "PUT", "DELETE".
-    :type method: str or ~azure.mgmt.datafactory.models.WebActivityMethod
+    :type method: str or ~data_factory_management_client.models.WebActivityMethod
     :param url: Required. Web activity target endpoint and path. Type: string (or Expression with
      resultType string).
     :type url: object
@@ -24944,13 +25121,13 @@ class WebActivity(ExecutionActivity):
      method, not allowed for GET method Type: string (or Expression with resultType string).
     :type body: object
     :param authentication: Authentication method used for calling the endpoint.
-    :type authentication: ~azure.mgmt.datafactory.models.WebActivityAuthentication
+    :type authentication: ~data_factory_management_client.models.WebActivityAuthentication
     :param datasets: List of datasets passed to web endpoint.
-    :type datasets: list[~azure.mgmt.datafactory.models.DatasetReference]
+    :type datasets: list[~data_factory_management_client.models.DatasetReference]
     :param linked_services: List of linked services passed to web endpoint.
-    :type linked_services: list[~azure.mgmt.datafactory.models.LinkedServiceReference]
+    :type linked_services: list[~data_factory_management_client.models.LinkedServiceReference]
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     """
 
     _validation = {
@@ -25000,7 +25177,7 @@ class WebActivity(ExecutionActivity):
         **kwargs
     ):
         super(WebActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, linked_service_name=linked_service_name, policy=policy, **kwargs)
-        self.type = 'WebActivity'
+        self.type: str = 'WebActivity'
         self.method = method
         self.url = url
         self.headers = headers
@@ -25019,11 +25196,11 @@ class WebActivityAuthentication(msrest.serialization.Model):
     :param type: Required. Web activity authentication (Basic/ClientCertificate/MSI).
     :type type: str
     :param pfx: Base64-encoded contents of a PFX file.
-    :type pfx: ~azure.mgmt.datafactory.models.SecretBase
+    :type pfx: ~data_factory_management_client.models.SecretBase
     :param username: Web activity authentication user name for basic authentication.
     :type username: str
     :param password: Password for the PFX file or basic authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     :param resource: Resource for which Azure Auth token will be requested when using MSI
      Authentication.
     :type resource: str
@@ -25073,7 +25250,7 @@ class WebLinkedServiceTypeProperties(msrest.serialization.Model):
     :param authentication_type: Required. Type of authentication used to connect to the web table
      source.Constant filled by server.  Possible values include: "Basic", "Anonymous",
      "ClientCertificate".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.WebAuthenticationType
+    :type authentication_type: str or ~data_factory_management_client.models.WebAuthenticationType
     """
 
     _validation = {
@@ -25098,7 +25275,7 @@ class WebLinkedServiceTypeProperties(msrest.serialization.Model):
     ):
         super(WebLinkedServiceTypeProperties, self).__init__(**kwargs)
         self.url = url
-        self.authentication_type = None
+        self.authentication_type: Optional[str] = None
 
 
 class WebAnonymousAuthentication(WebLinkedServiceTypeProperties):
@@ -25112,7 +25289,7 @@ class WebAnonymousAuthentication(WebLinkedServiceTypeProperties):
     :param authentication_type: Required. Type of authentication used to connect to the web table
      source.Constant filled by server.  Possible values include: "Basic", "Anonymous",
      "ClientCertificate".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.WebAuthenticationType
+    :type authentication_type: str or ~data_factory_management_client.models.WebAuthenticationType
     """
 
     _validation = {
@@ -25132,7 +25309,7 @@ class WebAnonymousAuthentication(WebLinkedServiceTypeProperties):
         **kwargs
     ):
         super(WebAnonymousAuthentication, self).__init__(url=url, **kwargs)
-        self.authentication_type = 'Anonymous'
+        self.authentication_type: str = 'Anonymous'
 
 
 class WebBasicAuthentication(WebLinkedServiceTypeProperties):
@@ -25146,12 +25323,12 @@ class WebBasicAuthentication(WebLinkedServiceTypeProperties):
     :param authentication_type: Required. Type of authentication used to connect to the web table
      source.Constant filled by server.  Possible values include: "Basic", "Anonymous",
      "ClientCertificate".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.WebAuthenticationType
+    :type authentication_type: str or ~data_factory_management_client.models.WebAuthenticationType
     :param username: Required. User name for Basic authentication. Type: string (or Expression with
      resultType string).
     :type username: object
     :param password: Required. The password for Basic authentication.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     """
 
     _validation = {
@@ -25177,7 +25354,7 @@ class WebBasicAuthentication(WebLinkedServiceTypeProperties):
         **kwargs
     ):
         super(WebBasicAuthentication, self).__init__(url=url, **kwargs)
-        self.authentication_type = 'Basic'
+        self.authentication_type: str = 'Basic'
         self.username = username
         self.password = password
 
@@ -25193,11 +25370,11 @@ class WebClientCertificateAuthentication(WebLinkedServiceTypeProperties):
     :param authentication_type: Required. Type of authentication used to connect to the web table
      source.Constant filled by server.  Possible values include: "Basic", "Anonymous",
      "ClientCertificate".
-    :type authentication_type: str or ~azure.mgmt.datafactory.models.WebAuthenticationType
+    :type authentication_type: str or ~data_factory_management_client.models.WebAuthenticationType
     :param pfx: Required. Base64-encoded contents of a PFX file.
-    :type pfx: ~azure.mgmt.datafactory.models.SecretBase
+    :type pfx: ~data_factory_management_client.models.SecretBase
     :param password: Required. Password for the PFX file.
-    :type password: ~azure.mgmt.datafactory.models.SecretBase
+    :type password: ~data_factory_management_client.models.SecretBase
     """
 
     _validation = {
@@ -25223,12 +25400,12 @@ class WebClientCertificateAuthentication(WebLinkedServiceTypeProperties):
         **kwargs
     ):
         super(WebClientCertificateAuthentication, self).__init__(url=url, **kwargs)
-        self.authentication_type = 'ClientCertificate'
+        self.authentication_type: str = 'ClientCertificate'
         self.pfx = pfx
         self.password = password
 
 
-class WebHookActivity(ControlActivity):
+class WebHookActivity(Activity):
     """WebHook activity.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -25245,9 +25422,9 @@ class WebHookActivity(ControlActivity):
     :param description: Activity description.
     :type description: str
     :param depends_on: Activity depends on condition.
-    :type depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
+    :type depends_on: list[~data_factory_management_client.models.ActivityDependency]
     :param user_properties: Activity user properties.
-    :type user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
+    :type user_properties: list[~data_factory_management_client.models.UserProperty]
     :ivar method: Required. Rest API method for target endpoint. Default value: "POST".
     :vartype method: str
     :param url: Required. WebHook activity target endpoint and path. Type: string (or Expression
@@ -25265,7 +25442,7 @@ class WebHookActivity(ControlActivity):
      method, not allowed for GET method Type: string (or Expression with resultType string).
     :type body: object
     :param authentication: Authentication method used for calling the endpoint.
-    :type authentication: ~azure.mgmt.datafactory.models.WebActivityAuthentication
+    :type authentication: ~data_factory_management_client.models.WebActivityAuthentication
     :param report_status_on_call_back: When set to true,
      statusCode, output and error in callback request body will be
      consumed by activity. The activity can be marked as failed by setting statusCode >= 400 in
@@ -25315,7 +25492,7 @@ class WebHookActivity(ControlActivity):
         **kwargs
     ):
         super(WebHookActivity, self).__init__(additional_properties=additional_properties, name=name, description=description, depends_on=depends_on, user_properties=user_properties, **kwargs)
-        self.type = 'WebHook'
+        self.type: str = 'WebHook'
         self.url = url
         self.timeout = timeout
         self.headers = headers
@@ -25335,15 +25512,15 @@ class WebLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param type_properties: Required. Web linked service properties.
-    :type type_properties: ~azure.mgmt.datafactory.models.WebLinkedServiceTypeProperties
+    :type type_properties: ~data_factory_management_client.models.WebLinkedServiceTypeProperties
     """
 
     _validation = {
@@ -25373,7 +25550,7 @@ class WebLinkedService(LinkedService):
         **kwargs
     ):
         super(WebLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Web'
+        self.type: str = 'Web'
         self.type_properties = type_properties
 
 
@@ -25396,14 +25573,14 @@ class WebTableDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param index: Required. The zero-based index of the table in the web page. Type: integer (or
      Expression with resultType integer), minimum: 0.
     :type index: object
@@ -25448,7 +25625,7 @@ class WebTableDataset(Dataset):
         **kwargs
     ):
         super(WebTableDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'WebTable'
+        self.type: str = 'WebTable'
         self.index = index
         self.path = path
 
@@ -25464,21 +25641,21 @@ class XeroLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param host: Required. The endpoint of the Xero server. (i.e. api.xero.com).
     :type host: object
     :param consumer_key: The consumer key associated with the Xero application.
-    :type consumer_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type consumer_key: ~data_factory_management_client.models.SecretBase
     :param private_key: The private key from the .pem file that was generated for your Xero private
      application. You must include all the text from the .pem file, including the Unix line endings(
      ).
-    :type private_key: ~azure.mgmt.datafactory.models.SecretBase
+    :type private_key: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true.
     :type use_encrypted_endpoints: object
@@ -25534,7 +25711,7 @@ class XeroLinkedService(LinkedService):
         **kwargs
     ):
         super(XeroLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Xero'
+        self.type: str = 'Xero'
         self.host = host
         self.consumer_key = consumer_key
         self.private_key = private_key
@@ -25563,14 +25740,14 @@ class XeroObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -25608,8 +25785,95 @@ class XeroObjectDataset(Dataset):
         **kwargs
     ):
         super(XeroObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'XeroObject'
+        self.type: str = 'XeroObject'
         self.table_name = table_name
+
+
+class XmlDataset(Dataset):
+    """Xml dataset.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :param additional_properties: Unmatched properties from the message are deserialized to this
+     collection.
+    :type additional_properties: dict[str, object]
+    :param type: Required. Type of dataset.Constant filled by server.
+    :type type: str
+    :param description: Dataset description.
+    :type description: str
+    :param structure: Columns that define the structure of the dataset. Type: array (or Expression
+     with resultType array), itemType: DatasetDataElement.
+    :type structure: object
+    :param schema: Columns that define the physical type schema of the dataset. Type: array (or
+     Expression with resultType array), itemType: DatasetSchemaDataElement.
+    :type schema: object
+    :param linked_service_name: Required. Linked service reference.
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
+    :param parameters: Parameters for dataset.
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
+    :param annotations: List of tags that can be used for describing the Dataset.
+    :type annotations: list[object]
+    :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
+     root level.
+    :type folder: ~data_factory_management_client.models.DatasetFolder
+    :param location: The location of the json data storage.
+    :type location: ~data_factory_management_client.models.DatasetLocation
+    :param encoding_name: The code page name of the preferred encoding. If not specified, the
+     default value is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column
+     of the table in the following link to set supported values:
+     https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with
+     resultType string).
+    :type encoding_name: object
+    :param null_value: The null value string. Type: string (or Expression with resultType string).
+    :type null_value: object
+    :param compression: The data compression method used for the json dataset.
+    :type compression: ~data_factory_management_client.models.DatasetCompression
+    """
+
+    _validation = {
+        'type': {'required': True},
+        'linked_service_name': {'required': True},
+    }
+
+    _attribute_map = {
+        'additional_properties': {'key': '', 'type': '{object}'},
+        'type': {'key': 'type', 'type': 'str'},
+        'description': {'key': 'description', 'type': 'str'},
+        'structure': {'key': 'structure', 'type': 'object'},
+        'schema': {'key': 'schema', 'type': 'object'},
+        'linked_service_name': {'key': 'linkedServiceName', 'type': 'LinkedServiceReference'},
+        'parameters': {'key': 'parameters', 'type': '{ParameterSpecification}'},
+        'annotations': {'key': 'annotations', 'type': '[object]'},
+        'folder': {'key': 'folder', 'type': 'DatasetFolder'},
+        'location': {'key': 'typeProperties.location', 'type': 'DatasetLocation'},
+        'encoding_name': {'key': 'typeProperties.encodingName', 'type': 'object'},
+        'null_value': {'key': 'typeProperties.nullValue', 'type': 'object'},
+        'compression': {'key': 'typeProperties.compression', 'type': 'DatasetCompression'},
+    }
+
+    def __init__(
+        self,
+        *,
+        linked_service_name: "LinkedServiceReference",
+        additional_properties: Optional[Dict[str, object]] = None,
+        description: Optional[str] = None,
+        structure: Optional[object] = None,
+        schema: Optional[object] = None,
+        parameters: Optional[Dict[str, "ParameterSpecification"]] = None,
+        annotations: Optional[List[object]] = None,
+        folder: Optional["DatasetFolder"] = None,
+        location: Optional["DatasetLocation"] = None,
+        encoding_name: Optional[object] = None,
+        null_value: Optional[object] = None,
+        compression: Optional["DatasetCompression"] = None,
+        **kwargs
+    ):
+        super(XmlDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
+        self.type: str = 'Xml'
+        self.location = location
+        self.encoding_name = encoding_name
+        self.null_value = null_value
+        self.compression = compression
 
 
 class ZohoLinkedService(LinkedService):
@@ -25623,17 +25887,17 @@ class ZohoLinkedService(LinkedService):
     :param type: Required. Type of linked service.Constant filled by server.
     :type type: str
     :param connect_via: The integration runtime reference.
-    :type connect_via: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :type connect_via: ~data_factory_management_client.models.IntegrationRuntimeReference
     :param description: Linked service description.
     :type description: str
     :param parameters: Parameters for linked service.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the linked service.
     :type annotations: list[object]
     :param endpoint: Required. The endpoint of the Zoho server. (i.e. crm.zoho.com/crm/private).
     :type endpoint: object
     :param access_token: The access token for Zoho authentication.
-    :type access_token: ~azure.mgmt.datafactory.models.SecretBase
+    :type access_token: ~data_factory_management_client.models.SecretBase
     :param use_encrypted_endpoints: Specifies whether the data source endpoints are encrypted using
      HTTPS. The default value is true.
     :type use_encrypted_endpoints: object
@@ -25687,7 +25951,7 @@ class ZohoLinkedService(LinkedService):
         **kwargs
     ):
         super(ZohoLinkedService, self).__init__(additional_properties=additional_properties, connect_via=connect_via, description=description, parameters=parameters, annotations=annotations, **kwargs)
-        self.type = 'Zoho'
+        self.type: str = 'Zoho'
         self.endpoint = endpoint
         self.access_token = access_token
         self.use_encrypted_endpoints = use_encrypted_endpoints
@@ -25715,14 +25979,14 @@ class ZohoObjectDataset(Dataset):
      Expression with resultType array), itemType: DatasetSchemaDataElement.
     :type schema: object
     :param linked_service_name: Required. Linked service reference.
-    :type linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :type linked_service_name: ~data_factory_management_client.models.LinkedServiceReference
     :param parameters: Parameters for dataset.
-    :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
     :param annotations: List of tags that can be used for describing the Dataset.
     :type annotations: list[object]
     :param folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
-    :type folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :type folder: ~data_factory_management_client.models.DatasetFolder
     :param table_name: The table name. Type: string (or Expression with resultType string).
     :type table_name: object
     """
@@ -25760,5 +26024,5 @@ class ZohoObjectDataset(Dataset):
         **kwargs
     ):
         super(ZohoObjectDataset, self).__init__(additional_properties=additional_properties, description=description, structure=structure, schema=schema, linked_service_name=linked_service_name, parameters=parameters, annotations=annotations, folder=folder, **kwargs)
-        self.type = 'ZohoObject'
+        self.type: str = 'ZohoObject'
         self.table_name = table_name

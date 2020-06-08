@@ -53,9 +53,9 @@ try:
     from ._models_py3 import AzurePostgreSqlTableDataset
     from ._models_py3 import AzureSearchIndexDataset
     from ._models_py3 import AzureSearchLinkedService
+    from ._models_py3 import AzureSqlDWLinkedService
+    from ._models_py3 import AzureSqlDWTableDataset
     from ._models_py3 import AzureSqlDatabaseLinkedService
-    from ._models_py3 import AzureSqlDwLinkedService
-    from ._models_py3 import AzureSqlDwTableDataset
     from ._models_py3 import AzureSqlMiLinkedService
     from ._models_py3 import AzureSqlMiTableDataset
     from ._models_py3 import AzureSqlTableDataset
@@ -137,6 +137,7 @@ try:
     from ._models_py3 import EloquaLinkedService
     from ._models_py3 import EloquaObjectDataset
     from ._models_py3 import EntityReference
+    from ._models_py3 import ExcelDataset
     from ._models_py3 import ExecuteDataFlowActivity
     from ._models_py3 import ExecuteDataFlowActivityTypePropertiesCompute
     from ._models_py3 import ExecutePipelineActivity
@@ -164,6 +165,7 @@ try:
     from ._models_py3 import GetSsisObjectMetadataRequest
     from ._models_py3 import GitHubAccessTokenRequest
     from ._models_py3 import GitHubAccessTokenResponse
+    from ._models_py3 import GlobalParameterSpecification
     from ._models_py3 import GoogleAdWordsLinkedService
     from ._models_py3 import GoogleAdWordsObjectDataset
     from ._models_py3 import GoogleBigQueryLinkedService
@@ -277,7 +279,6 @@ try:
     from ._models_py3 import PaypalObjectDataset
     from ._models_py3 import PhoenixLinkedService
     from ._models_py3 import PhoenixObjectDataset
-    from ._models_py3 import PipelineFolder
     from ._models_py3 import PipelineListResponse
     from ._models_py3 import PipelineReference
     from ._models_py3 import PipelineResource
@@ -402,6 +403,7 @@ try:
     from ._models_py3 import WebTableDataset
     from ._models_py3 import XeroLinkedService
     from ._models_py3 import XeroObjectDataset
+    from ._models_py3 import XmlDataset
     from ._models_py3 import ZohoLinkedService
     from ._models_py3 import ZohoObjectDataset
 except (SyntaxError, ImportError):
@@ -451,9 +453,9 @@ except (SyntaxError, ImportError):
     from ._models import AzurePostgreSqlTableDataset  # type: ignore
     from ._models import AzureSearchIndexDataset  # type: ignore
     from ._models import AzureSearchLinkedService  # type: ignore
+    from ._models import AzureSqlDWLinkedService  # type: ignore
+    from ._models import AzureSqlDWTableDataset  # type: ignore
     from ._models import AzureSqlDatabaseLinkedService  # type: ignore
-    from ._models import AzureSqlDwLinkedService  # type: ignore
-    from ._models import AzureSqlDwTableDataset  # type: ignore
     from ._models import AzureSqlMiLinkedService  # type: ignore
     from ._models import AzureSqlMiTableDataset  # type: ignore
     from ._models import AzureSqlTableDataset  # type: ignore
@@ -535,6 +537,7 @@ except (SyntaxError, ImportError):
     from ._models import EloquaLinkedService  # type: ignore
     from ._models import EloquaObjectDataset  # type: ignore
     from ._models import EntityReference  # type: ignore
+    from ._models import ExcelDataset  # type: ignore
     from ._models import ExecuteDataFlowActivity  # type: ignore
     from ._models import ExecuteDataFlowActivityTypePropertiesCompute  # type: ignore
     from ._models import ExecutePipelineActivity  # type: ignore
@@ -562,6 +565,7 @@ except (SyntaxError, ImportError):
     from ._models import GetSsisObjectMetadataRequest  # type: ignore
     from ._models import GitHubAccessTokenRequest  # type: ignore
     from ._models import GitHubAccessTokenResponse  # type: ignore
+    from ._models import GlobalParameterSpecification  # type: ignore
     from ._models import GoogleAdWordsLinkedService  # type: ignore
     from ._models import GoogleAdWordsObjectDataset  # type: ignore
     from ._models import GoogleBigQueryLinkedService  # type: ignore
@@ -675,7 +679,6 @@ except (SyntaxError, ImportError):
     from ._models import PaypalObjectDataset  # type: ignore
     from ._models import PhoenixLinkedService  # type: ignore
     from ._models import PhoenixObjectDataset  # type: ignore
-    from ._models import PipelineFolder  # type: ignore
     from ._models import PipelineListResponse  # type: ignore
     from ._models import PipelineReference  # type: ignore
     from ._models import PipelineResource  # type: ignore
@@ -800,6 +803,7 @@ except (SyntaxError, ImportError):
     from ._models import WebTableDataset  # type: ignore
     from ._models import XeroLinkedService  # type: ignore
     from ._models import XeroObjectDataset  # type: ignore
+    from ._models import XmlDataset  # type: ignore
     from ._models import ZohoLinkedService  # type: ignore
     from ._models import ZohoObjectDataset  # type: ignore
 
@@ -816,6 +820,7 @@ from ._data_factory_management_client_enums import (
     DynamicsServicePrincipalCredentialType,
     EventSubscriptionStatus,
     FtpAuthenticationType,
+    GlobalParameterType,
     GoogleAdWordsAuthenticationType,
     GoogleBigQueryAuthenticationType,
     HBaseAuthenticationType,
@@ -915,9 +920,9 @@ __all__ = [
     'AzurePostgreSqlTableDataset',
     'AzureSearchIndexDataset',
     'AzureSearchLinkedService',
+    'AzureSqlDWLinkedService',
+    'AzureSqlDWTableDataset',
     'AzureSqlDatabaseLinkedService',
-    'AzureSqlDwLinkedService',
-    'AzureSqlDwTableDataset',
     'AzureSqlMiLinkedService',
     'AzureSqlMiTableDataset',
     'AzureSqlTableDataset',
@@ -999,6 +1004,7 @@ __all__ = [
     'EloquaLinkedService',
     'EloquaObjectDataset',
     'EntityReference',
+    'ExcelDataset',
     'ExecuteDataFlowActivity',
     'ExecuteDataFlowActivityTypePropertiesCompute',
     'ExecutePipelineActivity',
@@ -1026,6 +1032,7 @@ __all__ = [
     'GetSsisObjectMetadataRequest',
     'GitHubAccessTokenRequest',
     'GitHubAccessTokenResponse',
+    'GlobalParameterSpecification',
     'GoogleAdWordsLinkedService',
     'GoogleAdWordsObjectDataset',
     'GoogleBigQueryLinkedService',
@@ -1139,7 +1146,6 @@ __all__ = [
     'PaypalObjectDataset',
     'PhoenixLinkedService',
     'PhoenixObjectDataset',
-    'PipelineFolder',
     'PipelineListResponse',
     'PipelineReference',
     'PipelineResource',
@@ -1264,6 +1270,7 @@ __all__ = [
     'WebTableDataset',
     'XeroLinkedService',
     'XeroObjectDataset',
+    'XmlDataset',
     'ZohoLinkedService',
     'ZohoObjectDataset',
     'AvroCompressionCodec',
@@ -1278,6 +1285,7 @@ __all__ = [
     'DynamicsServicePrincipalCredentialType',
     'EventSubscriptionStatus',
     'FtpAuthenticationType',
+    'GlobalParameterType',
     'GoogleAdWordsAuthenticationType',
     'GoogleBigQueryAuthenticationType',
     'HBaseAuthenticationType',

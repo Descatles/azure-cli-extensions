@@ -29,7 +29,7 @@ class ExposureControlOperations(object):
     instantiates it for you and attaches it as an attribute.
 
     :ivar models: Alias to model classes used in this operation group.
-    :type models: ~azure.mgmt.datafactory.models
+    :type models: ~data_factory_management_client.models
     :param client: Client for service requests.
     :param config: Configuration of service client.
     :param serializer: An object model serializer.
@@ -61,19 +61,20 @@ class ExposureControlOperations(object):
         :param feature_type: The feature type.
         :type feature_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ExposureControlResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.ExposureControlResponse
+        :return: ExposureControlResponse, or the result of cls(response)
+        :rtype: ~data_factory_management_client.models.ExposureControlResponse
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.ExposureControlResponse"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
 
         _exposure_control_request = models.ExposureControlRequest(feature_name=feature_name, feature_type=feature_type)
         api_version = "2018-06-01"
         content_type = kwargs.pop("content_type", "application/json")
 
         # Construct URL
-        url = self.get_feature_value.metadata['url']
+        url = self.get_feature_value.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'locationId': self._serialize.url("location_id", location_id, 'str'),
@@ -105,10 +106,10 @@ class ExposureControlOperations(object):
         deserialized = self._deserialize('ExposureControlResponse', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    get_feature_value.metadata = {'url': '/subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/locations/{locationId}/getFeatureValue'}
+    get_feature_value.metadata = {'url': '/subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/locations/{locationId}/getFeatureValue'}  # type: ignore
 
     def get_feature_value_by_factory(
         self,
@@ -130,19 +131,20 @@ class ExposureControlOperations(object):
         :param feature_type: The feature type.
         :type feature_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ExposureControlResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.ExposureControlResponse
+        :return: ExposureControlResponse, or the result of cls(response)
+        :rtype: ~data_factory_management_client.models.ExposureControlResponse
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.ExposureControlResponse"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
 
         _exposure_control_request = models.ExposureControlRequest(feature_name=feature_name, feature_type=feature_type)
         api_version = "2018-06-01"
         content_type = kwargs.pop("content_type", "application/json")
 
         # Construct URL
-        url = self.get_feature_value_by_factory.metadata['url']
+        url = self.get_feature_value_by_factory.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
@@ -175,7 +177,7 @@ class ExposureControlOperations(object):
         deserialized = self._deserialize('ExposureControlResponse', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    get_feature_value_by_factory.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getFeatureValue'}
+    get_feature_value_by_factory.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getFeatureValue'}  # type: ignore

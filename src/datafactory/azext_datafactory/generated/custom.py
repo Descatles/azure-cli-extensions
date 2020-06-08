@@ -11,16 +11,17 @@
 
 import json
 from knack.util import CLIError
+from azure.cli.core.util import sdk_no_wait
 
 
-def datafactory_factory_list(cmd, client,
+def datafactory_factory_list(client,
                              resource_group_name=None):
-    if resource_group_name is not None:
+    if resource_group_name:
         return client.list_by_resource_group(resource_group_name=resource_group_name)
     return client.list()
 
 
-def datafactory_factory_configure_factory_repo(cmd, client,
+def datafactory_factory_configure_factory_repo(client,
                                                location_id,
                                                factory_resource_id=None,
                                                vsts_configuration=None,
@@ -38,7 +39,7 @@ def datafactory_factory_configure_factory_repo(cmd, client,
                                          repo_configuration=repo_configuration)
 
 
-def datafactory_factory_get_data_plane_access(cmd, client,
+def datafactory_factory_get_data_plane_access(client,
                                               resource_group_name,
                                               factory_name,
                                               permissions=None,
@@ -55,7 +56,7 @@ def datafactory_factory_get_data_plane_access(cmd, client,
                                         expire_time=expire_time)
 
 
-def datafactory_factory_get_git_hub_access_token(cmd, client,
+def datafactory_factory_get_git_hub_access_token(client,
                                                  resource_group_name,
                                                  factory_name,
                                                  git_hub_access_code,
@@ -68,7 +69,7 @@ def datafactory_factory_get_git_hub_access_token(cmd, client,
                                            git_hub_access_token_base_url=git_hub_access_token_base_url)
 
 
-def datafactory_exposure_control_get_feature_value(cmd, client,
+def datafactory_exposure_control_get_feature_value(client,
                                                    location_id,
                                                    feature_name=None,
                                                    feature_type=None):
@@ -77,7 +78,7 @@ def datafactory_exposure_control_get_feature_value(cmd, client,
                                     feature_type=feature_type)
 
 
-def datafactory_exposure_control_get_feature_value_by_factory(cmd, client,
+def datafactory_exposure_control_get_feature_value_by_factory(client,
                                                               resource_group_name,
                                                               factory_name,
                                                               feature_name=None,
@@ -88,14 +89,14 @@ def datafactory_exposure_control_get_feature_value_by_factory(cmd, client,
                                                feature_type=feature_type)
 
 
-def datafactory_integration_runtime_list(cmd, client,
+def datafactory_integration_runtime_list(client,
                                          resource_group_name,
                                          factory_name):
     return client.list_by_factory(resource_group_name=resource_group_name,
                                   factory_name=factory_name)
 
 
-def datafactory_integration_runtime_show(cmd, client,
+def datafactory_integration_runtime_show(client,
                                          resource_group_name,
                                          factory_name,
                                          integration_runtime_name,
@@ -106,7 +107,7 @@ def datafactory_integration_runtime_show(cmd, client,
                       if_none_match=if_none_match)
 
 
-def datafactory_integration_runtime_create(cmd, client,
+def datafactory_integration_runtime_create(client,
                                            resource_group_name,
                                            factory_name,
                                            integration_runtime_name,
@@ -119,7 +120,7 @@ def datafactory_integration_runtime_create(cmd, client,
                                    properties=properties)
 
 
-def datafactory_integration_runtime_update(cmd, client,
+def datafactory_integration_runtime_update(client,
                                            resource_group_name,
                                            factory_name,
                                            integration_runtime_name,
@@ -132,7 +133,7 @@ def datafactory_integration_runtime_update(cmd, client,
                          update_delay_offset=update_delay_offset)
 
 
-def datafactory_integration_runtime_delete(cmd, client,
+def datafactory_integration_runtime_delete(client,
                                            resource_group_name,
                                            factory_name,
                                            integration_runtime_name):
@@ -141,7 +142,7 @@ def datafactory_integration_runtime_delete(cmd, client,
                          integration_runtime_name=integration_runtime_name)
 
 
-def datafactory_integration_runtime_create_linked_integration_runtime(cmd, client,
+def datafactory_integration_runtime_create_linked_integration_runtime(client,
                                                                       resource_group_name,
                                                                       factory_name,
                                                                       integration_runtime_name,
@@ -158,7 +159,7 @@ def datafactory_integration_runtime_create_linked_integration_runtime(cmd, clien
                                                     data_factory_location=data_factory_location)
 
 
-def datafactory_integration_runtime_get_connection_info(cmd, client,
+def datafactory_integration_runtime_get_connection_info(client,
                                                         resource_group_name,
                                                         factory_name,
                                                         integration_runtime_name):
@@ -167,7 +168,7 @@ def datafactory_integration_runtime_get_connection_info(cmd, client,
                                       integration_runtime_name=integration_runtime_name)
 
 
-def datafactory_integration_runtime_get_monitoring_data(cmd, client,
+def datafactory_integration_runtime_get_monitoring_data(client,
                                                         resource_group_name,
                                                         factory_name,
                                                         integration_runtime_name):
@@ -176,7 +177,7 @@ def datafactory_integration_runtime_get_monitoring_data(cmd, client,
                                       integration_runtime_name=integration_runtime_name)
 
 
-def datafactory_integration_runtime_get_status(cmd, client,
+def datafactory_integration_runtime_get_status(client,
                                                resource_group_name,
                                                factory_name,
                                                integration_runtime_name):
@@ -185,7 +186,7 @@ def datafactory_integration_runtime_get_status(cmd, client,
                              integration_runtime_name=integration_runtime_name)
 
 
-def datafactory_integration_runtime_list_auth_key(cmd, client,
+def datafactory_integration_runtime_list_auth_key(client,
                                                   resource_group_name,
                                                   factory_name,
                                                   integration_runtime_name):
@@ -194,7 +195,7 @@ def datafactory_integration_runtime_list_auth_key(cmd, client,
                                 integration_runtime_name=integration_runtime_name)
 
 
-def datafactory_integration_runtime_regenerate_auth_key(cmd, client,
+def datafactory_integration_runtime_regenerate_auth_key(client,
                                                         resource_group_name,
                                                         factory_name,
                                                         integration_runtime_name,
@@ -205,7 +206,7 @@ def datafactory_integration_runtime_regenerate_auth_key(cmd, client,
                                       key_name=key_name)
 
 
-def datafactory_integration_runtime_remove_link(cmd, client,
+def datafactory_integration_runtime_remove_link(client,
                                                 resource_group_name,
                                                 factory_name,
                                                 integration_runtime_name,
@@ -216,25 +217,31 @@ def datafactory_integration_runtime_remove_link(cmd, client,
                               linked_factory_name=linked_factory_name)
 
 
-def datafactory_integration_runtime_start(cmd, client,
+def datafactory_integration_runtime_start(client,
                                           resource_group_name,
                                           factory_name,
-                                          integration_runtime_name):
-    return client.begin_start(resource_group_name=resource_group_name,
-                              factory_name=factory_name,
-                              integration_runtime_name=integration_runtime_name)
+                                          integration_runtime_name,
+                                          no_wait=False):
+    return sdk_no_wait(no_wait,
+                       client.begin_start,
+                       resource_group_name=resource_group_name,
+                       factory_name=factory_name,
+                       integration_runtime_name=integration_runtime_name)
 
 
-def datafactory_integration_runtime_stop(cmd, client,
+def datafactory_integration_runtime_stop(client,
                                          resource_group_name,
                                          factory_name,
-                                         integration_runtime_name):
-    return client.begin_stop(resource_group_name=resource_group_name,
-                             factory_name=factory_name,
-                             integration_runtime_name=integration_runtime_name)
+                                         integration_runtime_name,
+                                         no_wait=False):
+    return sdk_no_wait(no_wait,
+                       client.begin_stop,
+                       resource_group_name=resource_group_name,
+                       factory_name=factory_name,
+                       integration_runtime_name=integration_runtime_name)
 
 
-def datafactory_integration_runtime_sync_credentials(cmd, client,
+def datafactory_integration_runtime_sync_credentials(client,
                                                      resource_group_name,
                                                      factory_name,
                                                      integration_runtime_name):
@@ -243,7 +250,7 @@ def datafactory_integration_runtime_sync_credentials(cmd, client,
                                    integration_runtime_name=integration_runtime_name)
 
 
-def datafactory_integration_runtime_upgrade(cmd, client,
+def datafactory_integration_runtime_upgrade(client,
                                             resource_group_name,
                                             factory_name,
                                             integration_runtime_name):
@@ -252,7 +259,7 @@ def datafactory_integration_runtime_upgrade(cmd, client,
                           integration_runtime_name=integration_runtime_name)
 
 
-def datafactory_integration_runtime_object_metadata_get(cmd, client,
+def datafactory_integration_runtime_object_metadata_get(client,
                                                         resource_group_name,
                                                         factory_name,
                                                         integration_runtime_name,
@@ -263,7 +270,7 @@ def datafactory_integration_runtime_object_metadata_get(cmd, client,
                       metadata_path=metadata_path)
 
 
-def datafactory_integration_runtime_object_metadata_refresh(cmd, client,
+def datafactory_integration_runtime_object_metadata_refresh(client,
                                                             resource_group_name,
                                                             factory_name,
                                                             integration_runtime_name):
@@ -272,7 +279,7 @@ def datafactory_integration_runtime_object_metadata_refresh(cmd, client,
                                 integration_runtime_name=integration_runtime_name)
 
 
-def datafactory_integration_runtime_node_show(cmd, client,
+def datafactory_integration_runtime_node_show(client,
                                               resource_group_name,
                                               factory_name,
                                               integration_runtime_name,
@@ -283,7 +290,7 @@ def datafactory_integration_runtime_node_show(cmd, client,
                       node_name=node_name)
 
 
-def datafactory_integration_runtime_node_update(cmd, client,
+def datafactory_integration_runtime_node_update(client,
                                                 resource_group_name,
                                                 factory_name,
                                                 integration_runtime_name,
@@ -296,7 +303,7 @@ def datafactory_integration_runtime_node_update(cmd, client,
                          concurrent_jobs_limit=concurrent_jobs_limit)
 
 
-def datafactory_integration_runtime_node_delete(cmd, client,
+def datafactory_integration_runtime_node_delete(client,
                                                 resource_group_name,
                                                 factory_name,
                                                 integration_runtime_name,
@@ -307,7 +314,7 @@ def datafactory_integration_runtime_node_delete(cmd, client,
                          node_name=node_name)
 
 
-def datafactory_integration_runtime_node_get_ip_address(cmd, client,
+def datafactory_integration_runtime_node_get_ip_address(client,
                                                         resource_group_name,
                                                         factory_name,
                                                         integration_runtime_name,
@@ -318,14 +325,14 @@ def datafactory_integration_runtime_node_get_ip_address(cmd, client,
                                  node_name=node_name)
 
 
-def datafactory_linked_service_list(cmd, client,
+def datafactory_linked_service_list(client,
                                     resource_group_name,
                                     factory_name):
     return client.list_by_factory(resource_group_name=resource_group_name,
                                   factory_name=factory_name)
 
 
-def datafactory_linked_service_show(cmd, client,
+def datafactory_linked_service_show(client,
                                     resource_group_name,
                                     factory_name,
                                     linked_service_name,
@@ -336,7 +343,7 @@ def datafactory_linked_service_show(cmd, client,
                       if_none_match=if_none_match)
 
 
-def datafactory_linked_service_create(cmd, client,
+def datafactory_linked_service_create(client,
                                       resource_group_name,
                                       factory_name,
                                       linked_service_name,
@@ -349,17 +356,14 @@ def datafactory_linked_service_create(cmd, client,
                                    properties=properties)
 
 
-def datafactory_linked_service_update(instance, cmd,
+def datafactory_linked_service_update(instance,
                                       resource_group_name,
                                       factory_name,
-                                      linked_service_name,
-                                      properties):
-    if isinstance(properties, str):
-        properties = json.loads(properties)
+                                      linked_service_name):
     return instance
 
 
-def datafactory_linked_service_delete(cmd, client,
+def datafactory_linked_service_delete(client,
                                       resource_group_name,
                                       factory_name,
                                       linked_service_name):
@@ -368,14 +372,14 @@ def datafactory_linked_service_delete(cmd, client,
                          linked_service_name=linked_service_name)
 
 
-def datafactory_dataset_list(cmd, client,
+def datafactory_dataset_list(client,
                              resource_group_name,
                              factory_name):
     return client.list_by_factory(resource_group_name=resource_group_name,
                                   factory_name=factory_name)
 
 
-def datafactory_dataset_show(cmd, client,
+def datafactory_dataset_show(client,
                              resource_group_name,
                              factory_name,
                              dataset_name,
@@ -386,7 +390,7 @@ def datafactory_dataset_show(cmd, client,
                       if_none_match=if_none_match)
 
 
-def datafactory_dataset_create(cmd, client,
+def datafactory_dataset_create(client,
                                resource_group_name,
                                factory_name,
                                dataset_name,
@@ -399,17 +403,14 @@ def datafactory_dataset_create(cmd, client,
                                    properties=properties)
 
 
-def datafactory_dataset_update(instance, cmd,
+def datafactory_dataset_update(instance,
                                resource_group_name,
                                factory_name,
-                               dataset_name,
-                               properties):
-    if isinstance(properties, str):
-        properties = json.loads(properties)
+                               dataset_name):
     return instance
 
 
-def datafactory_dataset_delete(cmd, client,
+def datafactory_dataset_delete(client,
                                resource_group_name,
                                factory_name,
                                dataset_name):
@@ -418,14 +419,14 @@ def datafactory_dataset_delete(cmd, client,
                          dataset_name=dataset_name)
 
 
-def datafactory_pipeline_list(cmd, client,
+def datafactory_pipeline_list(client,
                               resource_group_name,
                               factory_name):
     return client.list_by_factory(resource_group_name=resource_group_name,
                                   factory_name=factory_name)
 
 
-def datafactory_pipeline_show(cmd, client,
+def datafactory_pipeline_show(client,
                               resource_group_name,
                               factory_name,
                               pipeline_name,
@@ -436,7 +437,7 @@ def datafactory_pipeline_show(cmd, client,
                       if_none_match=if_none_match)
 
 
-def datafactory_pipeline_create(cmd, client,
+def datafactory_pipeline_create(client,
                                 resource_group_name,
                                 factory_name,
                                 pipeline_name,
@@ -447,7 +448,7 @@ def datafactory_pipeline_create(cmd, client,
                                 concurrency=None,
                                 annotations=None,
                                 run_dimensions=None,
-                                folder=None):
+                                folder_name=None):
     if isinstance(activities, str):
         activities = json.loads(activities)
     if isinstance(parameters, str):
@@ -468,10 +469,10 @@ def datafactory_pipeline_create(cmd, client,
                                    concurrency=concurrency,
                                    annotations=annotations,
                                    run_dimensions=run_dimensions,
-                                   folder=folder)
+                                   name=folder_name)
 
 
-def datafactory_pipeline_update(cmd, client,
+def datafactory_pipeline_update(client,
                                 resource_group_name,
                                 factory_name,
                                 pipeline_name,
@@ -482,7 +483,7 @@ def datafactory_pipeline_update(cmd, client,
                                 concurrency=None,
                                 annotations=None,
                                 run_dimensions=None,
-                                folder=None):
+                                folder_name=None):
     if isinstance(activities, str):
         activities = json.loads(activities)
     if isinstance(parameters, str):
@@ -503,10 +504,10 @@ def datafactory_pipeline_update(cmd, client,
                                    concurrency=concurrency,
                                    annotations=annotations,
                                    run_dimensions=run_dimensions,
-                                   folder=folder)
+                                   name=folder_name)
 
 
-def datafactory_pipeline_delete(cmd, client,
+def datafactory_pipeline_delete(client,
                                 resource_group_name,
                                 factory_name,
                                 pipeline_name):
@@ -515,7 +516,7 @@ def datafactory_pipeline_delete(cmd, client,
                          pipeline_name=pipeline_name)
 
 
-def datafactory_pipeline_create_run(cmd, client,
+def datafactory_pipeline_create_run(client,
                                     resource_group_name,
                                     factory_name,
                                     pipeline_name,
@@ -536,7 +537,7 @@ def datafactory_pipeline_create_run(cmd, client,
                              parameters=parameters)
 
 
-def datafactory_pipeline_run_show(cmd, client,
+def datafactory_pipeline_run_show(client,
                                   resource_group_name,
                                   factory_name,
                                   run_id):
@@ -545,7 +546,7 @@ def datafactory_pipeline_run_show(cmd, client,
                       run_id=run_id)
 
 
-def datafactory_pipeline_run_cancel(cmd, client,
+def datafactory_pipeline_run_cancel(client,
                                     resource_group_name,
                                     factory_name,
                                     run_id,
@@ -556,7 +557,7 @@ def datafactory_pipeline_run_cancel(cmd, client,
                          is_recursive=is_recursive)
 
 
-def datafactory_pipeline_run_query_by_factory(cmd, client,
+def datafactory_pipeline_run_query_by_factory(client,
                                               resource_group_name,
                                               factory_name,
                                               last_updated_after,
@@ -573,7 +574,7 @@ def datafactory_pipeline_run_query_by_factory(cmd, client,
                                    order_by=order_by)
 
 
-def datafactory_activity_run_query_by_pipeline_run(cmd, client,
+def datafactory_activity_run_query_by_pipeline_run(client,
                                                    resource_group_name,
                                                    factory_name,
                                                    run_id,
@@ -592,14 +593,14 @@ def datafactory_activity_run_query_by_pipeline_run(cmd, client,
                                         order_by=order_by)
 
 
-def datafactory_trigger_list(cmd, client,
+def datafactory_trigger_list(client,
                              resource_group_name,
                              factory_name):
     return client.list_by_factory(resource_group_name=resource_group_name,
                                   factory_name=factory_name)
 
 
-def datafactory_trigger_show(cmd, client,
+def datafactory_trigger_show(client,
                              resource_group_name,
                              factory_name,
                              trigger_name,
@@ -610,7 +611,7 @@ def datafactory_trigger_show(cmd, client,
                       if_none_match=if_none_match)
 
 
-def datafactory_trigger_create(cmd, client,
+def datafactory_trigger_create(client,
                                resource_group_name,
                                factory_name,
                                trigger_name,
@@ -623,17 +624,14 @@ def datafactory_trigger_create(cmd, client,
                                    properties=properties)
 
 
-def datafactory_trigger_update(instance, cmd,
+def datafactory_trigger_update(instance,
                                resource_group_name,
                                factory_name,
-                               trigger_name,
-                               properties):
-    if isinstance(properties, str):
-        properties = json.loads(properties)
+                               trigger_name):
     return instance
 
 
-def datafactory_trigger_delete(cmd, client,
+def datafactory_trigger_delete(client,
                                resource_group_name,
                                factory_name,
                                trigger_name):
@@ -642,7 +640,7 @@ def datafactory_trigger_delete(cmd, client,
                          trigger_name=trigger_name)
 
 
-def datafactory_trigger_get_event_subscription_status(cmd, client,
+def datafactory_trigger_get_event_subscription_status(client,
                                                       resource_group_name,
                                                       factory_name,
                                                       trigger_name):
@@ -651,7 +649,7 @@ def datafactory_trigger_get_event_subscription_status(cmd, client,
                                                 trigger_name=trigger_name)
 
 
-def datafactory_trigger_query_by_factory(cmd, client,
+def datafactory_trigger_query_by_factory(client,
                                          resource_group_name,
                                          factory_name,
                                          continuation_token=None,
@@ -662,43 +660,55 @@ def datafactory_trigger_query_by_factory(cmd, client,
                                    parent_trigger_name=parent_trigger_name)
 
 
-def datafactory_trigger_start(cmd, client,
+def datafactory_trigger_start(client,
                               resource_group_name,
                               factory_name,
-                              trigger_name):
-    return client.begin_start(resource_group_name=resource_group_name,
-                              factory_name=factory_name,
-                              trigger_name=trigger_name)
+                              trigger_name,
+                              no_wait=False):
+    return sdk_no_wait(no_wait,
+                       client.begin_start,
+                       resource_group_name=resource_group_name,
+                       factory_name=factory_name,
+                       trigger_name=trigger_name)
 
 
-def datafactory_trigger_stop(cmd, client,
+def datafactory_trigger_stop(client,
                              resource_group_name,
                              factory_name,
-                             trigger_name):
-    return client.begin_stop(resource_group_name=resource_group_name,
-                             factory_name=factory_name,
-                             trigger_name=trigger_name)
+                             trigger_name,
+                             no_wait=False):
+    return sdk_no_wait(no_wait,
+                       client.begin_stop,
+                       resource_group_name=resource_group_name,
+                       factory_name=factory_name,
+                       trigger_name=trigger_name)
 
 
-def datafactory_trigger_subscribe_to_event(cmd, client,
+def datafactory_trigger_subscribe_to_event(client,
                                            resource_group_name,
                                            factory_name,
-                                           trigger_name):
-    return client.begin_subscribe_to_event(resource_group_name=resource_group_name,
-                                           factory_name=factory_name,
-                                           trigger_name=trigger_name)
+                                           trigger_name,
+                                           no_wait=False):
+    return sdk_no_wait(no_wait,
+                       client.begin_subscribe_to_event,
+                       resource_group_name=resource_group_name,
+                       factory_name=factory_name,
+                       trigger_name=trigger_name)
 
 
-def datafactory_trigger_unsubscribe_from_event(cmd, client,
+def datafactory_trigger_unsubscribe_from_event(client,
                                                resource_group_name,
                                                factory_name,
-                                               trigger_name):
-    return client.begin_unsubscribe_from_event(resource_group_name=resource_group_name,
-                                               factory_name=factory_name,
-                                               trigger_name=trigger_name)
+                                               trigger_name,
+                                               no_wait=False):
+    return sdk_no_wait(no_wait,
+                       client.begin_unsubscribe_from_event,
+                       resource_group_name=resource_group_name,
+                       factory_name=factory_name,
+                       trigger_name=trigger_name)
 
 
-def datafactory_trigger_run_query_by_factory(cmd, client,
+def datafactory_trigger_run_query_by_factory(client,
                                              resource_group_name,
                                              factory_name,
                                              last_updated_after,
@@ -715,7 +725,7 @@ def datafactory_trigger_run_query_by_factory(cmd, client,
                                    order_by=order_by)
 
 
-def datafactory_trigger_run_rerun(cmd, client,
+def datafactory_trigger_run_rerun(client,
                                   resource_group_name,
                                   factory_name,
                                   trigger_name,
@@ -726,14 +736,14 @@ def datafactory_trigger_run_rerun(cmd, client,
                         run_id=run_id)
 
 
-def datafactory_data_flow_list(cmd, client,
+def datafactory_data_flow_list(client,
                                resource_group_name,
                                factory_name):
     return client.list_by_factory(resource_group_name=resource_group_name,
                                   factory_name=factory_name)
 
 
-def datafactory_data_flow_show(cmd, client,
+def datafactory_data_flow_show(client,
                                resource_group_name,
                                factory_name,
                                data_flow_name,
@@ -744,7 +754,7 @@ def datafactory_data_flow_show(cmd, client,
                       if_none_match=if_none_match)
 
 
-def datafactory_data_flow_create(cmd, client,
+def datafactory_data_flow_create(client,
                                  resource_group_name,
                                  factory_name,
                                  data_flow_name,
@@ -757,17 +767,14 @@ def datafactory_data_flow_create(cmd, client,
                                    properties=properties)
 
 
-def datafactory_data_flow_update(instance, cmd,
+def datafactory_data_flow_update(instance,
                                  resource_group_name,
                                  factory_name,
-                                 data_flow_name,
-                                 properties):
-    if isinstance(properties, str):
-        properties = json.loads(properties)
+                                 data_flow_name):
     return instance
 
 
-def datafactory_data_flow_delete(cmd, client,
+def datafactory_data_flow_delete(client,
                                  resource_group_name,
                                  factory_name,
                                  data_flow_name):
@@ -776,7 +783,7 @@ def datafactory_data_flow_delete(cmd, client,
                          data_flow_name=data_flow_name)
 
 
-def datafactory_data_flow_debug_session_create(cmd, client,
+def datafactory_data_flow_debug_session_create(client,
                                                resource_group_name,
                                                factory_name,
                                                compute_type=None,
@@ -795,7 +802,7 @@ def datafactory_data_flow_debug_session_create(cmd, client,
                                properties=integration_runtime_properties)
 
 
-def datafactory_data_flow_debug_session_delete(cmd, client,
+def datafactory_data_flow_debug_session_delete(client,
                                                resource_group_name,
                                                factory_name,
                                                session_id=None):
@@ -804,7 +811,7 @@ def datafactory_data_flow_debug_session_delete(cmd, client,
                          session_id=session_id)
 
 
-def datafactory_data_flow_debug_session_add_data_flow(cmd, client,
+def datafactory_data_flow_debug_session_add_data_flow(client,
                                                       resource_group_name,
                                                       factory_name,
                                                       session_id=None,
@@ -845,7 +852,7 @@ def datafactory_data_flow_debug_session_add_data_flow(cmd, client,
                                 properties=data_flow_properties)
 
 
-def datafactory_data_flow_debug_session_execute_command(cmd, client,
+def datafactory_data_flow_debug_session_execute_command(client,
                                                         resource_group_name,
                                                         factory_name,
                                                         session_id=None,
@@ -858,7 +865,7 @@ def datafactory_data_flow_debug_session_execute_command(cmd, client,
                                         command_payload=command_payload)
 
 
-def datafactory_data_flow_debug_session_query_by_factory(cmd, client,
+def datafactory_data_flow_debug_session_query_by_factory(client,
                                                          resource_group_name,
                                                          factory_name):
     return client.query_by_factory(resource_group_name=resource_group_name,

@@ -7,13 +7,10 @@
 # --------------------------------------------------------------------------
 
 from ._data_factory_management_client import DataFactoryManagementClient
-from ._version import VERSION
-
-__version__ = VERSION
 __all__ = ['DataFactoryManagementClient']
 
 try:
-    from .patch import patch_sdk
+    from ._patch import patch_sdk
     patch_sdk()
 except ImportError:
     pass

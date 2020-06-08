@@ -20,7 +20,7 @@ from .. import models
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
-    from typing import Any, Callable, Dict, Generic, Optional, TypeVar, Union
+    from typing import Any, Callable, Dict, Generic, Iterable, Optional, TypeVar, Union
 
     T = TypeVar('T')
     ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -32,7 +32,7 @@ class TriggerOperations(object):
     instantiates it for you and attaches it as an attribute.
 
     :ivar models: Alias to model classes used in this operation group.
-    :type models: ~azure.mgmt.datafactory.models
+    :type models: ~data_factory_management_client.models
     :param client: Client for service requests.
     :param config: Configuration of service client.
     :param serializer: An object model serializer.
@@ -53,7 +53,7 @@ class TriggerOperations(object):
         factory_name,  # type: str
         **kwargs  # type: Any
     ):
-        # type: (...) -> "models.TriggerListResponse"
+        # type: (...) -> Iterable["models.TriggerListResponse"]
         """Lists triggers.
 
         :param resource_group_name: The resource group name.
@@ -61,31 +61,32 @@ class TriggerOperations(object):
         :param factory_name: The factory name.
         :type factory_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: TriggerListResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.TriggerListResponse
+        :return: An iterator like instance of either TriggerListResponse or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~data_factory_management_client.models.TriggerListResponse]
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.TriggerListResponse"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
         api_version = "2018-06-01"
 
         def prepare_request(next_link=None):
             if not next_link:
                 # Construct URL
-                url = self.list_by_factory.metadata['url']
+                url = self.list_by_factory.metadata['url']  # type: ignore
                 path_format_arguments = {
                     'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
                     'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
                     'factoryName': self._serialize.url("factory_name", factory_name, 'str', max_length=63, min_length=3, pattern=r'^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$'),
                 }
                 url = self._client.format_url(url, **path_format_arguments)
+                # Construct parameters
+                query_parameters = {}  # type: Dict[str, Any]
+                query_parameters['api-version'] = self._serialize.query("api_version", api_version, 'str')
+
             else:
                 url = next_link
-
-            # Construct parameters
-            query_parameters = {}  # type: Dict[str, Any]
-            query_parameters['api-version'] = self._serialize.query("api_version", api_version, 'str')
-
+                query_parameters = {}  # type: Dict[str, Any]
             # Construct headers
             header_parameters = {}  # type: Dict[str, Any]
             header_parameters['Accept'] = 'application/json'
@@ -116,7 +117,7 @@ class TriggerOperations(object):
         return ItemPaged(
             get_next, extract_data
         )
-    list_by_factory.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers'}
+    list_by_factory.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers'}  # type: ignore
 
     def query_by_factory(
         self,
@@ -140,19 +141,20 @@ class TriggerOperations(object):
          triggers.
         :type parent_trigger_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: TriggerQueryResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.TriggerQueryResponse
+        :return: TriggerQueryResponse, or the result of cls(response)
+        :rtype: ~data_factory_management_client.models.TriggerQueryResponse
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.TriggerQueryResponse"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
 
         _filter_parameters = models.TriggerFilterParameters(continuation_token=continuation_token, parent_trigger_name=parent_trigger_name)
         api_version = "2018-06-01"
         content_type = kwargs.pop("content_type", "application/json")
 
         # Construct URL
-        url = self.query_by_factory.metadata['url']
+        url = self.query_by_factory.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
@@ -185,10 +187,10 @@ class TriggerOperations(object):
         deserialized = self._deserialize('TriggerQueryResponse', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    query_by_factory.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/querytriggers'}
+    query_by_factory.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/querytriggers'}  # type: ignore
 
     def create_or_update(
         self,
@@ -209,24 +211,25 @@ class TriggerOperations(object):
         :param trigger_name: The trigger name.
         :type trigger_name: str
         :param properties: Properties of the trigger.
-        :type properties: ~azure.mgmt.datafactory.models.Trigger
+        :type properties: ~data_factory_management_client.models.Trigger
         :param if_match: ETag of the trigger entity.  Should only be specified for update, for which it
          should match existing entity or can be * for unconditional update.
         :type if_match: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: TriggerResource or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.TriggerResource
+        :return: TriggerResource, or the result of cls(response)
+        :rtype: ~data_factory_management_client.models.TriggerResource
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.TriggerResource"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
 
         _trigger = models.TriggerResource(properties=properties)
         api_version = "2018-06-01"
         content_type = kwargs.pop("content_type", "application/json")
 
         # Construct URL
-        url = self.create_or_update.metadata['url']
+        url = self.create_or_update.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
@@ -262,10 +265,10 @@ class TriggerOperations(object):
         deserialized = self._deserialize('TriggerResource', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    create_or_update.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}'}
+    create_or_update.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}'}  # type: ignore
 
     def get(
         self,
@@ -288,16 +291,17 @@ class TriggerOperations(object):
          matches the existing entity tag, or if * was provided, then no content will be returned.
         :type if_none_match: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: TriggerResource or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.TriggerResource or None
+        :return: TriggerResource, or the result of cls(response)
+        :rtype: ~data_factory_management_client.models.TriggerResource or None
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.TriggerResource"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
         api_version = "2018-06-01"
 
         # Construct URL
-        url = self.get.metadata['url']
+        url = self.get.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
@@ -330,10 +334,10 @@ class TriggerOperations(object):
             deserialized = self._deserialize('TriggerResource', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    get.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}'}
+    get.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}'}  # type: ignore
 
     def delete(
         self,
@@ -352,16 +356,17 @@ class TriggerOperations(object):
         :param trigger_name: The trigger name.
         :type trigger_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: None or the result of cls(response)
+        :return: None, or the result of cls(response)
         :rtype: None
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType[None]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
         api_version = "2018-06-01"
 
         # Construct URL
-        url = self.delete.metadata['url']
+        url = self.delete.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
@@ -387,9 +392,9 @@ class TriggerOperations(object):
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-          return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, {})
 
-    delete.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}'}
+    delete.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}'}  # type: ignore
 
     def _subscribe_to_event_initial(
         self,
@@ -400,11 +405,12 @@ class TriggerOperations(object):
     ):
         # type: (...) -> "models.TriggerSubscriptionOperationStatus"
         cls = kwargs.pop('cls', None)  # type: ClsType["models.TriggerSubscriptionOperationStatus"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
         api_version = "2018-06-01"
 
         # Construct URL
-        url = self._subscribe_to_event_initial.metadata['url']
+        url = self._subscribe_to_event_initial.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
@@ -435,10 +441,10 @@ class TriggerOperations(object):
             deserialized = self._deserialize('TriggerSubscriptionOperationStatus', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    _subscribe_to_event_initial.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/subscribeToEvents'}
+    _subscribe_to_event_initial.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/subscribeToEvents'}  # type: ignore
 
     def begin_subscribe_to_event(
         self,
@@ -447,7 +453,7 @@ class TriggerOperations(object):
         trigger_name,  # type: str
         **kwargs  # type: Any
     ):
-        # type: (...) -> "models.TriggerSubscriptionOperationStatus"
+        # type: (...) -> LROPoller
         """Subscribe event trigger to events.
 
         :param resource_group_name: The resource group name.
@@ -460,13 +466,17 @@ class TriggerOperations(object):
         :keyword polling: True for ARMPolling, False for no polling, or a
          polling object for personal polling strategy
         :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :return: An instance of LROPoller that returns TriggerSubscriptionOperationStatus
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.datafactory.models.TriggerSubscriptionOperationStatus]
-
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no Retry-After header is present.
+        :return: An instance of LROPoller that returns either TriggerSubscriptionOperationStatus or the result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~data_factory_management_client.models.TriggerSubscriptionOperationStatus]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         polling = kwargs.pop('polling', True)  # type: Union[bool, PollingMethod]
         cls = kwargs.pop('cls', None)  # type: ClsType["models.TriggerSubscriptionOperationStatus"]
+        lro_delay = kwargs.pop(
+            'polling_interval',
+            self._config.polling_interval
+        )
         raw_result = self._subscribe_to_event_initial(
             resource_group_name=resource_group_name,
             factory_name=factory_name,
@@ -475,6 +485,9 @@ class TriggerOperations(object):
             **kwargs
         )
 
+        kwargs.pop('error_map', None)
+        kwargs.pop('content_type', None)
+
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize('TriggerSubscriptionOperationStatus', pipeline_response)
 
@@ -482,15 +495,11 @@ class TriggerOperations(object):
                 return cls(pipeline_response, deserialized, {})
             return deserialized
 
-        lro_delay = kwargs.get(
-            'polling_interval',
-            self._config.polling_interval
-        )
         if polling is True: polling_method = ARMPolling(lro_delay,  **kwargs)
         elif polling is False: polling_method = NoPolling()
         else: polling_method = polling
         return LROPoller(self._client, raw_result, get_long_running_output, polling_method)
-    begin_subscribe_to_event.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/subscribeToEvents'}
+    begin_subscribe_to_event.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/subscribeToEvents'}  # type: ignore
 
     def get_event_subscription_status(
         self,
@@ -509,16 +518,17 @@ class TriggerOperations(object):
         :param trigger_name: The trigger name.
         :type trigger_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: TriggerSubscriptionOperationStatus or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.TriggerSubscriptionOperationStatus
+        :return: TriggerSubscriptionOperationStatus, or the result of cls(response)
+        :rtype: ~data_factory_management_client.models.TriggerSubscriptionOperationStatus
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.TriggerSubscriptionOperationStatus"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
         api_version = "2018-06-01"
 
         # Construct URL
-        url = self.get_event_subscription_status.metadata['url']
+        url = self.get_event_subscription_status.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
@@ -547,10 +557,10 @@ class TriggerOperations(object):
         deserialized = self._deserialize('TriggerSubscriptionOperationStatus', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    get_event_subscription_status.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/getEventSubscriptionStatus'}
+    get_event_subscription_status.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/getEventSubscriptionStatus'}  # type: ignore
 
     def _unsubscribe_from_event_initial(
         self,
@@ -561,11 +571,12 @@ class TriggerOperations(object):
     ):
         # type: (...) -> "models.TriggerSubscriptionOperationStatus"
         cls = kwargs.pop('cls', None)  # type: ClsType["models.TriggerSubscriptionOperationStatus"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
         api_version = "2018-06-01"
 
         # Construct URL
-        url = self._unsubscribe_from_event_initial.metadata['url']
+        url = self._unsubscribe_from_event_initial.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
@@ -596,10 +607,10 @@ class TriggerOperations(object):
             deserialized = self._deserialize('TriggerSubscriptionOperationStatus', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    _unsubscribe_from_event_initial.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/unsubscribeFromEvents'}
+    _unsubscribe_from_event_initial.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/unsubscribeFromEvents'}  # type: ignore
 
     def begin_unsubscribe_from_event(
         self,
@@ -608,7 +619,7 @@ class TriggerOperations(object):
         trigger_name,  # type: str
         **kwargs  # type: Any
     ):
-        # type: (...) -> "models.TriggerSubscriptionOperationStatus"
+        # type: (...) -> LROPoller
         """Unsubscribe event trigger from events.
 
         :param resource_group_name: The resource group name.
@@ -621,13 +632,17 @@ class TriggerOperations(object):
         :keyword polling: True for ARMPolling, False for no polling, or a
          polling object for personal polling strategy
         :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :return: An instance of LROPoller that returns TriggerSubscriptionOperationStatus
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.datafactory.models.TriggerSubscriptionOperationStatus]
-
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no Retry-After header is present.
+        :return: An instance of LROPoller that returns either TriggerSubscriptionOperationStatus or the result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~data_factory_management_client.models.TriggerSubscriptionOperationStatus]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         polling = kwargs.pop('polling', True)  # type: Union[bool, PollingMethod]
         cls = kwargs.pop('cls', None)  # type: ClsType["models.TriggerSubscriptionOperationStatus"]
+        lro_delay = kwargs.pop(
+            'polling_interval',
+            self._config.polling_interval
+        )
         raw_result = self._unsubscribe_from_event_initial(
             resource_group_name=resource_group_name,
             factory_name=factory_name,
@@ -636,6 +651,9 @@ class TriggerOperations(object):
             **kwargs
         )
 
+        kwargs.pop('error_map', None)
+        kwargs.pop('content_type', None)
+
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize('TriggerSubscriptionOperationStatus', pipeline_response)
 
@@ -643,15 +661,11 @@ class TriggerOperations(object):
                 return cls(pipeline_response, deserialized, {})
             return deserialized
 
-        lro_delay = kwargs.get(
-            'polling_interval',
-            self._config.polling_interval
-        )
         if polling is True: polling_method = ARMPolling(lro_delay,  **kwargs)
         elif polling is False: polling_method = NoPolling()
         else: polling_method = polling
         return LROPoller(self._client, raw_result, get_long_running_output, polling_method)
-    begin_unsubscribe_from_event.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/unsubscribeFromEvents'}
+    begin_unsubscribe_from_event.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/unsubscribeFromEvents'}  # type: ignore
 
     def _start_initial(
         self,
@@ -662,11 +676,12 @@ class TriggerOperations(object):
     ):
         # type: (...) -> None
         cls = kwargs.pop('cls', None)  # type: ClsType[None]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
         api_version = "2018-06-01"
 
         # Construct URL
-        url = self._start_initial.metadata['url']
+        url = self._start_initial.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
@@ -692,9 +707,9 @@ class TriggerOperations(object):
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-          return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, {})
 
-    _start_initial.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/start'}
+    _start_initial.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/start'}  # type: ignore
 
     def begin_start(
         self,
@@ -703,7 +718,7 @@ class TriggerOperations(object):
         trigger_name,  # type: str
         **kwargs  # type: Any
     ):
-        # type: (...) -> None
+        # type: (...) -> LROPoller
         """Starts a trigger.
 
         :param resource_group_name: The resource group name.
@@ -716,13 +731,17 @@ class TriggerOperations(object):
         :keyword polling: True for ARMPolling, False for no polling, or a
          polling object for personal polling strategy
         :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :return: An instance of LROPoller that returns None
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no Retry-After header is present.
+        :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
-
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         polling = kwargs.pop('polling', True)  # type: Union[bool, PollingMethod]
         cls = kwargs.pop('cls', None)  # type: ClsType[None]
+        lro_delay = kwargs.pop(
+            'polling_interval',
+            self._config.polling_interval
+        )
         raw_result = self._start_initial(
             resource_group_name=resource_group_name,
             factory_name=factory_name,
@@ -731,19 +750,18 @@ class TriggerOperations(object):
             **kwargs
         )
 
+        kwargs.pop('error_map', None)
+        kwargs.pop('content_type', None)
+
         def get_long_running_output(pipeline_response):
             if cls:
                 return cls(pipeline_response, None, {})
 
-        lro_delay = kwargs.get(
-            'polling_interval',
-            self._config.polling_interval
-        )
         if polling is True: polling_method = ARMPolling(lro_delay,  **kwargs)
         elif polling is False: polling_method = NoPolling()
         else: polling_method = polling
         return LROPoller(self._client, raw_result, get_long_running_output, polling_method)
-    begin_start.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/start'}
+    begin_start.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/start'}  # type: ignore
 
     def _stop_initial(
         self,
@@ -754,11 +772,12 @@ class TriggerOperations(object):
     ):
         # type: (...) -> None
         cls = kwargs.pop('cls', None)  # type: ClsType[None]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
         api_version = "2018-06-01"
 
         # Construct URL
-        url = self._stop_initial.metadata['url']
+        url = self._stop_initial.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
@@ -784,9 +803,9 @@ class TriggerOperations(object):
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-          return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, {})
 
-    _stop_initial.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/stop'}
+    _stop_initial.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/stop'}  # type: ignore
 
     def begin_stop(
         self,
@@ -795,7 +814,7 @@ class TriggerOperations(object):
         trigger_name,  # type: str
         **kwargs  # type: Any
     ):
-        # type: (...) -> None
+        # type: (...) -> LROPoller
         """Stops a trigger.
 
         :param resource_group_name: The resource group name.
@@ -808,13 +827,17 @@ class TriggerOperations(object):
         :keyword polling: True for ARMPolling, False for no polling, or a
          polling object for personal polling strategy
         :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :return: An instance of LROPoller that returns None
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no Retry-After header is present.
+        :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
-
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         polling = kwargs.pop('polling', True)  # type: Union[bool, PollingMethod]
         cls = kwargs.pop('cls', None)  # type: ClsType[None]
+        lro_delay = kwargs.pop(
+            'polling_interval',
+            self._config.polling_interval
+        )
         raw_result = self._stop_initial(
             resource_group_name=resource_group_name,
             factory_name=factory_name,
@@ -823,16 +846,15 @@ class TriggerOperations(object):
             **kwargs
         )
 
+        kwargs.pop('error_map', None)
+        kwargs.pop('content_type', None)
+
         def get_long_running_output(pipeline_response):
             if cls:
                 return cls(pipeline_response, None, {})
 
-        lro_delay = kwargs.get(
-            'polling_interval',
-            self._config.polling_interval
-        )
         if polling is True: polling_method = ARMPolling(lro_delay,  **kwargs)
         elif polling is False: polling_method = NoPolling()
         else: polling_method = polling
         return LROPoller(self._client, raw_result, get_long_running_output, polling_method)
-    begin_stop.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/stop'}
+    begin_stop.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/stop'}  # type: ignore
