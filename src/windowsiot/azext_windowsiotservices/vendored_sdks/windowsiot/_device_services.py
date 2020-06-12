@@ -15,6 +15,8 @@ if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
     from typing import Any, Optional
 
+    from azure.core.credentials import TokenCredential
+
 from ._configuration import DeviceServicesConfiguration
 from .operations import OperationOperations
 from .operations import ServiceOperations
@@ -25,14 +27,15 @@ class DeviceServices(object):
     """Use this API to manage the Windows IoT device services in your Azure subscription.
 
     :ivar operation: OperationOperations operations
-    :vartype operation: azure.mgmt.windowsiot.operations.OperationOperations
+    :vartype operation: device_services.operations.OperationOperations
     :ivar service: ServiceOperations operations
-    :vartype service: azure.mgmt.windowsiot.operations.ServiceOperations
+    :vartype service: device_services.operations.ServiceOperations
     :param credential: Credential needed for the client to connect to Azure.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The subscription identifier.
     :type subscription_id: str
     :param str base_url: Service URL
+    :keyword int polling_interval: Default waiting time between two polls for LRO operations if no Retry-After header is present.
     """
 
     def __init__(

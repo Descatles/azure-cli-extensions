@@ -10,7 +10,6 @@
 # pylint: disable=too-many-lines
 # pylint: disable=too-many-statements
 
-from knack.arguments import CLIArgumentType
 from azure.cli.core.commands.parameters import resource_group_name_type
 
 
@@ -21,7 +20,7 @@ def load_arguments(self, _):
 
     with self.argument_context('windowsiotservices service show') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('device_name', help='The name of the Windows IoT Device Service.')
+        c.argument('device_name', help='The name of the Windows IoT Device Service.', id_part='name')
 
     with self.argument_context('windowsiotservices service create') as c:
         c.argument('resource_group_name', resource_group_name_type)
@@ -35,7 +34,7 @@ def load_arguments(self, _):
 
     with self.argument_context('windowsiotservices service update') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('device_name', help='The name of the Windows IoT Device Service.')
+        c.argument('device_name', help='The name of the Windows IoT Device Service.', id_part='name')
         c.argument('if_match', help='ETag of the Windows IoT Device Service. Do not specify for creating a brand new Wi'
                    'ndows IoT Device Service. Required to update an existing Windows IoT Device Service.')
         c.argument('notes', help='Windows IoT Device Service notes.')
@@ -45,7 +44,7 @@ def load_arguments(self, _):
 
     with self.argument_context('windowsiotservices service delete') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('device_name', help='The name of the Windows IoT Device Service.')
+        c.argument('device_name', help='The name of the Windows IoT Device Service.', id_part='name')
 
     with self.argument_context('windowsiotservices service check-device-service-name-availability') as c:
         c.argument('name', help='The name of the Windows IoT Device Service to check.')

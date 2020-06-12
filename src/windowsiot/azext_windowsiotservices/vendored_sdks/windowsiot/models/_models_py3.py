@@ -195,7 +195,7 @@ class DeviceServiceDescriptionListResult(msrest.serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :param value: The array of DeviceService objects.
-    :type value: list[~azure.mgmt.windowsiot.models.DeviceService]
+    :type value: list[~device_services.models.DeviceService]
     :ivar next_link: The next link.
     :vartype next_link: str
     """
@@ -229,7 +229,7 @@ class DeviceServiceNameAvailabilityInfo(msrest.serialization.Model):
     :vartype name_available: bool
     :ivar reason: The reason for unavailability. Possible values include: "Invalid",
      "AlreadyExists".
-    :vartype reason: str or ~azure.mgmt.windowsiot.models.ServiceNameUnavailabilityReason
+    :vartype reason: str or ~device_services.models.ServiceNameUnavailabilityReason
     :param message: The detailed reason message.
     :type message: str
     """
@@ -381,7 +381,7 @@ class OperationEntity(msrest.serialization.Model):
     :param name: Operation name: {provider}/{resource}/{operation}.
     :type name: str
     :param display: The operation supported by Azure Data Catalog Service.
-    :type display: ~azure.mgmt.windowsiot.models.OperationDisplayInfo
+    :type display: ~device_services.models.OperationDisplayInfo
     """
 
     _attribute_map = {
@@ -408,7 +408,7 @@ class OperationListResult(msrest.serialization.Model):
 
     :ivar value: List of Windows IoT Device Service operations supported by the
      Microsoft.WindowsIoT resource provider.
-    :vartype value: list[~azure.mgmt.windowsiot.models.OperationEntity]
+    :vartype value: list[~device_services.models.OperationEntity]
     :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """

@@ -9,11 +9,8 @@
 # --------------------------------------------------------------------------
 
 import os
-import unittest
-
-from azure_devtools.scenario_tests import AllowLargeResponse
 from azure.cli.testsdk import ScenarioTest
-from .. import try_manual
+from .. import try_manual, raise_if
 from azure.cli.testsdk import ResourceGroupPreparer
 
 
@@ -41,7 +38,8 @@ def step__services_put_service_create(test, rg, rg_2, rg_3, rg_4):
 # EXAMPLE: /Services/get/Service_List
 @try_manual
 def step__services_get_service_list(test, rg, rg_2, rg_3, rg_4):
-    test.cmd('az windowsiotservices service list',
+    test.cmd('az windowsiotservices service list '
+             '-g ""',
              checks=[])
 
 
@@ -120,3 +118,4 @@ class DeviceServicesScenarioTest(ScenarioTest):
     def test_windowsiotservices(self, rg, rg_2, rg_3, rg_4):
 
         call_scenario(self, rg, rg_2, rg_3, rg_4)
+        raise_if()

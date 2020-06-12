@@ -6,10 +6,14 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, Optional
+from typing import Any, Optional, TYPE_CHECKING
 
 from azure.mgmt.core import AsyncARMPipelineClient
 from msrest import Deserializer, Serializer
+
+if TYPE_CHECKING:
+    # pylint: disable=unused-import,ungrouped-imports
+    from azure.core.credentials_async import AsyncTokenCredential
 
 from ._configuration_async import DeviceServicesConfiguration
 from .operations_async import OperationOperations
@@ -21,14 +25,15 @@ class DeviceServices(object):
     """Use this API to manage the Windows IoT device services in your Azure subscription.
 
     :ivar operation: OperationOperations operations
-    :vartype operation: azure.mgmt.windowsiot.aio.operations_async.OperationOperations
+    :vartype operation: device_services.aio.operations_async.OperationOperations
     :ivar service: ServiceOperations operations
-    :vartype service: azure.mgmt.windowsiot.aio.operations_async.ServiceOperations
+    :vartype service: device_services.aio.operations_async.ServiceOperations
     :param credential: Credential needed for the client to connect to Azure.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The subscription identifier.
     :type subscription_id: str
     :param str base_url: Service URL
+    :keyword int polling_interval: Default waiting time between two polls for LRO operations if no Retry-After header is present.
     """
 
     def __init__(

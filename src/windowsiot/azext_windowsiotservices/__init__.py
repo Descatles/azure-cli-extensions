@@ -20,8 +20,8 @@ class DeviceServicesCommandsLoader(AzCommandsLoader):
         windowsiotservices_custom = CliCommandType(
             operations_tmpl='azext_windowsiotservices.custom#{}',
             client_factory=cf_windowsiotservices)
-        super(DeviceServicesCommandsLoader, self).__init__(cli_ctx=cli_ctx,
-                                                           custom_command_type=windowsiotservices_custom)
+        parent = super(DeviceServicesCommandsLoader, self)
+        parent.__init__(cli_ctx=cli_ctx, custom_command_type=windowsiotservices_custom)
 
     def load_command_table(self, args):
         from azext_windowsiotservices.generated.commands import load_command_table

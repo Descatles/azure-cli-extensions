@@ -18,7 +18,7 @@ from .. import models
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
-    from typing import Any, Callable, Dict, Generic, Optional, TypeVar
+    from typing import Any, Callable, Dict, Generic, Iterable, Optional, TypeVar
 
     T = TypeVar('T')
     ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -30,7 +30,7 @@ class ServiceOperations(object):
     instantiates it for you and attaches it as an attribute.
 
     :ivar models: Alias to model classes used in this operation group.
-    :type models: ~azure.mgmt.windowsiot.models
+    :type models: ~device_services.models
     :param client: Client for service requests.
     :param config: Configuration of service client.
     :param serializer: An object model serializer.
@@ -60,16 +60,17 @@ class ServiceOperations(object):
         :param device_name: The name of the Windows IoT Device Service.
         :type device_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: DeviceService or the result of cls(response)
-        :rtype: ~azure.mgmt.windowsiot.models.DeviceService
+        :return: DeviceService, or the result of cls(response)
+        :rtype: ~device_services.models.DeviceService
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.DeviceService"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
-        api_version = "2019-06-01"
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
+        api_version = "2019-06-02"
 
         # Construct URL
-        url = self.get.metadata['url']
+        url = self.get.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str'),
@@ -98,10 +99,10 @@ class ServiceOperations(object):
         deserialized = self._deserialize('DeviceService', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    get.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.WindowsIoT/deviceServices/{deviceName}'}
+    get.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.WindowsIoT/deviceServices/{deviceName}'}  # type: ignore
 
     def create_or_update(
         self,
@@ -136,19 +137,20 @@ class ServiceOperations(object):
         :param admin_domain_name: Windows IoT Device Service OEM AAD domain.
         :type admin_domain_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: DeviceService or the result of cls(response)
-        :rtype: ~azure.mgmt.windowsiot.models.DeviceService
+        :return: DeviceService, or the result of cls(response)
+        :rtype: ~device_services.models.DeviceService
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.DeviceService"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
 
         _device_service = models.DeviceServiceProperties(notes=notes, quantity=quantity, billing_domain_name=billing_domain_name, admin_domain_name=admin_domain_name)
-        api_version = "2019-06-01"
+        api_version = "2019-06-02"
         content_type = kwargs.pop("content_type", "application/json")
 
         # Construct URL
-        url = self.create_or_update.metadata['url']
+        url = self.create_or_update.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str'),
@@ -184,10 +186,10 @@ class ServiceOperations(object):
         deserialized = self._deserialize('DeviceService', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    create_or_update.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.WindowsIoT/deviceServices/{deviceName}'}
+    create_or_update.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.WindowsIoT/deviceServices/{deviceName}'}  # type: ignore
 
     def update(
         self,
@@ -222,19 +224,20 @@ class ServiceOperations(object):
         :param admin_domain_name: Windows IoT Device Service OEM AAD domain.
         :type admin_domain_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: DeviceService or the result of cls(response)
-        :rtype: ~azure.mgmt.windowsiot.models.DeviceService
+        :return: DeviceService, or the result of cls(response)
+        :rtype: ~device_services.models.DeviceService
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.DeviceService"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
 
         _device_service = models.DeviceServiceProperties(notes=notes, quantity=quantity, billing_domain_name=billing_domain_name, admin_domain_name=admin_domain_name)
-        api_version = "2019-06-01"
+        api_version = "2019-06-02"
         content_type = kwargs.pop("content_type", "application/json")
 
         # Construct URL
-        url = self.update.metadata['url']
+        url = self.update.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str'),
@@ -270,10 +273,10 @@ class ServiceOperations(object):
         deserialized = self._deserialize('DeviceService', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    update.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.WindowsIoT/deviceServices/{deviceName}'}
+    update.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.WindowsIoT/deviceServices/{deviceName}'}  # type: ignore
 
     def delete(
         self,
@@ -290,16 +293,17 @@ class ServiceOperations(object):
         :param device_name: The name of the Windows IoT Device Service.
         :type device_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: DeviceService or the result of cls(response)
-        :rtype: ~azure.mgmt.windowsiot.models.DeviceService
+        :return: DeviceService, or the result of cls(response)
+        :rtype: ~device_services.models.DeviceService
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.DeviceService"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
-        api_version = "2019-06-01"
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
+        api_version = "2019-06-02"
 
         # Construct URL
-        url = self.delete.metadata['url']
+        url = self.delete.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str'),
@@ -328,47 +332,48 @@ class ServiceOperations(object):
         deserialized = self._deserialize('DeviceService', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    delete.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.WindowsIoT/deviceServices/{deviceName}'}
+    delete.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.WindowsIoT/deviceServices/{deviceName}'}  # type: ignore
 
     def list_by_resource_group(
         self,
         resource_group_name,  # type: str
         **kwargs  # type: Any
     ):
-        # type: (...) -> "models.DeviceServiceDescriptionListResult"
+        # type: (...) -> Iterable["models.DeviceServiceDescriptionListResult"]
         """Get all the IoT hubs in a resource group.
 
         :param resource_group_name: The name of the resource group that contains the Windows IoT Device
      Service.
         :type resource_group_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: DeviceServiceDescriptionListResult or the result of cls(response)
-        :rtype: ~azure.mgmt.windowsiot.models.DeviceServiceDescriptionListResult
+        :return: An iterator like instance of either DeviceServiceDescriptionListResult or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~device_services.models.DeviceServiceDescriptionListResult]
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.DeviceServiceDescriptionListResult"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
-        api_version = "2019-06-01"
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
+        api_version = "2019-06-02"
 
         def prepare_request(next_link=None):
             if not next_link:
                 # Construct URL
-                url = self.list_by_resource_group.metadata['url']
+                url = self.list_by_resource_group.metadata['url']  # type: ignore
                 path_format_arguments = {
                     'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
                     'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str'),
                 }
                 url = self._client.format_url(url, **path_format_arguments)
+                # Construct parameters
+                query_parameters = {}  # type: Dict[str, Any]
+                query_parameters['api-version'] = self._serialize.query("api_version", api_version, 'str')
+
             else:
                 url = next_link
-
-            # Construct parameters
-            query_parameters = {}  # type: Dict[str, Any]
-            query_parameters['api-version'] = self._serialize.query("api_version", api_version, 'str')
-
+                query_parameters = {}  # type: Dict[str, Any]
             # Construct headers
             header_parameters = {}  # type: Dict[str, Any]
             header_parameters['Accept'] = 'application/json'
@@ -400,39 +405,40 @@ class ServiceOperations(object):
         return ItemPaged(
             get_next, extract_data
         )
-    list_by_resource_group.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.WindowsIoT/deviceServices'}
+    list_by_resource_group.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.WindowsIoT/deviceServices'}  # type: ignore
 
     def list(
         self,
         **kwargs  # type: Any
     ):
-        # type: (...) -> "models.DeviceServiceDescriptionListResult"
+        # type: (...) -> Iterable["models.DeviceServiceDescriptionListResult"]
         """Get all the IoT hubs in a subscription.
 
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: DeviceServiceDescriptionListResult or the result of cls(response)
-        :rtype: ~azure.mgmt.windowsiot.models.DeviceServiceDescriptionListResult
+        :return: An iterator like instance of either DeviceServiceDescriptionListResult or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~device_services.models.DeviceServiceDescriptionListResult]
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.DeviceServiceDescriptionListResult"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
-        api_version = "2019-06-01"
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
+        api_version = "2019-06-02"
 
         def prepare_request(next_link=None):
             if not next_link:
                 # Construct URL
-                url = self.list.metadata['url']
+                url = self.list.metadata['url']  # type: ignore
                 path_format_arguments = {
                     'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
                 }
                 url = self._client.format_url(url, **path_format_arguments)
+                # Construct parameters
+                query_parameters = {}  # type: Dict[str, Any]
+                query_parameters['api-version'] = self._serialize.query("api_version", api_version, 'str')
+
             else:
                 url = next_link
-
-            # Construct parameters
-            query_parameters = {}  # type: Dict[str, Any]
-            query_parameters['api-version'] = self._serialize.query("api_version", api_version, 'str')
-
+                query_parameters = {}  # type: Dict[str, Any]
             # Construct headers
             header_parameters = {}  # type: Dict[str, Any]
             header_parameters['Accept'] = 'application/json'
@@ -464,7 +470,7 @@ class ServiceOperations(object):
         return ItemPaged(
             get_next, extract_data
         )
-    list.metadata = {'url': '/subscriptions/{subscriptionId}/providers/Microsoft.WindowsIoT/deviceServices'}
+    list.metadata = {'url': '/subscriptions/{subscriptionId}/providers/Microsoft.WindowsIoT/deviceServices'}  # type: ignore
 
     def check_device_service_name_availability(
         self,
@@ -477,19 +483,20 @@ class ServiceOperations(object):
         :param name: The name of the Windows IoT Device Service to check.
         :type name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: DeviceServiceNameAvailabilityInfo or the result of cls(response)
-        :rtype: ~azure.mgmt.windowsiot.models.DeviceServiceNameAvailabilityInfo
+        :return: DeviceServiceNameAvailabilityInfo, or the result of cls(response)
+        :rtype: ~device_services.models.DeviceServiceNameAvailabilityInfo
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.DeviceServiceNameAvailabilityInfo"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
 
         _device_service_check_name_availability_parameters = models.DeviceServiceCheckNameAvailabilityParameters(name=name)
-        api_version = "2019-06-01"
+        api_version = "2019-06-02"
         content_type = kwargs.pop("content_type", "application/json")
 
         # Construct URL
-        url = self.check_device_service_name_availability.metadata['url']
+        url = self.check_device_service_name_availability.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
         }
@@ -521,7 +528,7 @@ class ServiceOperations(object):
         deserialized = self._deserialize('DeviceServiceNameAvailabilityInfo', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    check_device_service_name_availability.metadata = {'url': '/subscriptions/{subscriptionId}/providers/Microsoft.WindowsIoT/checkDeviceServiceNameAvailability'}
+    check_device_service_name_availability.metadata = {'url': '/subscriptions/{subscriptionId}/providers/Microsoft.WindowsIoT/checkDeviceServiceNameAvailability'}  # type: ignore

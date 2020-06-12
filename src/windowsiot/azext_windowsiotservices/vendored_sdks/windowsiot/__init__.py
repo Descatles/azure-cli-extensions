@@ -7,13 +7,10 @@
 # --------------------------------------------------------------------------
 
 from ._device_services import DeviceServices
-from ._version import VERSION
-
-__version__ = VERSION
 __all__ = ['DeviceServices']
 
 try:
-    from .patch import patch_sdk
+    from ._patch import patch_sdk
     patch_sdk()
 except ImportError:
     pass
