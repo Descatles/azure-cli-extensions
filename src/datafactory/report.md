@@ -504,7 +504,7 @@ create a datafactory pipeline.
 |**--concurrency**|integer|The max number of concurrent runs for the pipeline.|concurrency|
 |**--annotations**|array|List of tags that can be used for describing the Pipeline.|annotations|
 |**--run-dimensions**|dictionary|Dimensions emitted by Pipeline.|run_dimensions|
-|**--folder**|object|The folder that this Pipeline is in. If not specified, Pipeline will appear at the root level.|folder|
+|**--folder-name**|string|The name of the folder that this Pipeline is in.|name_properties_folder_name|
 ### datafactory pipeline create-run
 
 create-run a datafactory pipeline.
@@ -562,7 +562,7 @@ create a datafactory pipeline.
 |**--concurrency**|integer|The max number of concurrent runs for the pipeline.|concurrency|
 |**--annotations**|array|List of tags that can be used for describing the Pipeline.|annotations|
 |**--run-dimensions**|dictionary|Dimensions emitted by Pipeline.|run_dimensions|
-|**--folder**|object|The folder that this Pipeline is in. If not specified, Pipeline will appear at the root level.|folder|
+|**--folder-name**|string|The name of the folder that this Pipeline is in.|name_properties_folder_name|
 ### datafactory pipeline-run cancel
 
 cancel a datafactory pipeline-run.

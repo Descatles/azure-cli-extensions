@@ -18,7 +18,7 @@ from .. import models
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
-    from typing import Any, Callable, Dict, Generic, List, Optional, TypeVar
+    from typing import Any, Callable, Dict, Generic, Iterable, List, Optional, TypeVar
 
     T = TypeVar('T')
     ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -30,7 +30,7 @@ class PipelineOperations(object):
     instantiates it for you and attaches it as an attribute.
 
     :ivar models: Alias to model classes used in this operation group.
-    :type models: ~azure.mgmt.datafactory.models
+    :type models: ~data_factory_management_client.models
     :param client: Client for service requests.
     :param config: Configuration of service client.
     :param serializer: An object model serializer.
@@ -51,7 +51,7 @@ class PipelineOperations(object):
         factory_name,  # type: str
         **kwargs  # type: Any
     ):
-        # type: (...) -> "models.PipelineListResponse"
+        # type: (...) -> Iterable["models.PipelineListResponse"]
         """Lists pipelines.
 
         :param resource_group_name: The resource group name.
@@ -59,31 +59,32 @@ class PipelineOperations(object):
         :param factory_name: The factory name.
         :type factory_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: PipelineListResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.PipelineListResponse
+        :return: An iterator like instance of either PipelineListResponse or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~data_factory_management_client.models.PipelineListResponse]
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.PipelineListResponse"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
         api_version = "2018-06-01"
 
         def prepare_request(next_link=None):
             if not next_link:
                 # Construct URL
-                url = self.list_by_factory.metadata['url']
+                url = self.list_by_factory.metadata['url']  # type: ignore
                 path_format_arguments = {
                     'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
                     'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
                     'factoryName': self._serialize.url("factory_name", factory_name, 'str', max_length=63, min_length=3, pattern=r'^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$'),
                 }
                 url = self._client.format_url(url, **path_format_arguments)
+                # Construct parameters
+                query_parameters = {}  # type: Dict[str, Any]
+                query_parameters['api-version'] = self._serialize.query("api_version", api_version, 'str')
+
             else:
                 url = next_link
-
-            # Construct parameters
-            query_parameters = {}  # type: Dict[str, Any]
-            query_parameters['api-version'] = self._serialize.query("api_version", api_version, 'str')
-
+                query_parameters = {}  # type: Dict[str, Any]
             # Construct headers
             header_parameters = {}  # type: Dict[str, Any]
             header_parameters['Accept'] = 'application/json'
@@ -114,7 +115,7 @@ class PipelineOperations(object):
         return ItemPaged(
             get_next, extract_data
         )
-    list_by_factory.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines'}
+    list_by_factory.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines'}  # type: ignore
 
     def create_or_update(
         self,
@@ -123,13 +124,13 @@ class PipelineOperations(object):
         pipeline_name,  # type: str
         if_match=None,  # type: Optional[str]
         description=None,  # type: Optional[str]
-        activities=None,  # type: Optional[List["Activity"]]
-        parameters=None,  # type: Optional[Dict[str, "ParameterSpecification"]]
-        variables=None,  # type: Optional[Dict[str, "VariableSpecification"]]
+        activities=None,  # type: Optional[List["models.Activity"]]
+        parameters=None,  # type: Optional[Dict[str, "models.ParameterSpecification"]]
+        variables=None,  # type: Optional[Dict[str, "models.VariableSpecification"]]
         concurrency=None,  # type: Optional[int]
         annotations=None,  # type: Optional[List[object]]
         run_dimensions=None,  # type: Optional[Dict[str, object]]
-        folder=None,  # type: Optional["models.PipelineFolder"]
+        name=None,  # type: Optional[str]
         **kwargs  # type: Any
     ):
         # type: (...) -> "models.PipelineResource"
@@ -147,34 +148,34 @@ class PipelineOperations(object):
         :param description: The description of the pipeline.
         :type description: str
         :param activities: List of activities in pipeline.
-        :type activities: list[~azure.mgmt.datafactory.models.Activity]
+        :type activities: list[~data_factory_management_client.models.Activity]
         :param parameters: List of parameters for pipeline.
-        :type parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+        :type parameters: dict[str, ~data_factory_management_client.models.ParameterSpecification]
         :param variables: List of variables for pipeline.
-        :type variables: dict[str, ~azure.mgmt.datafactory.models.VariableSpecification]
+        :type variables: dict[str, ~data_factory_management_client.models.VariableSpecification]
         :param concurrency: The max number of concurrent runs for the pipeline.
         :type concurrency: int
         :param annotations: List of tags that can be used for describing the Pipeline.
         :type annotations: list[object]
         :param run_dimensions: Dimensions emitted by Pipeline.
         :type run_dimensions: dict[str, object]
-        :param folder: The folder that this Pipeline is in. If not specified, Pipeline will appear at
-         the root level.
-        :type folder: ~azure.mgmt.datafactory.models.PipelineFolder
+        :param name: The name of the folder that this Pipeline is in.
+        :type name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: PipelineResource or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.PipelineResource
+        :return: PipelineResource, or the result of cls(response)
+        :rtype: ~data_factory_management_client.models.PipelineResource
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.PipelineResource"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
 
-        _pipeline = models.PipelineResource(description=description, activities=activities, parameters=parameters, variables=variables, concurrency=concurrency, annotations=annotations, run_dimensions=run_dimensions, folder=folder)
+        _pipeline = models.PipelineResource(description=description, activities=activities, parameters=parameters, variables=variables, concurrency=concurrency, annotations=annotations, run_dimensions=run_dimensions, name_properties_folder_name=name)
         api_version = "2018-06-01"
         content_type = kwargs.pop("content_type", "application/json")
 
         # Construct URL
-        url = self.create_or_update.metadata['url']
+        url = self.create_or_update.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
@@ -210,10 +211,10 @@ class PipelineOperations(object):
         deserialized = self._deserialize('PipelineResource', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    create_or_update.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}'}
+    create_or_update.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}'}  # type: ignore
 
     def get(
         self,
@@ -236,16 +237,17 @@ class PipelineOperations(object):
          ETag matches the existing entity tag, or if * was provided, then no content will be returned.
         :type if_none_match: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: PipelineResource or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.PipelineResource or None
+        :return: PipelineResource, or the result of cls(response)
+        :rtype: ~data_factory_management_client.models.PipelineResource or None
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.PipelineResource"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
         api_version = "2018-06-01"
 
         # Construct URL
-        url = self.get.metadata['url']
+        url = self.get.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
@@ -278,10 +280,10 @@ class PipelineOperations(object):
             deserialized = self._deserialize('PipelineResource', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    get.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}'}
+    get.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}'}  # type: ignore
 
     def delete(
         self,
@@ -300,16 +302,17 @@ class PipelineOperations(object):
         :param pipeline_name: The pipeline name.
         :type pipeline_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: None or the result of cls(response)
+        :return: None, or the result of cls(response)
         :rtype: None
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType[None]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
         api_version = "2018-06-01"
 
         # Construct URL
-        url = self.delete.metadata['url']
+        url = self.delete.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
@@ -335,9 +338,9 @@ class PipelineOperations(object):
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-          return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, {})
 
-    delete.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}'}
+    delete.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}'}  # type: ignore
 
     def create_run(
         self,
@@ -376,17 +379,18 @@ class PipelineOperations(object):
          runId is not specified.
         :type parameters: dict[str, object]
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: CreateRunResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.CreateRunResponse
+        :return: CreateRunResponse, or the result of cls(response)
+        :rtype: ~data_factory_management_client.models.CreateRunResponse
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.CreateRunResponse"]
-        error_map = kwargs.pop('error_map', {404: ResourceNotFoundError, 409: ResourceExistsError})
+        error_map = {404: ResourceNotFoundError, 409: ResourceExistsError}
+        error_map.update(kwargs.pop('error_map', {}))
         api_version = "2018-06-01"
         content_type = kwargs.pop("content_type", "application/json")
 
         # Construct URL
-        url = self.create_run.metadata['url']
+        url = self.create_run.metadata['url']  # type: ignore
         path_format_arguments = {
             'subscriptionId': self._serialize.url("self._config.subscription_id", self._config.subscription_id, 'str'),
             'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
@@ -431,7 +435,7 @@ class PipelineOperations(object):
         deserialized = self._deserialize('CreateRunResponse', pipeline_response)
 
         if cls:
-          return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})
 
         return deserialized
-    create_run.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}/createRun'}
+    create_run.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}/createRun'}  # type: ignore

@@ -59,7 +59,7 @@ def load_command_table(self, _):
         g.custom_command('stop', 'datafactory_integration_runtime_stop', supports_no_wait=True)
         g.custom_command('sync-credentials', 'datafactory_integration_runtime_sync_credentials')
         g.custom_command('upgrade', 'datafactory_integration_runtime_upgrade')
-        g.wait_command('wait')
+        g.custom_wait_command('wait', 'datafactory_integration_runtime_show')
 
     from azext_datafactory.generated._client_factory import cf_integration_runtime_object_metadata
     datafactory_integration_runtime_object_metadata = CliCommandType(
@@ -70,8 +70,7 @@ def load_command_table(self, _):
                             datafactory_integration_runtime_object_metadata,
                             client_factory=cf_integration_runtime_object_metadata, is_experimental=True) as g:
         g.custom_command('get', 'datafactory_integration_runtime_object_metadata_get')
-        g.custom_command('refresh', 'datafactory_integration_runtime_object_metadata_refresh', supports_no_wait=True)
-        g.wait_command('wait')
+        g.custom_command('refresh', 'datafactory_integration_runtime_object_metadata_refresh')
 
     from azext_datafactory.generated._client_factory import cf_integration_runtime_node
     datafactory_integration_runtime_node = CliCommandType(
@@ -95,8 +94,8 @@ def load_command_table(self, _):
         g.custom_command('list', 'datafactory_linked_service_list')
         g.custom_show_command('show', 'datafactory_linked_service_show')
         g.custom_command('create', 'datafactory_linked_service_create')
-        g.generic_update_command('update', setter_arg_name = 'properties', custom_func_name = 'datafactory_linked_servi'
-                                 'ce_update')
+        g.generic_update_command('update', setter_arg_name='properties', custom_func_name='datafactory_linked_service_u'
+                                 'pdate')
         g.custom_command('delete', 'datafactory_linked_service_delete')
 
     from azext_datafactory.generated._client_factory import cf_dataset
@@ -109,8 +108,8 @@ def load_command_table(self, _):
         g.custom_command('list', 'datafactory_dataset_list')
         g.custom_show_command('show', 'datafactory_dataset_show')
         g.custom_command('create', 'datafactory_dataset_create')
-        g.generic_update_command('update', setter_arg_name = 'properties', custom_func_name = 'datafactory_dataset_upda'
-                                 'te')
+        g.generic_update_command('update', setter_arg_name='properties',
+                                 custom_func_name='datafactory_dataset_update')
         g.custom_command('delete', 'datafactory_dataset_delete')
 
     from azext_datafactory.generated._client_factory import cf_pipeline
@@ -157,8 +156,8 @@ def load_command_table(self, _):
         g.custom_command('list', 'datafactory_trigger_list')
         g.custom_show_command('show', 'datafactory_trigger_show')
         g.custom_command('create', 'datafactory_trigger_create')
-        g.generic_update_command('update', setter_arg_name = 'properties', custom_func_name = 'datafactory_trigger_upda'
-                                 'te')
+        g.generic_update_command('update', setter_arg_name='properties',
+                                 custom_func_name='datafactory_trigger_update')
         g.custom_command('delete', 'datafactory_trigger_delete')
         g.custom_command('get-event-subscription-status', 'datafactory_trigger_get_event_subscription_status')
         g.custom_command('query-by-factory', 'datafactory_trigger_query_by_factory')
@@ -167,7 +166,7 @@ def load_command_table(self, _):
         g.custom_command('subscribe-to-event', 'datafactory_trigger_subscribe_to_event', supports_no_wait=True)
         g.custom_command('unsubscribe-from-event', 'datafactory_trigger_unsubscribe_from_event',
                          supports_no_wait=True)
-        g.wait_command('wait')
+        g.custom_wait_command('wait', 'datafactory_trigger_show')
 
     from azext_datafactory.generated._client_factory import cf_trigger_run
     datafactory_trigger_run = CliCommandType(
@@ -189,8 +188,8 @@ def load_command_table(self, _):
         g.custom_command('list', 'datafactory_data_flow_list')
         g.custom_show_command('show', 'datafactory_data_flow_show')
         g.custom_command('create', 'datafactory_data_flow_create')
-        g.generic_update_command('update', setter_arg_name = 'properties', custom_func_name = 'datafactory_data_flow_up'
-                                 'date')
+        g.generic_update_command('update', setter_arg_name='properties', custom_func_name='datafactory_data_flow_update'
+                                 '')
         g.custom_command('delete', 'datafactory_data_flow_delete')
 
     from azext_datafactory.generated._client_factory import cf_data_flow_debug_session
@@ -200,10 +199,8 @@ def load_command_table(self, _):
         client_factory=cf_data_flow_debug_session)
     with self.command_group('datafactory data-flow-debug-session', datafactory_data_flow_debug_session,
                             client_factory=cf_data_flow_debug_session, is_experimental=True) as g:
-        g.custom_command('create', 'datafactory_data_flow_debug_session_create', supports_no_wait=True)
+        g.custom_command('create', 'datafactory_data_flow_debug_session_create')
         g.custom_command('delete', 'datafactory_data_flow_debug_session_delete')
         g.custom_command('add-data-flow', 'datafactory_data_flow_debug_session_add_data_flow')
-        g.custom_command('execute-command', 'datafactory_data_flow_debug_session_execute_command',
-                         supports_no_wait=True)
+        g.custom_command('execute-command', 'datafactory_data_flow_debug_session_execute_command')
         g.custom_command('query-by-factory', 'datafactory_data_flow_debug_session_query_by_factory')
-        g.wait_command('wait')

@@ -19,7 +19,6 @@ from azure.cli.core.commands.parameters import (
 from azext_datafactory.action import (
     AddVstsConfiguration,
     AddGithubConfiguration,
-    AddFolder,
     AddFilters,
     AddOrderBy,
     AddDebugSettingsSourceSettings,
@@ -33,19 +32,16 @@ def load_arguments(self, _):
         c.argument('resource_group_name', resource_group_name_type)
 
     with self.argument_context('datafactory factory configure-factory-repo') as c:
-        c.argument('location_id', help='The location identifier.')
+        c.argument('location_id', help='The location identifier.', id_part='name')
         c.argument('factory_resource_id', help='The factory resource id.')
         c.argument('vsts_configuration', action=AddVstsConfiguration, nargs='+', help='Factory\'s VSTS repo information'
-                   '. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: project-name, tenant-id, account-'
-                   'name, repository-name, collaboration-branch, root-folder, last-commit-id.', arg_group='RepoConfigur'
-                   'ation')
+                   '.', arg_group='RepoConfiguration')
         c.argument('github_configuration', action=AddGithubConfiguration, nargs='+', help='Factory\'s GitHub repo infor'
-                   'mation. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: host-name, account-name, re'
-                   'pository-name, collaboration-branch, root-folder, last-commit-id.', arg_group='RepoConfiguration')
+                   'mation.', arg_group='RepoConfiguration')
 
     with self.argument_context('datafactory factory get-data-plane-access') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
+        c.argument('factory_name', options_list=['--name', '-n'], help='The factory name.', id_part='name')
         c.argument('permissions', help='The string with permissions for Data Plane access. Currently only \'r\' is supp'
                    'orted which grants read only access.')
         c.argument('access_resource_path', help='The resource path to get access relative to factory. Currently only em'
@@ -58,19 +54,19 @@ def load_arguments(self, _):
 
     with self.argument_context('datafactory factory get-git-hub-access-token') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
+        c.argument('factory_name', options_list=['--name', '-n'], help='The factory name.', id_part='name')
         c.argument('git_hub_access_code', help='GitHub access code.')
         c.argument('git_hub_client_id', help='GitHub application client ID.')
         c.argument('git_hub_access_token_base_url', help='GitHub access token base URL.')
 
     with self.argument_context('datafactory exposure-control get-feature-value') as c:
-        c.argument('location_id', help='The location identifier.')
+        c.argument('location_id', help='The location identifier.', id_part='name')
         c.argument('feature_name', help='The feature name.')
         c.argument('feature_type', help='The feature type.')
 
     with self.argument_context('datafactory exposure-control get-feature-value-by-factory') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
         c.argument('feature_name', help='The feature name.')
         c.argument('feature_type', help='The feature type.')
 
@@ -80,22 +76,24 @@ def load_arguments(self, _):
 
     with self.argument_context('datafactory integration-runtime show') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', options_list=['--name', '-n'], help='The integration runtime name.',
+                   id_part='child_name_1')
         c.argument('if_none_match', help='ETag of the integration runtime entity. Should only be specified for get. If '
                    'the ETag matches the existing entity tag, or if * was provided, then no content will be returned.')
 
     with self.argument_context('datafactory integration-runtime create') as c:
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('integration_runtime_name', options_list=['--name', '-n'], help='The integration runtime name.')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Integration runtime prop'
                    'erties. Expected value: json-string/@json-file.'))
 
     with self.argument_context('datafactory integration-runtime update') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', options_list=['--name', '-n'], help='The integration runtime name.',
+                   id_part='child_name_1')
         c.argument('auto_update', arg_type=get_enum_type(['On', 'Off']), help='Enables or disables the auto-update feat'
                    'ure of the self-hosted integration runtime. See https://go.microsoft.com/fwlink/?linkid=854189.')
         c.argument('update_delay_offset', help='The time offset (in hours) in the day, e.g., PT03H is 3 hours. The inte'
@@ -103,8 +101,9 @@ def load_arguments(self, _):
 
     with self.argument_context('datafactory integration-runtime delete') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', options_list=['--name', '-n'], help='The integration runtime name.',
+                   id_part='child_name_1')
 
     with self.argument_context('datafactory integration-runtime create-linked-integration-runtime') as c:
         c.argument('resource_group_name', resource_group_name_type)
@@ -120,93 +119,110 @@ def load_arguments(self, _):
 
     with self.argument_context('datafactory integration-runtime get-connection-info') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', options_list=['--name', '-n'], help='The integration runtime name.',
+                   id_part='child_name_1')
 
     with self.argument_context('datafactory integration-runtime get-monitoring-data') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', options_list=['--name', '-n'], help='The integration runtime name.',
+                   id_part='child_name_1')
 
     with self.argument_context('datafactory integration-runtime get-status') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', options_list=['--name', '-n'], help='The integration runtime name.',
+                   id_part='child_name_1')
 
     with self.argument_context('datafactory integration-runtime list-auth-key') as c:
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('integration_runtime_name', options_list=['--name', '-n'], help='The integration runtime name.')
 
     with self.argument_context('datafactory integration-runtime regenerate-auth-key') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', options_list=['--name', '-n'], help='The integration runtime name.',
+                   id_part='child_name_1')
         c.argument('key_name', arg_type=get_enum_type(['authKey1', 'authKey2']), help='The name of the authentication k'
                    'ey to regenerate.')
 
     with self.argument_context('datafactory integration-runtime remove-link') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', options_list=['--name', '-n'], help='The integration runtime name.',
+                   id_part='child_name_1')
         c.argument('linked_factory_name', help='The data factory name for linked integration runtime.')
 
     with self.argument_context('datafactory integration-runtime start') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', options_list=['--name', '-n'], help='The integration runtime name.',
+                   id_part='child_name_1')
 
     with self.argument_context('datafactory integration-runtime stop') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', options_list=['--name', '-n'], help='The integration runtime name.',
+                   id_part='child_name_1')
 
     with self.argument_context('datafactory integration-runtime sync-credentials') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', options_list=['--name', '-n'], help='The integration runtime name.',
+                   id_part='child_name_1')
 
     with self.argument_context('datafactory integration-runtime upgrade') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', options_list=['--name', '-n'], help='The integration runtime name.',
+                   id_part='child_name_1')
+
+    with self.argument_context('datafactory integration-runtime wait') as c:
+        c.argument('resource_group_name', resource_group_name_type)
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', options_list=['--name', '-n'], help='The integration runtime name.',
+                   id_part='child_name_1')
+        c.argument('if_none_match', help='ETag of the integration runtime entity. Should only be specified for get. If '
+                   'the ETag matches the existing entity tag, or if * was provided, then no content will be returned.')
 
     with self.argument_context('datafactory integration-runtime-object-metadata get') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', help='The integration runtime name.', id_part='child_name_1')
         c.argument('metadata_path', help='Metadata path.')
 
     with self.argument_context('datafactory integration-runtime-object-metadata refresh') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', help='The integration runtime name.', id_part='child_name_1')
 
     with self.argument_context('datafactory integration-runtime-node show') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
-        c.argument('node_name', help='The integration runtime node name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', help='The integration runtime name.', id_part='child_name_1')
+        c.argument('node_name', help='The integration runtime node name.', id_part='child_name_2')
 
     with self.argument_context('datafactory integration-runtime-node update') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
-        c.argument('node_name', help='The integration runtime node name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', help='The integration runtime name.', id_part='child_name_1')
+        c.argument('node_name', help='The integration runtime node name.', id_part='child_name_2')
         c.argument('concurrent_jobs_limit', help='The number of concurrent jobs permitted to run on the integration run'
                    'time node. Values between 1 and maxConcurrentJobs(inclusive) are allowed.')
 
     with self.argument_context('datafactory integration-runtime-node delete') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
-        c.argument('node_name', help='The integration runtime node name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', help='The integration runtime name.', id_part='child_name_1')
+        c.argument('node_name', help='The integration runtime node name.', id_part='child_name_2')
 
     with self.argument_context('datafactory integration-runtime-node get-ip-address') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('integration_runtime_name', help='The integration runtime name.')
-        c.argument('node_name', help='The integration runtime node name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('integration_runtime_name', help='The integration runtime name.', id_part='child_name_1')
+        c.argument('node_name', help='The integration runtime node name.', id_part='child_name_2')
 
     with self.argument_context('datafactory linked-service list') as c:
         c.argument('resource_group_name', resource_group_name_type)
@@ -214,29 +230,32 @@ def load_arguments(self, _):
 
     with self.argument_context('datafactory linked-service show') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('linked_service_name', help='The linked service name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('linked_service_name', options_list=['--name', '-n'], help='The linked service name.', id_part='chil'
+                   'd_name_1')
         c.argument('if_none_match', help='ETag of the linked service entity. Should only be specified for get. If the E'
                    'Tag matches the existing entity tag, or if * was provided, then no content will be returned.')
 
     with self.argument_context('datafactory linked-service create') as c:
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
-        c.argument('linked_service_name', help='The linked service name.')
+        c.argument('linked_service_name', options_list=['--name', '-n'], help='The linked service name.')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Properties of linked ser'
                    'vice. Expected value: json-string/@json-file.'))
 
     with self.argument_context('datafactory linked-service update') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('linked_service_name', help='The linked service name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('linked_service_name', options_list=['--name', '-n'], help='The linked service name.', id_part='chil'
+                   'd_name_1')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Properties of linked ser'
                    'vice. Expected value: json-string/@json-file.'))
 
     with self.argument_context('datafactory linked-service delete') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('linked_service_name', help='The linked service name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('linked_service_name', options_list=['--name', '-n'], help='The linked service name.', id_part='chil'
+                   'd_name_1')
 
     with self.argument_context('datafactory dataset list') as c:
         c.argument('resource_group_name', resource_group_name_type)
@@ -244,29 +263,29 @@ def load_arguments(self, _):
 
     with self.argument_context('datafactory dataset show') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('dataset_name', help='The dataset name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('dataset_name', options_list=['--name', '-n'], help='The dataset name.', id_part='child_name_1')
         c.argument('if_none_match', help='ETag of the dataset entity. Should only be specified for get. If the ETag mat'
                    'ches the existing entity tag, or if * was provided, then no content will be returned.')
 
     with self.argument_context('datafactory dataset create') as c:
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
-        c.argument('dataset_name', help='The dataset name.')
+        c.argument('dataset_name', options_list=['--name', '-n'], help='The dataset name.')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Dataset properties. Expe'
                    'cted value: json-string/@json-file.'))
 
     with self.argument_context('datafactory dataset update') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('dataset_name', help='The dataset name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('dataset_name', options_list=['--name', '-n'], help='The dataset name.', id_part='child_name_1')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Dataset properties. Expe'
                    'cted value: json-string/@json-file.'))
 
     with self.argument_context('datafactory dataset delete') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('dataset_name', help='The dataset name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('dataset_name', options_list=['--name', '-n'], help='The dataset name.', id_part='child_name_1')
 
     with self.argument_context('datafactory pipeline list') as c:
         c.argument('resource_group_name', resource_group_name_type)
@@ -274,15 +293,15 @@ def load_arguments(self, _):
 
     with self.argument_context('datafactory pipeline show') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('pipeline_name', help='The pipeline name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('pipeline_name', options_list=['--name', '-n'], help='The pipeline name.', id_part='child_name_1')
         c.argument('if_none_match', help='ETag of the pipeline entity. Should only be specified for get. If the ETag ma'
                    'tches the existing entity tag, or if * was provided, then no content will be returned.')
 
     with self.argument_context('datafactory pipeline create') as c:
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
-        c.argument('pipeline_name', help='The pipeline name.')
+        c.argument('pipeline_name', options_list=['--name', '-n'], help='The pipeline name.')
         c.argument('description', help='The description of the pipeline.')
         c.argument('activities', arg_type=CLIArgumentType(options_list=['--activities'], help='List of activities in pi'
                    'peline. Expected value: json-string/@json-file.'))
@@ -295,13 +314,12 @@ def load_arguments(self, _):
                    'be used for describing the Pipeline. Expected value: json-string/@json-file.'))
         c.argument('run_dimensions', arg_type=CLIArgumentType(options_list=['--run-dimensions'], help='Dimensions emitt'
                    'ed by Pipeline. Expected value: json-string/@json-file.'))
-        c.argument('folder', action=AddFolder, nargs='+', help='The folder that this Pipeline is in. If not specified, '
-                   'Pipeline will appear at the root level. Expect value: name=xx.')
+        c.argument('folder_name', help='The name of the folder that this Pipeline is in.')
 
     with self.argument_context('datafactory pipeline update') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('pipeline_name', help='The pipeline name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('pipeline_name', options_list=['--name', '-n'], help='The pipeline name.', id_part='child_name_1')
         c.argument('description', help='The description of the pipeline.')
         c.argument('activities', arg_type=CLIArgumentType(options_list=['--activities'], help='List of activities in pi'
                    'peline. Expected value: json-string/@json-file.'))
@@ -314,18 +332,17 @@ def load_arguments(self, _):
                    'be used for describing the Pipeline. Expected value: json-string/@json-file.'))
         c.argument('run_dimensions', arg_type=CLIArgumentType(options_list=['--run-dimensions'], help='Dimensions emitt'
                    'ed by Pipeline. Expected value: json-string/@json-file.'))
-        c.argument('folder', action=AddFolder, nargs='+', help='The folder that this Pipeline is in. If not specified, '
-                   'Pipeline will appear at the root level. Expect value: name=xx.')
+        c.argument('folder_name', help='The name of the folder that this Pipeline is in.')
 
     with self.argument_context('datafactory pipeline delete') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('pipeline_name', help='The pipeline name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('pipeline_name', options_list=['--name', '-n'], help='The pipeline name.', id_part='child_name_1')
 
     with self.argument_context('datafactory pipeline create-run') as c:
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
-        c.argument('pipeline_name', help='The pipeline name.')
+        c.argument('pipeline_name', options_list=['--name', '-n'], help='The pipeline name.')
         c.argument('reference_pipeline_run_id', help='The pipeline run identifier. If run ID is specified the parameter'
                    's of the specified run will be used to create a new run.')
         c.argument('is_recovery', arg_type=get_three_state_flag(), help='Recovery mode flag. If recovery mode is set to'
@@ -342,44 +359,40 @@ def load_arguments(self, _):
 
     with self.argument_context('datafactory pipeline-run show') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('run_id', help='The pipeline run identifier.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('run_id', help='The pipeline run identifier.', id_part='child_name_1')
 
     with self.argument_context('datafactory pipeline-run cancel') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('run_id', help='The pipeline run identifier.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('run_id', help='The pipeline run identifier.', id_part='child_name_1')
         c.argument('is_recursive', arg_type=get_three_state_flag(), help='If true, cancel all the Child pipelines that '
                    'are triggered by the current pipeline.')
 
     with self.argument_context('datafactory pipeline-run query-by-factory') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
         c.argument('continuation_token', help='The continuation token for getting the next page of results. Null for fi'
                    'rst page.')
         c.argument('last_updated_after', help='The time at or after which the run event was updated in \'ISO 8601\' for'
                    'mat.')
         c.argument('last_updated_before', help='The time at or before which the run event was updated in \'ISO 8601\' f'
                    'ormat.')
-        c.argument('filters', action=AddFilters, nargs='+', help='List of filters. Expect value: KEY1=VALUE1 KEY2=VALUE'
-                   '2 ... , available KEYs are: operand, operator, values.')
-        c.argument('order_by', action=AddOrderBy, nargs='+', help='List of OrderBy option. Expect value: KEY1=VALUE1 KE'
-                   'Y2=VALUE2 ... , available KEYs are: order-by, order.')
+        c.argument('filters', action=AddFilters, nargs='+', help='List of filters.')
+        c.argument('order_by', action=AddOrderBy, nargs='+', help='List of OrderBy option.')
 
     with self.argument_context('datafactory activity-run query-by-pipeline-run') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('run_id', help='The pipeline run identifier.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('run_id', help='The pipeline run identifier.', id_part='child_name_1')
         c.argument('continuation_token', help='The continuation token for getting the next page of results. Null for fi'
                    'rst page.')
         c.argument('last_updated_after', help='The time at or after which the run event was updated in \'ISO 8601\' for'
                    'mat.')
         c.argument('last_updated_before', help='The time at or before which the run event was updated in \'ISO 8601\' f'
                    'ormat.')
-        c.argument('filters', action=AddFilters, nargs='+', help='List of filters. Expect value: KEY1=VALUE1 KEY2=VALUE'
-                   '2 ... , available KEYs are: operand, operator, values.')
-        c.argument('order_by', action=AddOrderBy, nargs='+', help='List of OrderBy option. Expect value: KEY1=VALUE1 KE'
-                   'Y2=VALUE2 ... , available KEYs are: order-by, order.')
+        c.argument('filters', action=AddFilters, nargs='+', help='List of filters.')
+        c.argument('order_by', action=AddOrderBy, nargs='+', help='List of OrderBy option.')
 
     with self.argument_context('datafactory trigger list') as c:
         c.argument('resource_group_name', resource_group_name_type)
@@ -387,38 +400,38 @@ def load_arguments(self, _):
 
     with self.argument_context('datafactory trigger show') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('trigger_name', help='The trigger name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('trigger_name', options_list=['--name', '-n'], help='The trigger name.', id_part='child_name_1')
         c.argument('if_none_match', help='ETag of the trigger entity. Should only be specified for get. If the ETag mat'
                    'ches the existing entity tag, or if * was provided, then no content will be returned.')
 
     with self.argument_context('datafactory trigger create') as c:
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
-        c.argument('trigger_name', help='The trigger name.')
+        c.argument('trigger_name', options_list=['--name', '-n'], help='The trigger name.')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Properties of the trigge'
                    'r. Expected value: json-string/@json-file.'))
 
     with self.argument_context('datafactory trigger update') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('trigger_name', help='The trigger name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('trigger_name', options_list=['--name', '-n'], help='The trigger name.', id_part='child_name_1')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Properties of the trigge'
                    'r. Expected value: json-string/@json-file.'))
 
     with self.argument_context('datafactory trigger delete') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('trigger_name', help='The trigger name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('trigger_name', options_list=['--name', '-n'], help='The trigger name.', id_part='child_name_1')
 
     with self.argument_context('datafactory trigger get-event-subscription-status') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('trigger_name', help='The trigger name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('trigger_name', options_list=['--name', '-n'], help='The trigger name.', id_part='child_name_1')
 
     with self.argument_context('datafactory trigger query-by-factory') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
         c.argument('continuation_token', help='The continuation token for getting the next page of results. Null for fi'
                    'rst page.')
         c.argument('parent_trigger_name', help='The name of the parent TumblingWindowTrigger to get the child rerun tri'
@@ -426,43 +439,48 @@ def load_arguments(self, _):
 
     with self.argument_context('datafactory trigger start') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('trigger_name', help='The trigger name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('trigger_name', options_list=['--name', '-n'], help='The trigger name.', id_part='child_name_1')
 
     with self.argument_context('datafactory trigger stop') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('trigger_name', help='The trigger name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('trigger_name', options_list=['--name', '-n'], help='The trigger name.', id_part='child_name_1')
 
     with self.argument_context('datafactory trigger subscribe-to-event') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('trigger_name', help='The trigger name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('trigger_name', options_list=['--name', '-n'], help='The trigger name.', id_part='child_name_1')
 
     with self.argument_context('datafactory trigger unsubscribe-from-event') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('trigger_name', help='The trigger name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('trigger_name', options_list=['--name', '-n'], help='The trigger name.', id_part='child_name_1')
+
+    with self.argument_context('datafactory trigger wait') as c:
+        c.argument('resource_group_name', resource_group_name_type)
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('trigger_name', options_list=['--name', '-n'], help='The trigger name.', id_part='child_name_1')
+        c.argument('if_none_match', help='ETag of the trigger entity. Should only be specified for get. If the ETag mat'
+                   'ches the existing entity tag, or if * was provided, then no content will be returned.')
 
     with self.argument_context('datafactory trigger-run query-by-factory') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
         c.argument('continuation_token', help='The continuation token for getting the next page of results. Null for fi'
                    'rst page.')
         c.argument('last_updated_after', help='The time at or after which the run event was updated in \'ISO 8601\' for'
                    'mat.')
         c.argument('last_updated_before', help='The time at or before which the run event was updated in \'ISO 8601\' f'
                    'ormat.')
-        c.argument('filters', action=AddFilters, nargs='+', help='List of filters. Expect value: KEY1=VALUE1 KEY2=VALUE'
-                   '2 ... , available KEYs are: operand, operator, values.')
-        c.argument('order_by', action=AddOrderBy, nargs='+', help='List of OrderBy option. Expect value: KEY1=VALUE1 KE'
-                   'Y2=VALUE2 ... , available KEYs are: order-by, order.')
+        c.argument('filters', action=AddFilters, nargs='+', help='List of filters.')
+        c.argument('order_by', action=AddOrderBy, nargs='+', help='List of OrderBy option.')
 
     with self.argument_context('datafactory trigger-run rerun') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('trigger_name', help='The trigger name.')
-        c.argument('run_id', help='The pipeline run identifier.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('trigger_name', help='The trigger name.', id_part='child_name_1')
+        c.argument('run_id', help='The pipeline run identifier.', id_part='child_name_2')
 
     with self.argument_context('datafactory data-flow list') as c:
         c.argument('resource_group_name', resource_group_name_type)
@@ -470,29 +488,32 @@ def load_arguments(self, _):
 
     with self.argument_context('datafactory data-flow show') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('data_flow_name', help='The data flow name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('data_flow_name', options_list=['--name', '-n'], help='The data flow name.',
+                   id_part='child_name_1')
         c.argument('if_none_match', help='ETag of the data flow entity. Should only be specified for get. If the ETag m'
                    'atches the existing entity tag, or if * was provided, then no content will be returned.')
 
     with self.argument_context('datafactory data-flow create') as c:
         c.argument('resource_group_name', resource_group_name_type)
         c.argument('factory_name', help='The factory name.')
-        c.argument('data_flow_name', help='The data flow name.')
+        c.argument('data_flow_name', options_list=['--name', '-n'], help='The data flow name.')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Data flow properties. Ex'
                    'pected value: json-string/@json-file.'))
 
     with self.argument_context('datafactory data-flow update') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('data_flow_name', help='The data flow name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('data_flow_name', options_list=['--name', '-n'], help='The data flow name.',
+                   id_part='child_name_1')
         c.argument('properties', arg_type=CLIArgumentType(options_list=['--properties'], help='Data flow properties. Ex'
                    'pected value: json-string/@json-file.'))
 
     with self.argument_context('datafactory data-flow delete') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
-        c.argument('data_flow_name', help='The data flow name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
+        c.argument('data_flow_name', options_list=['--name', '-n'], help='The data flow name.',
+                   id_part='child_name_1')
 
     with self.argument_context('datafactory data-flow-debug-session create') as c:
         c.argument('resource_group_name', resource_group_name_type)
@@ -508,20 +529,19 @@ def load_arguments(self, _):
 
     with self.argument_context('datafactory data-flow-debug-session delete') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
         c.argument('session_id', help='The ID of data flow debug session.')
 
     with self.argument_context('datafactory data-flow-debug-session add-data-flow') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
         c.argument('session_id', help='The ID of data flow debug session.')
         c.argument('datasets', arg_type=CLIArgumentType(options_list=['--datasets'], help='List of datasets. Expected v'
                    'alue: json-string/@json-file.'))
         c.argument('linked_services', arg_type=CLIArgumentType(options_list=['--linked-services'], help='List of linked'
                    ' services. Expected value: json-string/@json-file.'))
         c.argument('debug_settings_source_settings', action=AddDebugSettingsSourceSettings, nargs='+', help='Source set'
-                   'ting for data flow debug. Expect value: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: source-na'
-                   'me, row-limit.')
+                   'ting for data flow debug.')
         c.argument('debug_settings_parameters', arg_type=CLIArgumentType(options_list=['--debug-settings-parameters'],
                    help='Data flow parameters. Expected value: json-string/@json-file.'))
         c.argument('debug_settings_dataset_parameters', arg_type=CLIArgumentType(options_list=['--debug-settings-datase'
@@ -536,14 +556,12 @@ def load_arguments(self, _):
 
     with self.argument_context('datafactory data-flow-debug-session execute-command') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
         c.argument('session_id', help='The ID of data flow debug session.')
         c.argument('command', arg_type=get_enum_type(['executePreviewQuery', 'executeStatisticsQuery', 'executeExpressi'
                    'onQuery']), help='The command type.')
-        c.argument('command_payload', action=AddCommandPayload, nargs='+', help='The command payload object. Expect val'
-                   'ue: KEY1=VALUE1 KEY2=VALUE2 ... , available KEYs are: stream-name, row-limits, columns, expression.'
-                   '')
+        c.argument('command_payload', action=AddCommandPayload, nargs='+', help='The command payload object.')
 
     with self.argument_context('datafactory data-flow-debug-session query-by-factory') as c:
         c.argument('resource_group_name', resource_group_name_type)
-        c.argument('factory_name', help='The factory name.')
+        c.argument('factory_name', help='The factory name.', id_part='name')
