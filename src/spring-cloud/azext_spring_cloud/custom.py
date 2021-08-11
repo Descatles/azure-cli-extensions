@@ -1481,11 +1481,30 @@ def _get_app_log(url, user_name, password, format_json, exceptions):
             exceptions.append(e)
 
 
-def certificate_add(cmd, client, resource_group, service, name, vault_uri, vault_certificate_name):
-    properties = models.CertificateProperties(
-        vault_uri=vault_uri,
-        key_vault_cert_name=vault_certificate_name
-    )
+def certificate_add(cmd, client, resource_group, service, name,
+                    vault_uri=None, vault_certificate_name=None,
+                    import_private_key=None, cert_file=None):
+    if vault_uri is None and cert_file is None:
+        raise CLIError("Either vault-uri or cert-file should be provided")
+    if vault_uri is not None and cert_file is not None:
+        raise CLIError("Parameter vault-uri and cert-file could not be both provided")
+
+    if vault_uri is not None:
+        if vault_certificate_name is None:
+            raise CLIError("Parameter vault-certificate-name should be provided")
+        if import_private_key is None:
+            raise CLIError("Parameter import-private-key should be provided")
+        properties = models.CertificateProperties(
+            vault_uri=vault_uri,
+            key_vault_cert_name=vault_certificate_name,
+            import_private_key=import_private_key
+        )
+    else:
+        with open(cert_file, 'r') as reader:
+            content = reader.read()
+        properties = models.CertificateProperties(
+            content = content
+        )
     certificate_resource = models.CertificateResource(properties=properties)
     return client.certificates.begin_create_or_update(
         resource_group_name=resource_group,

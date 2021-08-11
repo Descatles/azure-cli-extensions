@@ -244,6 +244,8 @@ def load_arguments(self, _):
     with self.argument_context('spring-cloud certificate add') as c:
         c.argument('vault_uri', help='The key vault uri where store the certificate')
         c.argument('vault_certificate_name', help='The certificate name in key vault')
+        c.argument('import_private_key', arg_type=get_three_state_flag(), help='If true, import private key from key vault')
+        c.argument('cert_file', help='A file path for the public certificate to be uploaded')
 
     with self.argument_context('spring-cloud app custom-domain') as c:
         c.argument('service', service_name_type)
