@@ -20,6 +20,7 @@ from knack.util import CLIError
 from .vendored_sdks.appplatform.v2020_07_01 import models
 from .vendored_sdks.appplatform.v2020_11_01_preview import models as models_20201101preview
 from .vendored_sdks.appplatform.v2021_06_01_preview import models as models_20210601preview
+from .vendored_sdks.appplatform.v2021_09_01_preview import models as models_20210901preview
 from .vendored_sdks.appplatform.v2020_07_01.models import _app_platform_management_client_enums as AppPlatformEnums
 from .vendored_sdks.appplatform.v2020_11_01_preview import (
     AppPlatformManagementClient as AppPlatformManagementClient_20201101preview
@@ -40,6 +41,7 @@ from threading import Thread
 from threading import Timer
 import sys
 import json
+import base64
 from collections import defaultdict
 
 logger = get_logger(__name__)
@@ -1481,29 +1483,33 @@ def _get_app_log(url, user_name, password, format_json, exceptions):
             exceptions.append(e)
 
 
-def certificate_add(cmd, client, resource_group, service, name,
+def certificate_add(cmd, client, resource_group, service, name, cert_type,
                     vault_uri=None, vault_certificate_name=None,
                     import_private_key=None, cert_file=None):
-    if vault_uri is None and cert_file is None:
-        raise CLIError("Either vault-uri or cert-file should be provided")
-    if vault_uri is not None and cert_file is not None:
-        raise CLIError("Parameter vault-uri and cert-file could not be both provided")
 
-    if vault_uri is not None:
+    if cert_type == "KeyVaultCertificateProperties":
+        if vault_uri is None:
+            raise CLIError("Parameter vault-uri should be provided for Key Vault Certificate")
         if vault_certificate_name is None:
-            raise CLIError("Parameter vault-certificate-name should be provided")
+            raise CLIError("Parameter vault-certificate-name should be provided for Key Vault Certificate")
         if import_private_key is None:
-            raise CLIError("Parameter import-private-key should be provided")
-        properties = models.CertificateProperties(
+            raise CLIError("Parameter import-private-key should be provided for Key Vault Certificate")
+
+        properties = models_20210901preview.KeyVaultCertificateProperties(
+            type=cert_type,
             vault_uri=vault_uri,
             key_vault_cert_name=vault_certificate_name,
             import_private_key=import_private_key
         )
     else:
+        if cert_file is None:
+            raise CLIError("Parameter cert-file should be provided for Content Certificate")
+
         with open(cert_file, 'r') as reader:
             content = reader.read()
-        properties = models.CertificateProperties(
-            content = content
+        properties = models_20210901preview.ContentCertificateProperties(
+            type=cert_type,
+            content=base64.encodebytes(content)
         )
     certificate_resource = models.CertificateResource(properties=properties)
     return client.certificates.begin_create_or_update(
