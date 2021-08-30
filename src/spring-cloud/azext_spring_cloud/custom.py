@@ -6,12 +6,13 @@
 # pylint: disable=unused-argument, logging-format-interpolation, protected-access, wrong-import-order, too-many-lines
 import requests
 import re
+import os
 
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.cosmosdb import CosmosDBManagementClient
 from azure.mgmt.redis import RedisManagementClient
 from requests.auth import HTTPBasicAuth
-import yaml   # pylint: disable=import-error
+import yaml  # pylint: disable=import-error
 from time import sleep
 from ._stream_utils import stream_logs
 from msrestazure.tools import parse_resource_id, is_valid_resource_id
@@ -24,6 +25,9 @@ from .vendored_sdks.appplatform.v2021_09_01_preview import models as models_2021
 from .vendored_sdks.appplatform.v2020_07_01.models import _app_platform_management_client_enums as AppPlatformEnums
 from .vendored_sdks.appplatform.v2020_11_01_preview import (
     AppPlatformManagementClient as AppPlatformManagementClient_20201101preview
+)
+from .vendored_sdks.appplatform.v2021_09_01_preview import (
+    AppPlatformManagementClient as AppPlatformManagementClient_20210901preview
 )
 from knack.log import get_logger
 from .azure_storage_file import FileService
@@ -89,7 +93,8 @@ def spring_cloud_create(cmd, client, resource_group, name, location=None, app_in
         if enable_java_agent:
             client_preview = get_mgmt_service_client(cmd.cli_ctx, AppPlatformManagementClient_20201101preview)
             logger.warning("Start configure Application Insights")
-            trace_properties = update_java_agent_config(cmd, resource_group, name, location, app_insights_key, app_insights,
+            trace_properties = update_java_agent_config(cmd, resource_group, name, location, app_insights_key,
+                                                        app_insights,
                                                         enable_java_agent)
             if trace_properties is not None:
                 monitoring_setting_resource.properties = trace_properties
@@ -98,7 +103,8 @@ def spring_cloud_create(cmd, client, resource_group, name, location=None, app_in
                             monitoring_setting_resource=monitoring_setting_resource)
         else:
             logger.warning("Start configure Application Insights")
-            trace_properties = update_tracing_config(cmd, resource_group, name, location, app_insights_key, app_insights,
+            trace_properties = update_tracing_config(cmd, resource_group, name, location, app_insights_key,
+                                                     app_insights,
                                                      disable_app_insights)
             if trace_properties is not None:
                 monitoring_setting_resource.properties = trace_properties
@@ -132,7 +138,8 @@ def spring_cloud_update(cmd, client, resource_group, name, app_insights_key=None
         app_insights_target_status = True
         if trace_enabled is False:
             update_app_insights = True
-        elif app_insights or (app_insights_key and app_insights_key != trace_properties.app_insights_instrumentation_key):
+        elif app_insights or (
+                app_insights_key and app_insights_key != trace_properties.app_insights_instrumentation_key):
             update_app_insights = True
     elif disable_distributed_tracing is True or disable_app_insights is True:
         app_insights_target_status = False
@@ -147,7 +154,8 @@ def spring_cloud_update(cmd, client, resource_group, name, app_insights_key=None
             trace_properties.trace_enabled = app_insights_target_status
         else:
             trace_properties = update_tracing_config(cmd, resource_group, name, location,
-                                                     app_insights_key, app_insights, (disable_distributed_tracing or disable_app_insights))
+                                                     app_insights_key, app_insights,
+                                                     (disable_distributed_tracing or disable_app_insights))
         if trace_properties is not None:
             monitoring_setting_resource = models.MonitoringSettingResource(properties=trace_properties)
             sdk_no_wait(no_wait, client.monitoring_settings.begin_update_put,
@@ -211,7 +219,8 @@ def list_keys(cmd, client, resource_group, name, app=None, deployment=None):
 
 # pylint: disable=redefined-builtin
 def regenerate_keys(cmd, client, resource_group, name, type):
-    return client.services.regenerate_test_key(resource_group, name, models.RegenerateTestKeyRequestPayload(key_type=type))
+    return client.services.regenerate_test_key(resource_group, name,
+                                               models.RegenerateTestKeyRequestPayload(key_type=type))
 
 
 def app_create(cmd, client, resource_group, service, name,
@@ -360,7 +369,7 @@ def app_update(cmd, client, resource_group, service, name,
         environment_variables=env,
         jvm_options=jvm_options,
         net_core_main_entry_path=main_entry,
-        runtime_version=runtime_version,)
+        runtime_version=runtime_version, )
     deployment_settings.cpu = None
     deployment_settings.memory_in_gb = None
     properties = models_20210601preview.DeploymentResourceProperties(
@@ -575,7 +584,9 @@ def app_tail_log(cmd, client, resource_group, service, name,
     test_keys = client.services.list_test_keys(resource_group, service)
     primary_key = test_keys.primary_key
     if not primary_key:
-        raise CLIError("To use the log streaming feature, please enable the test endpoint by running 'az spring-cloud test-endpoint enable -n {0} -g {1}'".format(service, resource_group))
+        raise CLIError(
+            "To use the log streaming feature, please enable the test endpoint by running 'az spring-cloud test-endpoint enable -n {0} -g {1}'".format(
+                service, resource_group))
 
     # https://primary:xxxx[key]@servicename.test.azuremicrosoervice.io -> servicename.azuremicroservice.io
     test_url = test_keys.primary_test_endpoint
@@ -816,7 +827,9 @@ def validate_config_server_settings(client, resource_group, name, config_server_
     try:
         result = sdk_no_wait(False, client.begin_validate, resource_group, name, config_server_settings).result()
     except Exception as err:  # pylint: disable=broad-except
-        raise CLIError("{0}. You may raise a support ticket if needed by the following link: https://docs.microsoft.com/azure/spring-cloud/spring-cloud-faq?pivots=programming-language-java#how-can-i-provide-feedback-and-report-issues".format(err))
+        raise CLIError(
+            "{0}. You may raise a support ticket if needed by the following link: https://docs.microsoft.com/azure/spring-cloud/spring-cloud-faq?pivots=programming-language-java#how-can-i-provide-feedback-and-report-issues".format(
+                err))
 
     if not result.is_valid:
         for item in result.details or []:
@@ -1431,7 +1444,7 @@ def _get_app_log(url, user_name, password, format_json, exceptions):
 
         return format_line
 
-    def iter_lines(response, limit=2**20):
+    def iter_lines(response, limit=2 ** 20):
         '''
         Returns a line iterator from the response content. If no line ending was found and the buffered content size is
         larger than the limit, the buffer will be yielded directly.
@@ -1483,51 +1496,58 @@ def _get_app_log(url, user_name, password, format_json, exceptions):
             exceptions.append(e)
 
 
-def certificate_add(cmd, client, resource_group, service, name, cert_type,
-                    vault_uri=None, vault_certificate_name=None,
-                    import_private_key=None, cert_file=None):
-
-    if cert_type == "KeyVaultCertificateProperties":
+def certificate_add(cmd, client, resource_group, service, name, cert_type, exclude_private_key=None,
+                    vault_uri=None, vault_certificate_name=None, cert_file=None):
+    client = get_mgmt_service_client(cmd.cli_ctx, AppPlatformManagementClient_20210901preview)
+    if cert_type == "KeyVaultCertificate":
         if vault_uri is None:
             raise CLIError("Parameter vault-uri should be provided for Key Vault Certificate")
         if vault_certificate_name is None:
             raise CLIError("Parameter vault-certificate-name should be provided for Key Vault Certificate")
-        if import_private_key is None:
-            raise CLIError("Parameter import-private-key should be provided for Key Vault Certificate")
 
         properties = models_20210901preview.KeyVaultCertificateProperties(
             type=cert_type,
             vault_uri=vault_uri,
             key_vault_cert_name=vault_certificate_name,
-            import_private_key=import_private_key
+            exclude_private_key=exclude_private_key
         )
     else:
         if cert_file is None:
             raise CLIError("Parameter cert-file should be provided for Content Certificate")
-
-        with open(cert_file, 'r') as reader:
-            content = reader.read()
+        if os.path.exists(cert_file):
+            try:
+                with open(cert_file, 'rb') as input_file:
+                    logger.debug("attempting to read file %s as binary", cert_file)
+                    content = base64.b64encode(input_file.read()).decode("utf-8")
+            except Exception:
+                raise CLIError('Failed to decode file {} - unknown decoding'.format(file_path))
+        else:
+            raise CLIError("cert_file %s could not be found", cert_file)
         properties = models_20210901preview.ContentCertificateProperties(
             type=cert_type,
-            content=base64.encodebytes(content)
+            content=content
         )
     certificate_resource = models.CertificateResource(properties=properties)
     return client.certificates.begin_create_or_update(
         resource_group_name=resource_group,
         service_name=service,
         certificate_name=name,
-        certificate_resource=certificate_resource)
+        certificate_resource=certificate_resource
+    )
 
 
-def certificate_show(cmd, client, resource_group, service, name):
+def certificate_show(cmd, resource_group, service, name):
+    client = get_mgmt_service_client(cmd.cli_ctx, AppPlatformManagementClient_20210901preview)
     return client.certificates.get(resource_group, service, name)
 
 
-def certificate_list(cmd, client, resource_group, service):
+def certificate_list(cmd, resource_group, service):
+    client = get_mgmt_service_client(cmd.cli_ctx, AppPlatformManagementClient_20210901preview)
     return client.certificates.list(resource_group, service)
 
 
-def certificate_remove(cmd, client, resource_group, service, name):
+def certificate_remove(cmd, resource_group, service, name):
+    client = get_mgmt_service_client(cmd.cli_ctx, AppPlatformManagementClient_20210901preview)
     client.certificates.get(resource_group, service, name)
     return client.certificates.begin_delete(resource_group, service, name)
 
@@ -1714,13 +1734,15 @@ def try_create_application_insights(cmd, resource_group, name, location):
     return appinsights.instrumentation_key
 
 
-def app_insights_update(cmd, client, resource_group, name, app_insights_key=None, app_insights=None, sampling_rate=None, disable=None, no_wait=False):
+def app_insights_update(cmd, client, resource_group, name, app_insights_key=None, app_insights=None, sampling_rate=None,
+                        disable=None, no_wait=False):
     if disable:
         trace_properties = models_20201101preview.MonitoringSettingProperties(trace_enabled=False)
     else:
         trace_properties = client.monitoring_settings.get(resource_group, name).properties
         if not trace_properties.app_insights_instrumentation_key and not app_insights_key and not app_insights and sampling_rate:
-            CLIError("Can't set '--sampling-rate' without connecting to Application Insights. Please provide '--app-insights' or '--app-insights-key'.")
+            CLIError(
+                "Can't set '--sampling-rate' without connecting to Application Insights. Please provide '--app-insights' or '--app-insights-key'.")
         if app_insights_key:
             instrumentation_key = app_insights_key
         elif app_insights:
@@ -1734,10 +1756,12 @@ def app_insights_update(cmd, client, resource_group, name, app_insights_key=None
             instrumentation_key = trace_properties.app_insights_instrumentation_key
         if sampling_rate:
             trace_properties = models_20201101preview.MonitoringSettingProperties(
-                trace_enabled=True, app_insights_instrumentation_key=instrumentation_key, app_insights_sampling_rate=sampling_rate)
+                trace_enabled=True, app_insights_instrumentation_key=instrumentation_key,
+                app_insights_sampling_rate=sampling_rate)
         elif trace_properties.app_insights_sampling_rate:
             trace_properties = models_20201101preview.MonitoringSettingProperties(
-                trace_enabled=True, app_insights_instrumentation_key=instrumentation_key, app_insights_sampling_rate=trace_properties.app_insights_sampling_rate)
+                trace_enabled=True, app_insights_instrumentation_key=instrumentation_key,
+                app_insights_sampling_rate=trace_properties.app_insights_sampling_rate)
     if trace_properties is not None:
         monitoring_setting_resource = models.MonitoringSettingResource(properties=trace_properties)
         sdk_no_wait(no_wait, client.monitoring_settings.begin_update_put,

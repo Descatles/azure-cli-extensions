@@ -417,8 +417,8 @@ class CertificateProperties(msrest.serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar type: Required. The type of the certificate source.Constant filled by server.
-    :vartype type: str
+    :param type: Required. The type of the certificate source.Constant filled by server.
+    :type type: str
     :ivar thumbprint: The thumbprint of certificate.
     :vartype thumbprint: str
     :ivar issuer: The issuer of certificate.
@@ -436,7 +436,7 @@ class CertificateProperties(msrest.serialization.Model):
     """
 
     _validation = {
-        'type': {'required': True, 'readonly': True},
+        'type': {'required': True},
         'thumbprint': {'readonly': True},
         'issuer': {'readonly': True},
         'issued_date': {'readonly': True},
@@ -458,7 +458,7 @@ class CertificateProperties(msrest.serialization.Model):
     }
 
     _subtype_map = {
-        'type': {'ContentCertificateProperties': 'ContentCertificateProperties', 'KeyVaultCertificateProperties': 'KeyVaultCertificateProperties'}
+        'type': {'ContentCertificate': 'ContentCertificateProperties', 'KeyVaultCertificate': 'KeyVaultCertificateProperties'}
     }
 
     def __init__(
@@ -821,8 +821,8 @@ class ContentCertificateProperties(CertificateProperties):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar type: Required. The type of the certificate source.Constant filled by server.
-    :vartype type: str
+    :param type: Required. The type of the certificate source.Constant filled by server.
+    :type type: str
     :ivar thumbprint: The thumbprint of certificate.
     :vartype thumbprint: str
     :ivar issuer: The issuer of certificate.
@@ -842,7 +842,7 @@ class ContentCertificateProperties(CertificateProperties):
     """
 
     _validation = {
-        'type': {'required': True, 'readonly': True},
+        'type': {'required': True},
         'thumbprint': {'readonly': True},
         'issuer': {'readonly': True},
         'issued_date': {'readonly': True},
@@ -870,7 +870,7 @@ class ContentCertificateProperties(CertificateProperties):
         **kwargs
     ):
         super(ContentCertificateProperties, self).__init__(**kwargs)
-        self.type = 'ContentCertificateProperties'  # type: str
+        self.type = 'ContentCertificate'  # type: str
         self.content = kwargs['content']
 
 
@@ -1395,8 +1395,8 @@ class KeyVaultCertificateProperties(CertificateProperties):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar type: Required. The type of the certificate source.Constant filled by server.
-    :vartype type: str
+    :param type: Required. The type of the certificate source.Constant filled by server.
+    :type type: str
     :ivar thumbprint: The thumbprint of certificate.
     :vartype thumbprint: str
     :ivar issuer: The issuer of certificate.
@@ -1417,12 +1417,13 @@ class KeyVaultCertificateProperties(CertificateProperties):
     :type key_vault_cert_name: str
     :param cert_version: The certificate version of key vault.
     :type cert_version: str
-    :param import_private_key: Indicates whether will import private key from key vault.
-    :type import_private_key: bool
+    :param exclude_private_key: Optional. If set to true, it will not import private key from key
+     vault.
+    :type exclude_private_key: bool
     """
 
     _validation = {
-        'type': {'required': True, 'readonly': True},
+        'type': {'required': True},
         'thumbprint': {'readonly': True},
         'issuer': {'readonly': True},
         'issued_date': {'readonly': True},
@@ -1446,7 +1447,7 @@ class KeyVaultCertificateProperties(CertificateProperties):
         'vault_uri': {'key': 'vaultUri', 'type': 'str'},
         'key_vault_cert_name': {'key': 'keyVaultCertName', 'type': 'str'},
         'cert_version': {'key': 'certVersion', 'type': 'str'},
-        'import_private_key': {'key': 'importPrivateKey', 'type': 'bool'},
+        'exclude_private_key': {'key': 'excludePrivateKey', 'type': 'bool'},
     }
 
     def __init__(
@@ -1454,11 +1455,11 @@ class KeyVaultCertificateProperties(CertificateProperties):
         **kwargs
     ):
         super(KeyVaultCertificateProperties, self).__init__(**kwargs)
-        self.type = 'KeyVaultCertificateProperties'  # type: str
+        self.type = 'KeyVaultCertificate'  # type: str
         self.vault_uri = kwargs['vault_uri']
         self.key_vault_cert_name = kwargs['key_vault_cert_name']
         self.cert_version = kwargs.get('cert_version', None)
-        self.import_private_key = kwargs.get('import_private_key', True)
+        self.exclude_private_key = kwargs.get('exclude_private_key', False)
 
 
 class LoadedCertificate(msrest.serialization.Model):

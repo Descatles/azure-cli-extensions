@@ -11,6 +11,8 @@ import tempfile
 import uuid
 from io import open
 from re import (search, match, compile)
+from codecs import open as codecs_open
+from azure.cli.core.util import b64encode
 from json import dumps
 from knack.util import CLIError, todict
 from knack.log import get_logger
