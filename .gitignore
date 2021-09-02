@@ -121,3 +121,5 @@ _build/
 .DS_Store
 
 _az_debug/
+
+src/spring-cloud/azext_spring_cloud/vendored_sdks/

@@ -21,6 +21,8 @@ name_type = CLIArgumentType(options_list=[
     '--name', '-n'], help='The primary resource name', validator=validate_name)
 env_type = CLIArgumentType(
     validator=validate_env, help="Space-separated environment variables in 'key[=value]' format.", nargs='*')
+# certs = CLIArgumentType(help="Space-separated environment variables in 'key[=value]' format.", nargs='*')
+# loads = CLIArgumentType(help="Space-separated environment variables in 'key[=value]' format.", nargs='*')
 service_name_type = CLIArgumentType(options_list=['--service', '-s'], help='Name of Azure Spring Cloud, you can configure the default service using az configure --defaults spring-cloud=<name>.', configured_default='spring-cloud')
 app_name_type = CLIArgumentType(help='App name, you can configure the default app using az configure --defaults spring-cloud-app=<name>.', validator=validate_app_name, configured_default='spring-cloud-app')
 
@@ -43,6 +45,7 @@ def load_arguments(self, _):
         c.argument('service_runtime_network_resource_group', options_list=['--service-runtime-network-resource-group', '--svc-nrg'], help='The resource group where all network resources for Azure Spring Cloud service runtime will be created in.', validator=validate_node_resource_group)
         c.argument('app_network_resource_group', options_list=['--app-network-resource-group', '--app-nrg'], help='The resource group where all network resources for apps will be created in.', validator=validate_node_resource_group)
         c.argument('enable_java_agent', is_preview=True, arg_type=get_three_state_flag(), help="Enable java in-process agent", validator=validate_java_agent_parameters)
+
     with self.argument_context('spring-cloud update') as c:
         c.argument('sku', type=str, validator=validate_sku, help='Name of SKU, the value is "Basic" or "Standard"')
 
@@ -85,6 +88,10 @@ def load_arguments(self, _):
                    help='Memory resource quantity. Should be 512Mi or #Gi, e.g., 1Gi, 3Gi.')
         c.argument('instance_count', type=int,
                    default=1, help='Number of instance.', validator=validate_instance_count)
+        c.argument('load_certificate_name', nargs='+',
+                   help='A list of certificates which would be accessible from that application')
+        c.argument('load_trust_store', type=bool, nargs='+',
+                   help='A list of boolean value which is one-to-one mapping with load_certificate_name, indicates whether it will be loaded into trust store for the Java applications')
 
     with self.argument_context('spring-cloud app update') as c:
         c.argument('assign_endpoint', arg_type=get_three_state_flag(),

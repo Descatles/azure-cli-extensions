@@ -20,6 +20,7 @@ from knack.util import CLIError
 from .vendored_sdks.appplatform.v2020_07_01 import models
 from .vendored_sdks.appplatform.v2020_11_01_preview import models as models_20201101preview
 from .vendored_sdks.appplatform.v2021_06_01_preview import models as models_20210601preview
+from .vendored_sdks.appplatform.v2021_09_01_preview import models as models_20210901preview
 from .vendored_sdks.appplatform.v2020_07_01.models import _app_platform_management_client_enums as AppPlatformEnums
 from .vendored_sdks.appplatform.v2020_11_01_preview import (
     AppPlatformManagementClient as AppPlatformManagementClient_20201101preview
@@ -211,7 +212,6 @@ def list_keys(cmd, client, resource_group, name, app=None, deployment=None):
 def regenerate_keys(cmd, client, resource_group, name, type):
     return client.services.regenerate_test_key(resource_group, name, models.RegenerateTestKeyRequestPayload(key_type=type))
 
-
 def app_create(cmd, client, resource_group, service, name,
                assign_endpoint=None,
                cpu=None,
@@ -221,34 +221,48 @@ def app_create(cmd, client, resource_group, service, name,
                jvm_options=None,
                env=None,
                enable_persistent_storage=None,
-               assign_identity=None):
+               assign_identity=None,
+               load_certificate_name=None,
+               load_trust_store=None):
+    # client = get_mgmt_service_client(cmd.cli_ctx, AppPlatformManagementClient_20210901preview)
     cpu = validate_cpu(cpu)
     memory = validate_memory(memory)
     apps = _get_all_apps(client, resource_group, service)
     if name in apps:
         raise CLIError("App '{}' already exists.".format(name))
     logger.warning("[1/4] Creating app with name '{}'".format(name))
-    properties = models_20210601preview.AppResourceProperties()
-    properties.temporary_disk = models_20210601preview.TemporaryDisk(
+    properties = models_20210901preview.AppResourceProperties()
+    properties.temporary_disk = models_20210901preview.TemporaryDisk(
         size_in_gb=5, mount_path="/tmp")
     resource = client.services.get(resource_group, service)
 
     _validate_instance_count(resource.sku.tier, instance_count)
 
-    app_resource = models_20210601preview.AppResource()
+    if load_certificate_name is not None:
+        if len(load_certificate_name) != len(load_trust_store):
+            raise CLIError("The count of load_trust_store '{}; is not the same as load_certificate_name '{}'", len(load_trust_store), len(load_certificate_name))
+        print("The count of load_trust_store '{}; is not the same as load_certificate_name '{}'", len(load_trust_store), len(load_certificate_name))
+        loaded_certificates = []
+        for i in range(len(load_certificate_name)):
+            loaded_certificates.append(models_20210901preview.
+                                       LoadedCertificate(resource_id=load_certificate_name[i], load_trust_store=load_trust_store[i]))
+        print(loaded_certificates)
+        properties.loaded_certificates = loaded_certificates
+
+    app_resource = models_20210901preview.AppResource()
     app_resource.properties = properties
     app_resource.location = resource.location
     if assign_identity is True:
-        app_resource.identity = models_20210601preview.ManagedIdentityProperties(type="systemassigned")
+        app_resource.identity = models_20210901preview.ManagedIdentityProperties(type="systemassigned")
 
     poller = client.apps.begin_create_or_update(
         resource_group, service, name, app_resource)
     while poller.done() is False:
         sleep(APP_CREATE_OR_UPDATE_SLEEP_INTERVAL)
 
-    resource_requests = models_20210601preview.ResourceRequests(cpu=cpu, memory=memory)
+    resource_requests = models_20210901preview.ResourceRequests(cpu=cpu, memory=memory)
 
-    deployment_settings = models_20210601preview.DeploymentSettings(
+    deployment_settings = models_20210901preview.DeploymentSettings(
         resource_requests=resource_requests,
         environment_variables=env,
         jvm_options=jvm_options,
@@ -259,16 +273,16 @@ def app_create(cmd, client, resource_group, service, name,
 
     file_type = "NetCoreZip" if runtime_version == AppPlatformEnums.RuntimeVersion.NET_CORE31 else "Jar"
 
-    user_source_info = models_20210601preview.UserSourceInfo(
+    user_source_info = models_20210901preview.UserSourceInfo(
         relative_path='<default>', type=file_type)
-    properties = models_20210601preview.DeploymentResourceProperties(
+    properties = models_20210901preview.DeploymentResourceProperties(
         deployment_settings=deployment_settings,
         source=user_source_info)
 
     # create default deployment
     logger.warning(
         "[2/4] Creating default deployment with name '{}'".format(DEFAULT_DEPLOYMENT_NAME))
-    sku = models_20210601preview.Sku(name="S0", tier="STANDARD", capacity=instance_count)
+    sku = models_20210901preview.Sku(name="S0", tier="STANDARD", capacity=instance_count)
     deployment_resource = models.DeploymentResource(properties=properties, sku=sku)
     poller = client.deployments.begin_create_or_update(resource_group,
                                                        service,
@@ -277,14 +291,14 @@ def app_create(cmd, client, resource_group, service, name,
                                                        deployment_resource)
 
     logger.warning("[3/4] Setting default deployment to production")
-    properties = models_20210601preview.AppResourceProperties(
+    properties = models_20210901preview.AppResourceProperties(
         active_deployment_name=DEFAULT_DEPLOYMENT_NAME, public=assign_endpoint)
 
     if enable_persistent_storage:
-        properties.persistent_disk = models_20210601preview.PersistentDisk(
+        properties.persistent_disk = models_20210901preview.PersistentDisk(
             size_in_gb=_get_persistent_disk_size(resource.sku.tier), mount_path="/persistent")
     else:
-        properties.persistent_disk = models_20210601preview.PersistentDisk(
+        properties.persistent_disk = models_20210901preview.PersistentDisk(
             size_in_gb=0, mount_path="/persistent")
 
     app_resource.properties = properties
