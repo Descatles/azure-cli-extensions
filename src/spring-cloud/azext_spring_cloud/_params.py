@@ -99,6 +99,10 @@ def load_arguments(self, _):
                    options_list=['--assign-endpoint', c.deprecate(target='--is-public', redirect='--assign-endpoint', hide=True)])
         c.argument('https_only', arg_type=get_three_state_flag(), help='If true, access app via https', default=False)
         c.argument('enable_end_to_end_tls', arg_type=get_three_state_flag(), help='If true, enable end to end tls')
+        c.argument('load_certificate_name', nargs='+',
+                   help='A list of certificates which would be accessible from that application')
+        c.argument('load_trust_store', type=bool, nargs='+',
+                   help='A list of boolean value which is one-to-one mapping with load_certificate_name, indicates whether it will be loaded into trust store for the Java applications')
 
     for scope in ['spring-cloud app update', 'spring-cloud app start', 'spring-cloud app stop', 'spring-cloud app restart', 'spring-cloud app deploy', 'spring-cloud app scale', 'spring-cloud app set-deployment', 'spring-cloud app show-deploy-log']:
         with self.argument_context(scope) as c:

@@ -25,6 +25,9 @@ from .vendored_sdks.appplatform.v2020_07_01.models import _app_platform_manageme
 from .vendored_sdks.appplatform.v2020_11_01_preview import (
     AppPlatformManagementClient as AppPlatformManagementClient_20201101preview
 )
+from .vendored_sdks.appplatform.v2021_09_01_preview import (
+    AppPlatformManagementClient as AppPlatformManagementClient_20210901preview
+)
 from knack.log import get_logger
 from .azure_storage_file import FileService
 from azure.cli.core.azclierror import InvalidArgumentValueError
@@ -212,7 +215,7 @@ def list_keys(cmd, client, resource_group, name, app=None, deployment=None):
 def regenerate_keys(cmd, client, resource_group, name, type):
     return client.services.regenerate_test_key(resource_group, name, models.RegenerateTestKeyRequestPayload(key_type=type))
 
-def app_create(cmd, client, resource_group, service, name,
+def app_create(cmd, resource_group, service, name,
                assign_endpoint=None,
                cpu=None,
                memory=None,
@@ -224,7 +227,7 @@ def app_create(cmd, client, resource_group, service, name,
                assign_identity=None,
                load_certificate_name=None,
                load_trust_store=None):
-    # client = get_mgmt_service_client(cmd.cli_ctx, AppPlatformManagementClient_20210901preview)
+    client = get_mgmt_service_client(cmd.cli_ctx, AppPlatformManagementClient_20210901preview)
     cpu = validate_cpu(cpu)
     memory = validate_memory(memory)
     apps = _get_all_apps(client, resource_group, service)
@@ -324,7 +327,7 @@ def _check_active_deployment_exist(client, resource_group, service, app):
         logger.warning(NO_PRODUCTION_DEPLOYMENT_SET_ERROR)
 
 
-def app_update(cmd, client, resource_group, service, name,
+def app_update(cmd, resource_group, service, name,
                assign_endpoint=None,
                deployment=None,
                runtime_version=None,
@@ -333,20 +336,38 @@ def app_update(cmd, client, resource_group, service, name,
                env=None,
                enable_persistent_storage=None,
                https_only=None,
-               enable_end_to_end_tls=None):
+               enable_end_to_end_tls=None,
+               load_certificate_name=None,
+               load_trust_store=None):
+
+    client = get_mgmt_service_client(cmd.cli_ctx, AppPlatformManagementClient_20210901preview)
     _check_active_deployment_exist(client, resource_group, service, name)
     resource = client.services.get(resource_group, service)
     location = resource.location
 
-    properties = models_20210601preview.AppResourceProperties(public=assign_endpoint, https_only=https_only,
+    properties = models_20210901preview.AppResourceProperties(public=assign_endpoint, https_only=https_only,
                                                               enable_end_to_end_tls=enable_end_to_end_tls)
     if enable_persistent_storage is True:
-        properties.persistent_disk = models_20210601preview.PersistentDisk(
+        properties.persistent_disk = models_20210901preview.PersistentDisk(
             size_in_gb=_get_persistent_disk_size(resource.sku.tier), mount_path="/persistent")
     if enable_persistent_storage is False:
-        properties.persistent_disk = models_20210601preview.PersistentDisk(size_in_gb=0)
+        properties.persistent_disk = models_20210901preview.PersistentDisk(size_in_gb=0)
 
-    app_resource = models_20210601preview.AppResource()
+    if load_certificate_name is not None:
+        if len(load_certificate_name) != len(load_trust_store):
+            raise CLIError("The count of load_trust_store '{}; is not the same as load_certificate_name '{}'",
+                           len(load_trust_store), len(load_certificate_name))
+        print("The count of load_trust_store '{}; is not the same as load_certificate_name '{}'", len(load_trust_store),
+              len(load_certificate_name))
+        loaded_certificates = []
+        for i in range(len(load_certificate_name)):
+            loaded_certificates.append(models_20210901preview.
+                                       LoadedCertificate(resource_id=load_certificate_name[i],
+                                                         load_trust_store=load_trust_store[i]))
+        print(loaded_certificates)
+        properties.loaded_certificates = loaded_certificates
+
+    app_resource = models_20210901preview.AppResource()
     app_resource.properties = properties
     app_resource.location = location
 
@@ -368,14 +389,14 @@ def app_update(cmd, client, resource_group, service, name,
             return app_updated
 
     logger.warning("[2/2] Updating deployment '{}'".format(deployment))
-    deployment_settings = models_20210601preview.DeploymentSettings(
+    deployment_settings = models_20210901preview.DeploymentSettings(
         environment_variables=env,
         jvm_options=jvm_options,
         net_core_main_entry_path=main_entry,
         runtime_version=runtime_version,)
     deployment_settings.cpu = None
     deployment_settings.memory_in_gb = None
-    properties = models_20210601preview.DeploymentResourceProperties(
+    properties = models_20210901preview.DeploymentResourceProperties(
         deployment_settings=deployment_settings)
     deployment_resource = models.DeploymentResource(properties=properties)
     poller = client.deployments.begin_update(
@@ -460,10 +481,11 @@ def app_list(cmd, client,
     return apps
 
 
-def app_get(cmd, client,
+def app_get(cmd,
             resource_group,
             service,
             name):
+    client = get_mgmt_service_client(cmd.cli_ctx, AppPlatformManagementClient_20210901preview)
     app = client.apps.get(resource_group, service, name)
     deployment_name = app.properties.active_deployment_name
     if deployment_name:
